@@ -77,7 +77,7 @@ class EServiceFormView extends GetView<EServiceFormController> {
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   color: Get.theme.colorScheme.secondary,
-                  child: Text("Save".tr, style: Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.primaryColor))),
+                  child: Text("Save".tr, style: Get.textTheme.bodyText2?.merge(TextStyle(color: Get.theme.primaryColor))),
                   elevation: 0,
                 ),
               ),
@@ -90,7 +90,7 @@ class EServiceFormView extends GetView<EServiceFormController> {
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   color: Get.theme.colorScheme.secondary.withOpacity(0.2),
-                  child: Text("Save & Add Options".tr, style: Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.colorScheme.secondary))),
+                  child: Text("Save & Add Options".tr, style: Get.textTheme.bodyText2?.merge(TextStyle(color: Get.theme.colorScheme.secondary))),
                   elevation: 0,
                 ),
             ],
@@ -127,32 +127,37 @@ class EServiceFormView extends GetView<EServiceFormController> {
                     label: "Images".tr,
                     field: 'image',
                     tag: controller.eServiceForm.hashCode.toString(),
-                    initialImages: controller.eService.value.images,
+                    initialImages: controller.eService.value.images ?? [],
                     uploadCompleted: (uuid) {
                       controller.eService.update((val) {
-                        val.images = val.images ?? [];
-                        val.images.add(new Media(id: uuid));
+                        if (val != null) {
+                          val.images = val.images ?? [];
+                          val.images.add(new Media(id: uuid));
+                        }
                       });
                     },
                     reset: (uuids) {
                       controller.eService.update((val) {
-                        val.images.clear();
+                        if (val != null) {
+                          val.images = val.images ?? [];
+                          val.images.clear();
+                        }
                       });
                     },
                   );
                 }),
                 TextFieldWidget(
-                  onSaved: (input) => controller.eService.value.name = input,
-                  validator: (input) => input.length < 3 ? "Should be more than 3 letters".tr : null,
-                  initialValue: controller.eService.value.name,
+                  onSaved: (input) => controller.eService.value.name = input ?? '',
+                  validator: (input) => (input?.length ?? 0) < 3 ? "Should be more than 3 letters".tr : null,
+                  initialValue: controller.eService.value.name ?? '',
                   hintText: "Post Party Cleaning".tr,
                   labelText: "Name".tr,
                 ),
                 TextFieldWidget(
-                  onSaved: (input) => controller.eService.value.description = input,
-                  validator: (input) => input.length < 3 ? "Should be more than 3 letters".tr : null,
+                  onSaved: (input) => controller.eService.value.description = input ?? '',
+                  validator: (input) => (input?.length ?? 0) < 3 ? "Should be more than 3 letters".tr : null,
                   keyboardType: TextInputType.multiline,
-                  initialValue: controller.eService.value.description,
+                  initialValue: controller.eService.value.description ?? '',
                   hintText: "Description for Post Party Cleaning".tr,
                   labelText: "Description".tr,
                 ),
@@ -197,7 +202,9 @@ class EServiceFormView extends GetView<EServiceFormController> {
                                 },
                               );
                               controller.eService.update((val) {
-                                val.categories = selectedValues?.toList();
+                                if (val != null) {
+                                  val.categories = selectedValues?.toList() ?? [];
+                                }
                               });
                             },
                             shape: StadiumBorder(),
@@ -211,7 +218,7 @@ class EServiceFormView extends GetView<EServiceFormController> {
                         ],
                       ),
                       Obx(() {
-                        if (controller.eService.value?.categories?.isEmpty ?? true) {
+                        if ((controller.eService.value.categories?.isEmpty ?? true) || controller.eService.value.categories == null) {
                           return Padding(
                             padding: EdgeInsets.symmetric(vertical: 20),
                             child: Text(
@@ -261,14 +268,16 @@ class EServiceFormView extends GetView<EServiceFormController> {
                                         cancelText: "Cancel".tr,
                                         items: controller.getSelectProvidersItems(),
                                         initialSelectedValue: controller.eProviders.firstWhere(
-                                          (element) => element.id == controller.eService.value.eProvider?.id,
-                                          orElse: () => new EProvider(),
+                                          (element) => element.id == (controller.eService.value.eProvider?.id ?? ''),
+                                          orElse: () => EProvider(),
                                         ),
                                       );
                                     },
                                   );
                                   controller.eService.update((val) {
-                                    val.eProvider = selectedValue;
+                                    if (val != null) {
+                                      val.eProvider = selectedValue;
+                                    }
                                   });
                                 },
                                 shape: StadiumBorder(),
@@ -282,7 +291,7 @@ class EServiceFormView extends GetView<EServiceFormController> {
                             ],
                           ),
                           Obx(() {
-                            if (controller.eService.value?.eProvider == null) {
+                            if (controller.eService.value.eProvider == null) {
                               return Padding(
                                 padding: EdgeInsets.symmetric(vertical: 20),
                                 child: Text(
@@ -310,23 +319,29 @@ class EServiceFormView extends GetView<EServiceFormController> {
                     Expanded(
                       child: TextFieldWidget(
                         keyboardType: TextInputType.numberWithOptions(decimal: true),
-                        onSaved: (input) => controller.eService.value.price = (double.tryParse(input) ?? 0),
-                        validator: (input) => (double.tryParse(input) ?? 0) <= 0 ? "Should be number more than 0".tr : null,
-                        initialValue: controller.eService.value.price?.toString(),
+                        onSaved: (input) => controller.eService.value.price = double.tryParse(input ?? '') ?? 0,
+                        validator: (input) => (double.tryParse(input ?? '') ?? 0) <= 0 ? "Should be number more than 0".tr : null,
+                        initialValue: controller.eService.value.price?.toString() ?? '',
                         hintText: "23.00".tr,
                         labelText: "Price".tr,
-                        suffix: Text(Get.find<SettingsService>().setting.value.defaultCurrency),
+                        suffix: Text(Get.find<SettingsService>().setting.value.defaultCurrency ?? ''),
                       ),
                     ),
                     Expanded(
                       child: TextFieldWidget(
                         keyboardType: TextInputType.numberWithOptions(decimal: true),
-                        onSaved: (input) => controller.eService.value.discountPrice = double.tryParse(input),
-                        validator: (input) => (input != "") && ((double.tryParse(input) ?? 0) <= 0) ? "Should be number more than 0".tr : null,
+                        onSaved: (input) {
+                          if (input != null && input.isNotEmpty) {
+                            controller.eService.value.discountPrice = double.tryParse(input) ?? 0.0;
+                          } else {
+                            controller.eService.value.discountPrice = 0.0;
+                          }
+                        },
+                        validator: (input) => (input != "") && ((double.tryParse(input ?? '') ?? 0) <= 0) ? "Should be number more than 0".tr : null,
                         initialValue: (controller.eService.value.discountPrice ?? 0) > 0 ? controller.eService.value.discountPrice?.toString() : null,
                         hintText: "21.00".tr,
                         labelText: "Discount Price".tr,
-                        suffix: Text(Get.find<SettingsService>().setting.value.defaultCurrency),
+                        suffix: Text(Get.find<SettingsService>().setting.value.defaultCurrency ?? ''),
                       ),
                     ),
                   ],
@@ -360,27 +375,31 @@ class EServiceFormView extends GetView<EServiceFormController> {
                             children: [
                               RadioListTile(
                                 value: "hourly",
-                                groupValue: controller.eService.value.priceUnit,
-                                selected: controller.eService.value.priceUnit == "hourly",
+                                groupValue: controller.eService.value.priceUnit ?? '',
+                                selected: (controller.eService.value.priceUnit ?? '') == "hourly",
                                 title: Text("Hourly".tr),
                                 activeColor: Get.theme.colorScheme.secondary,
                                 controlAffinity: ListTileControlAffinity.trailing,
                                 onChanged: (checked) {
                                   controller.eService.update((val) {
-                                    val.priceUnit = "hourly";
+                                    if (val != null) {
+                                      val.priceUnit = "hourly";
+                                    }
                                   });
                                 },
                               ),
                               RadioListTile(
                                 value: "fixed",
-                                groupValue: controller.eService.value.priceUnit,
+                                groupValue: controller.eService.value.priceUnit ?? '',
                                 title: Text("Fixed".tr),
                                 activeColor: Get.theme.colorScheme.secondary,
-                                selected: controller.eService.value.priceUnit == "fixed",
+                                selected: (controller.eService.value.priceUnit ?? '') == "fixed",
                                 controlAffinity: ListTileControlAffinity.trailing,
                                 onChanged: (checked) {
                                   controller.eService.update((val) {
-                                    val.priceUnit = "fixed";
+                                    if (val != null) {
+                                      val.priceUnit = "fixed";
+                                    }
                                   });
                                 },
                               )
@@ -392,15 +411,15 @@ class EServiceFormView extends GetView<EServiceFormController> {
                   ),
                 ),
                 TextFieldWidget(
-                  onSaved: (input) => controller.eService.value.quantityUnit = input,
-                  initialValue: controller.eService.value.quantityUnit,
+                  onSaved: (input) => controller.eService.value.quantityUnit = input ?? '',
+                  initialValue: controller.eService.value.quantityUnit ?? '',
                   hintText: "Piece".tr,
                   labelText: "Quantity Unit".tr,
                 ),
                 TextFieldWidget(
-                  onSaved: (input) => controller.eService.value.duration = input,
-                  initialValue: controller.eService.value.duration,
-                  validator: (input) => input.isNotEmpty && !RegExp(r"^[0-1][0-9]|2[0-3]|[1-9]:[0-5][0-9]").hasMatch(input) ? "Should be a valid time" : null,
+                  onSaved: (input) => controller.eService.value.duration = input ?? '',
+                  initialValue: controller.eService.value.duration ?? '',
+                  validator: (input) => (input?.isNotEmpty ?? false) && !RegExp(r"^[0-1][0-9]|2[0-3]|[1-9]:[0-5][0-9]").hasMatch(input ?? '') ? "Should be a valid time" : null,
                   hintText: "02:30".tr,
                   labelText: "Duration".tr,
                   keyboardType: TextInputType.datetime,
@@ -434,7 +453,9 @@ class EServiceFormView extends GetView<EServiceFormController> {
                                 controlAffinity: ListTileControlAffinity.trailing,
                                 onChanged: (checked) {
                                   controller.eService.update((val) {
-                                    val.featured = checked;
+                                    if (val != null) {
+                                      val.featured = checked ?? false;
+                                    }
                                   });
                                 },
                               ),
@@ -446,7 +467,9 @@ class EServiceFormView extends GetView<EServiceFormController> {
                                 controlAffinity: ListTileControlAffinity.trailing,
                                 onChanged: (checked) {
                                   controller.eService.update((val) {
-                                    val.enableBooking = checked;
+                                    if (val != null) {
+                                      val.enableBooking = checked ?? false;
+                                    }
                                   });
                                 },
                               ),
@@ -471,14 +494,15 @@ class EServiceFormView extends GetView<EServiceFormController> {
         spacing: 5,
         runSpacing: 8,
         children: List.generate(_eService.categories?.length ?? 0, (index) {
-              var _category = _eService.categories.elementAt(index);
+              var _category = _eService.categories?.elementAt(index);
+              if (_category == null) return SizedBox();
               return Container(
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                child: Text(_category.name, style: Get.textTheme.bodyText1.merge(TextStyle(color: _category.color))),
+                child: Text(_category.name ?? '', style: Get.textTheme.bodyText1?.merge(TextStyle(color: _category.color))),
                 decoration: BoxDecoration(
-                    color: _category.color.withOpacity(0.2),
+                    color: _category.color?.withOpacity(0.2),
                     border: Border.all(
-                      color: _category.color.withOpacity(0.1),
+                      color: _category.color?.withOpacity(0.1) ?? Colors.transparent,
                     ),
                     borderRadius: BorderRadius.all(Radius.circular(20))),
               );
@@ -486,7 +510,7 @@ class EServiceFormView extends GetView<EServiceFormController> {
             List.generate(_eService.subCategories?.length ?? 0, (index) {
               return Container(
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                child: Text(_eService.subCategories.elementAt(index).name, style: Get.textTheme.caption),
+                child: Text(_eService.subCategories?.elementAt(index).name ?? '', style: Get.textTheme.caption),
                 decoration: BoxDecoration(
                     color: Get.theme.primaryColor,
                     border: Border.all(

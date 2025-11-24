@@ -15,7 +15,7 @@ class NotificationsView extends GetView<NotificationsController> {
       appBar: AppBar(
         title: Text(
           "Notifications".tr,
-          style: Get.textTheme.headline6,
+          style: Get.textTheme.titleLarge,
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -35,8 +35,12 @@ class NotificationsView extends GetView<NotificationsController> {
         child: ListView(
           primary: true,
           children: <Widget>[
-            Text("Incoming Notifications".tr, style: Get.textTheme.headline5).paddingOnly(top: 25, bottom: 0, right: 22, left: 22),
-            Text("Swipe item left to delete it.".tr, style: Get.textTheme.caption).paddingSymmetric(horizontal: 22, vertical: 5),
+            Text("Incoming Notifications".tr,
+                    style: Get.textTheme.headlineSmall)
+                .paddingOnly(top: 25, bottom: 0, right: 22, left: 22),
+            Text("Swipe item left to delete it.".tr,
+                    style: Get.textTheme.bodySmall)
+                .paddingSymmetric(horizontal: 22, vertical: 5),
             notificationsList(),
           ],
         ),
@@ -49,6 +53,7 @@ class NotificationsView extends GetView<NotificationsController> {
       if (!controller.notifications.isNotEmpty) {
         return CircularLoadingWidget(
           height: 300,
+          onComplete: (v) {},
           onCompleteText: "Notification List is Empty".tr,
         );
       } else {
@@ -62,10 +67,14 @@ class NotificationsView extends GetView<NotificationsController> {
             primary: false,
             itemBuilder: (context, index) {
               var _notification = controller.notifications.elementAt(index);
-              if (_notification.data['message_id'] != null) {
-                return MessageNotificationItemWidget(notification: _notification);
-              } else if (_notification.data['booking_id'] != null) {
-                return BookingNotificationItemWidget(notification: _notification);
+              if (_notification.data != null &&
+                  _notification.data!['message_id'] != null) {
+                return MessageNotificationItemWidget(
+                    notification: _notification);
+              } else if (_notification.data != null &&
+                  _notification.data!['booking_id'] != null) {
+                return BookingNotificationItemWidget(
+                    notification: _notification);
               } else {
                 return NotificationItemWidget(
                   notification: _notification,

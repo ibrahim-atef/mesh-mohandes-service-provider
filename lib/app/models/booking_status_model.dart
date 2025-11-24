@@ -1,11 +1,11 @@
 import 'parents/model.dart';
 
 class BookingStatus extends Model {
-  String id;
-  String status;
-  int order;
+  String? id;
+  String? status;
+  late int order;
 
-  BookingStatus({this.id, this.status, this.order});
+  BookingStatus({this.id, this.status, int? order}) : order = order ?? 0;
 
   BookingStatus.fromJson(Map<String, dynamic> json) {
     super.fromJson(json);

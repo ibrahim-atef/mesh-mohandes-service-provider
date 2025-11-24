@@ -5,9 +5,9 @@ import '../../../models/availability_hour_model.dart';
 
 class AvailabilityHourItemWidget extends StatelessWidget {
   const AvailabilityHourItemWidget({
-    Key key,
-    @required MapEntry<String, List<AvailabilityHour>> availabilityHour,
-    @required List<String> data,
+    Key? key,
+    required MapEntry<String, List<AvailabilityHour>> availabilityHour,
+    required List<String> data,
   })  : _availabilityHour = availabilityHour,
         _data = data,
         super(key: key);

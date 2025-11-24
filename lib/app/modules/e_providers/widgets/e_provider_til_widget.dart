@@ -9,10 +9,10 @@ import '../../../../common/ui.dart';
 class EProviderTilWidget extends StatelessWidget {
   final Widget title;
   final Widget content;
-  final List<Widget> actions;
-  final double horizontalPadding;
+  final List<Widget>? actions;
+  final double? horizontalPadding;
 
-  const EProviderTilWidget({Key key, this.title, this.content, this.actions, this.horizontalPadding}) : super(key: key);
+  const EProviderTilWidget({Key? key, required this.title, required this.content, this.actions, this.horizontalPadding}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class EProviderTilWidget extends StatelessWidget {
               Expanded(child: title),
               if (actions != null)
                 Wrap(
-                  children: actions,
+                  children: actions!,
                 )
             ],
           ),

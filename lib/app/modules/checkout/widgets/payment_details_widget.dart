@@ -11,8 +11,8 @@ import '../../bookings/widgets/booking_row_widget.dart';
 
 class PaymentDetailsWidget extends StatelessWidget {
   const PaymentDetailsWidget({
-    Key key,
-    @required EProviderSubscription eProviderSubscription,
+    Key? key,
+    required EProviderSubscription eProviderSubscription,
   })  : _eProviderSubscription = eProviderSubscription,
         super(key: key);
 
@@ -36,11 +36,11 @@ class PaymentDetailsWidget extends StatelessWidget {
           ),
           Divider(height: 8, thickness: 1),
           BookingRowWidget(
-            description: _eProviderSubscription.subscriptionPackage.name,
-            valueStyle: Get.textTheme.bodyText2,
+            description: _eProviderSubscription.subscriptionPackage?.name ?? '',
+            valueStyle: Get.textTheme.bodyText2 ?? TextStyle(),
             child: Align(
               alignment: Alignment.centerRight,
-              child: Ui.getPrice(_eProviderSubscription.subscriptionPackage.getPrice, style: Get.textTheme.subtitle2),
+              child: Ui.getPrice(_eProviderSubscription.subscriptionPackage?.getPrice ?? 0.0, style: Get.textTheme.subtitle2 ?? TextStyle()),
             ),
           ),
         ],

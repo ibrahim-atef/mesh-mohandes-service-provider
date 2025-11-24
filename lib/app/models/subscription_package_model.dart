@@ -1,14 +1,17 @@
 import 'parents/model.dart';
 
 class SubscriptionPackage extends Model {
-  String id;
-  String name;
-  String description;
-  double price;
-  double discountPrice;
-  int durationInDays;
+  String? id;
+  String? name;
+  String? description;
+  late double price;
+  late double discountPrice;
+  late int durationInDays;
 
-  SubscriptionPackage({this.id, this.name, this.description, this.price, this.discountPrice, this.durationInDays});
+  SubscriptionPackage({this.id, this.name, this.description, double? price, double? discountPrice, int? durationInDays})
+    : price = price ?? 0.0,
+      discountPrice = discountPrice ?? 0.0,
+      durationInDays = durationInDays ?? 0;
 
   SubscriptionPackage.fromJson(Map<String, dynamic> json) {
     super.fromJson(json);
@@ -25,9 +28,9 @@ class SubscriptionPackage extends Model {
     if (id != null) data['id'] = this.id;
     if (name != null) data['name'] = this.name;
     if (description != null) data['description'] = this.description;
-    if (price != null) data['price'] = this.price;
-    if (discountPrice != null) data['discount_price'] = this.discountPrice;
-    if (durationInDays != null) data['duration_in_days'] = this.durationInDays;
+    data['price'] = this.price;
+    data['discount_price'] = this.discountPrice;
+    data['duration_in_days'] = this.durationInDays;
     return data;
   }
 
@@ -37,13 +40,13 @@ class SubscriptionPackage extends Model {
   * otherwise it return the discount price instead
   * */
   double get getPrice {
-    return (discountPrice ?? 0) > 0 ? discountPrice : price;
+    return discountPrice > 0 ? discountPrice : price;
   }
 
   /*
   * Get discount price
   * */
   double get getOldPrice {
-    return (discountPrice ?? 0) > 0 ? price : 0;
+    return discountPrice > 0 ? price : 0;
   }
 }

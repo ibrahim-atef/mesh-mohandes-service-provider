@@ -24,7 +24,11 @@ class EProviderView extends GetView<EProviderController> {
       var _eProvider = controller.eProvider.value;
       if (!_eProvider.hasData) {
         return Scaffold(
-          body: CircularLoadingWidget(height: Get.height),
+          body: CircularLoadingWidget(
+            height: Get.height,
+            onComplete: (_) {},
+            onCompleteText: '',
+          ),
         );
       } else {
         return Scaffold(
@@ -137,7 +141,7 @@ class EProviderView extends GetView<EProviderController> {
                       alignment: AlignmentDirectional.topStart,
                       children: [
                         Hero(
-                          tag: 'e_provide_galleries' + _media.id,
+                          tag: 'e_provide_galleries' + (_media.id ?? ''),
                           child: ClipRRect(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             child: CachedNetworkImage(
@@ -160,7 +164,7 @@ class EProviderView extends GetView<EProviderController> {
                           child: Text(
                             _media.name ?? '',
                             maxLines: 2,
-                            style: Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.primaryColor)),
+                            style: Get.textTheme.bodyText2?.merge(TextStyle(color: Get.theme.primaryColor)),
                           ),
                         ),
                       ],
@@ -180,7 +184,11 @@ class EProviderView extends GetView<EProviderController> {
     return EProviderTilWidget(
       title: Text("Availability".tr, style: Get.textTheme.subtitle2),
       content: _eProvider.availabilityHours.isEmpty
-          ? CircularLoadingWidget(height: 150)
+          ? CircularLoadingWidget(
+              height: 150,
+              onComplete: (_) {},
+              onCompleteText: '',
+            )
           : ListView.separated(
               padding: EdgeInsets.zero,
               primary: false,
@@ -200,7 +208,7 @@ class EProviderView extends GetView<EProviderController> {
           Container(
             child: Text("Available".tr,
                 maxLines: 1,
-                style: Get.textTheme.bodyText2.merge(
+                style: Get.textTheme.bodyText2?.merge(
                   TextStyle(color: Colors.green, height: 1.4, fontSize: 10),
                 ),
                 softWrap: false,
@@ -216,7 +224,7 @@ class EProviderView extends GetView<EProviderController> {
           Container(
             child: Text("Offline".tr,
                 maxLines: 1,
-                style: Get.textTheme.bodyText2.merge(
+                style: Get.textTheme.bodyText2?.merge(
                   TextStyle(color: Colors.grey, height: 1.4, fontSize: 10),
                 ),
                 softWrap: false,
@@ -306,7 +314,7 @@ class EProviderView extends GetView<EProviderController> {
       child: (_addresses.isEmpty)
           ? Shimmer.fromColors(
               baseColor: Colors.grey.withOpacity(0.15),
-              highlightColor: Colors.grey[200].withOpacity(0.1),
+              highlightColor: (Colors.grey[200] ?? Colors.grey).withOpacity(0.1),
               child: Container(
                 width: double.infinity,
                 height: 220,
@@ -335,9 +343,9 @@ class EProviderView extends GetView<EProviderController> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(_address.description, style: Get.textTheme.subtitle2),
+                          Text(_address.description ?? '', style: Get.textTheme.subtitle2),
                           SizedBox(height: 5),
-                          Text(_address.address, style: Get.textTheme.caption),
+                          Text(_address.address ?? '', style: Get.textTheme.caption),
                         ],
                       ).marginOnly(bottom: 10);
                     }),
@@ -363,7 +371,7 @@ class EProviderView extends GetView<EProviderController> {
         return Builder(
           builder: (BuildContext context) {
             return Hero(
-              tag: controller.heroTag + _eProvider.id,
+              tag: controller.heroTag + (_eProvider.id ?? ''),
               child: CachedNetworkImage(
                 width: double.infinity,
                 height: 360,
@@ -415,7 +423,7 @@ class EProviderView extends GetView<EProviderController> {
               Expanded(
                 child: Text(
                   _eProvider.name ?? '',
-                  style: Get.textTheme.headline5.merge(TextStyle(height: 1.1)),
+                  style: Get.textTheme.headline5?.merge(TextStyle(height: 1.1)),
                   maxLines: 2,
                   softWrap: true,
                   overflow: TextOverflow.fade,
@@ -424,7 +432,7 @@ class EProviderView extends GetView<EProviderController> {
               Container(
                 child: Text(_eProvider.type?.name?.tr ?? ' . . . ',
                     maxLines: 1,
-                    style: Get.textTheme.bodyText2.merge(
+                    style: Get.textTheme.bodyText2?.merge(
                       TextStyle(color: Get.theme.colorScheme.secondary, height: 1.4, fontSize: 10),
                     ),
                     softWrap: false,

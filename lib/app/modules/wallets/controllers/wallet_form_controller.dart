@@ -8,8 +8,8 @@ import '../../../routes/app_routes.dart';
 
 class WalletFormController extends GetxController {
   final wallet = Wallet().obs;
-  GlobalKey<FormState> walletForm;
-  PaymentRepository _paymentRepository;
+  GlobalKey<FormState>? walletForm;
+  late PaymentRepository _paymentRepository;
 
   WalletFormController() {
     _paymentRepository = new PaymentRepository();
@@ -17,7 +17,7 @@ class WalletFormController extends GetxController {
 
   @override
   void onInit() async {
-    var arguments = Get.arguments as Map<String, dynamic>;
+    var arguments = Get.arguments as Map<String, dynamic>?;
     _initWallet(arguments: arguments);
     super.onInit();
   }
@@ -27,9 +27,9 @@ class WalletFormController extends GetxController {
     super.onReady();
   }
 
-  void _initWallet({Map<String, dynamic> arguments}) {
+  void _initWallet({Map<String, dynamic>? arguments}) {
     if (arguments != null) {
-      wallet.value = (arguments['wallet'] as Wallet) ?? Wallet();
+      wallet.value = (arguments['wallet'] as Wallet?) ?? Wallet();
     } else {
       wallet.value = new Wallet();
     }
@@ -43,10 +43,10 @@ class WalletFormController extends GetxController {
   }
 
   void createWalletForm() async {
-    Get.focusScope.unfocus();
-    if (walletForm.currentState.validate()) {
+    Get.focusScope?.unfocus();
+    if (walletForm?.currentState?.validate() ?? false) {
       try {
-        walletForm.currentState.save();
+        walletForm?.currentState?.save();
         Get.log(wallet.value.toString());
         await _paymentRepository.createWallet(wallet.value);
         await Get.offAndToNamed(Routes.WALLETS);
@@ -59,10 +59,10 @@ class WalletFormController extends GetxController {
   }
 
   void updateWalletForm() async {
-    Get.focusScope.unfocus();
-    if (walletForm.currentState.validate()) {
+    Get.focusScope?.unfocus();
+    if (walletForm?.currentState?.validate() ?? false) {
       try {
-        walletForm.currentState.save();
+        walletForm?.currentState?.save();
         await _paymentRepository.updateWallet(wallet.value);
         Get.offAndToNamed(Routes.WALLETS);
       } catch (e) {

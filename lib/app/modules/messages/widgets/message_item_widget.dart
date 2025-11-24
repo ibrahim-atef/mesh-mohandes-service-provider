@@ -10,7 +10,7 @@ import '../../../routes/app_routes.dart';
 import '../../../services/auth_service.dart';
 
 class MessageItemWidget extends StatelessWidget {
-  MessageItemWidget({Key key, this.message, this.onDismissed}) : super(key: key);
+  MessageItemWidget({Key? key, required this.message, required this.onDismissed}) : super(key: key);
   final Message message;
   final ValueChanged<Message> onDismissed;
 
@@ -56,13 +56,13 @@ class MessageItemWidget extends StatelessWidget {
                   SizedBox(
                     width: 60,
                     height: 60,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      child: CachedNetworkImage(
-                        height: 140,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                        imageUrl: this.message.users.firstWhere((element) => element.id != _authService.user.value.id, orElse: () => User.fromJson({})).avatar.thumb,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        child: CachedNetworkImage(
+                          height: 140,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          imageUrl: this.message.users.firstWhere((element) => element.id != _authService.user.value.id, orElse: () => User.fromJson({})).avatar?.thumb ?? '',
                         placeholder: (context, url) => Image.asset(
                           'assets/img/loading.gif',
                           fit: BoxFit.cover,
@@ -103,7 +103,7 @@ class MessageItemWidget extends StatelessWidget {
                             overflow: TextOverflow.fade,
                             softWrap: false,
                             style: Get.textTheme.bodyText1
-                                .merge(TextStyle(fontWeight: this.message.readByUsers.contains(_authService.user.value.id) ? FontWeight.w400 : FontWeight.w800)),
+                                ?.merge(TextStyle(fontWeight: this.message.readByUsers.contains(_authService.user.value.id) ? FontWeight.w400 : FontWeight.w800)),
                           ),
                         ),
                         Text(
@@ -123,7 +123,7 @@ class MessageItemWidget extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: Get.textTheme.caption
-                                .merge(TextStyle(fontWeight: this.message.readByUsers.contains(_authService.user.value.id) ? FontWeight.w400 : FontWeight.w800)),
+                                ?.merge(TextStyle(fontWeight: this.message.readByUsers.contains(_authService.user.value.id) ? FontWeight.w400 : FontWeight.w800)),
                           ),
                         ),
                         Text(

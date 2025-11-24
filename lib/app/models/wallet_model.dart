@@ -4,11 +4,11 @@ import '../../common/uuid.dart';
 import 'parents/model.dart';
 
 class Wallet extends Model {
-  String id;
-  String name;
-  double balance;
+  String? id;
+  String? name;
+  late double balance;
 
-  Wallet({this.id, this.name, this.balance});
+  Wallet({this.id, this.name, double? balance}) : balance = balance ?? 0.0;
 
   Wallet.fromJson(Map<String, dynamic> json) {
     super.fromJson(json);
@@ -25,22 +25,21 @@ class Wallet extends Model {
     if (name != null) {
       data['name'] = this.name;
     }
-    if (balance != null) {
-      data['balance'] = this.balance;
-    }
+    data['balance'] = this.balance;
     return data;
   }
 
   String getName() {
-    name = name ?? "";
-    return name.substring(name.length - min(name.length, 16), name.length);
+    String nameValue = name ?? "";
+    return nameValue.substring(nameValue.length - min(nameValue.length, 16), nameValue.length);
   }
 
   String getId() {
-    if (Uuid.isUuid(id)) {
-      return id.substring(0, 3) + ' . . . ' + id.substring(id.length - 5, id.length);
+    String? idValue = id;
+    if (idValue != null && Uuid.isUuid(idValue)) {
+      return idValue.substring(0, 3) + ' . . . ' + idValue.substring(idValue.length - 5, idValue.length);
     } else {
-      return id;
+      return idValue ?? '';
     }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart' show DateFormat;
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -53,7 +54,12 @@ class BookingView extends GetView<BookingController> {
                     else
                       return MaterialButton(
                         elevation: 0,
-                        onPressed: () => MapsUtil.openMapsSheet(context, controller.booking.value.address?.getLatLng(), controller.booking.value.id),
+                        onPressed: () {
+                          final latLng = controller.booking.value.address?.getLatLng();
+                          if (latLng != null) {
+                            MapsUtil.openMapsSheet(context, latLng, controller.booking.value.id ?? '');
+                          }
+                        },
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                         color: Get.theme.colorScheme.secondary,
                         child: Wrap(
@@ -61,7 +67,7 @@ class BookingView extends GetView<BookingController> {
                           spacing: 5,
                           children: [
                             Icon(Icons.map_outlined, color: Get.theme.primaryColor),
-                            Text("On Maps".tr, style: Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.primaryColor))),
+                            Text("On Maps".tr, style: Get.textTheme.bodyText2?.merge(TextStyle(color: Get.theme.primaryColor)) ?? TextStyle(color: Get.theme.primaryColor)),
                           ],
                         ),
                       );
@@ -74,7 +80,7 @@ class BookingView extends GetView<BookingController> {
                   else
                     return FlexibleSpaceBar(
                       collapseMode: CollapseMode.parallax,
-                      background: MapsUtil.getStaticMaps([controller.booking.value.address.getLatLng()], height: 600, size: '700x600', zoom: 14),
+                      background: MapsUtil.getStaticMaps([controller.booking.value.address?.getLatLng() ?? LatLng(0, 0)], height: 600, size: '700x600', zoom: 14),
                     );
                 }).marginOnly(bottom: 60),
               ),
@@ -91,7 +97,7 @@ class BookingView extends GetView<BookingController> {
                       else
                         return BookingTilWidget(
                           title: Text("Booking Details".tr, style: Get.textTheme.subtitle2),
-                          actions: [Text("#" + controller.booking.value.id, style: Get.textTheme.subtitle2)],
+                          actions: [Text("#" + (controller.booking.value.id ?? ''), style: Get.textTheme.subtitle2)],
                           content: Column(
                             children: [
                               BookingRowWidget(
@@ -108,7 +114,7 @@ class BookingView extends GetView<BookingController> {
                                           color: Get.theme.focusColor.withOpacity(0.1),
                                         ),
                                         child: Text(
-                                          controller.booking.value.status.status,
+                                          controller.booking.value.status?.status ?? '',
                                           overflow: TextOverflow.clip,
                                           maxLines: 1,
                                           softWrap: true,
@@ -150,7 +156,7 @@ class BookingView extends GetView<BookingController> {
                                             color: Get.theme.focusColor.withOpacity(0.1),
                                           ),
                                           child: Text(
-                                            controller.booking.value.payment?.paymentMethod?.getName(),
+                                            controller.booking.value.payment?.paymentMethod?.getName() ?? '',
                                             style: TextStyle(color: Get.theme.hintColor),
                                           ),
                                         ),
@@ -159,7 +165,7 @@ class BookingView extends GetView<BookingController> {
                                     hasDivider: true),
                               BookingRowWidget(
                                 description: "Hint".tr,
-                                child: Ui.removeHtml(controller.booking.value.hint, alignment: Alignment.centerRight),
+                                child: Ui.removeHtml(controller.booking.value.hint ?? '', alignment: Alignment.centerRight),
                               ),
                             ],
                           ),
@@ -195,7 +201,7 @@ class BookingView extends GetView<BookingController> {
                                       child: Align(
                                           alignment: Alignment.centerRight,
                                           child: Text(
-                                            DateFormat('d, MMMM y  HH:mm', Get.locale.toString()).format(controller.booking.value.bookingAt),
+                                            DateFormat('d, MMMM y  HH:mm', Get.locale.toString()).format(controller.booking.value.bookingAt ?? DateTime.now()),
                                             style: Get.textTheme.caption,
                                             textAlign: TextAlign.end,
                                           )),
@@ -206,7 +212,7 @@ class BookingView extends GetView<BookingController> {
                                       child: Align(
                                           alignment: Alignment.centerRight,
                                           child: Text(
-                                            DateFormat('d, MMMM y  HH:mm', Get.locale.toString()).format(controller.booking.value.startAt),
+                                            DateFormat('d, MMMM y  HH:mm', Get.locale.toString()).format(controller.booking.value.startAt ?? DateTime.now()),
                                             style: Get.textTheme.caption,
                                             textAlign: TextAlign.end,
                                           )),
@@ -217,7 +223,7 @@ class BookingView extends GetView<BookingController> {
                                     child: Align(
                                         alignment: Alignment.centerRight,
                                         child: Text(
-                                          DateFormat('d, MMMM y  HH:mm', Get.locale.toString()).format(controller.booking.value.endsAt),
+                                          DateFormat('d, MMMM y  HH:mm', Get.locale.toString()).format(controller.booking.value.endsAt ?? DateTime.now()),
                                           style: Get.textTheme.caption,
                                           textAlign: TextAlign.end,
                                         )),
@@ -238,10 +244,10 @@ class BookingView extends GetView<BookingController> {
                               BookingRowWidget(
                                   descriptionFlex: 2,
                                   valueFlex: 1,
-                                  description: controller.booking.value.eService.name,
+                                  description: controller.booking.value.eService?.name ?? '',
                                   child: Align(
                                     alignment: Alignment.centerRight,
-                                    child: Ui.getPrice(controller.booking.value.eService.getPrice, style: Get.textTheme.subtitle2),
+                                    child: Ui.getPrice(controller.booking.value.eService?.getPrice ?? 0.0, style: Get.textTheme.subtitle2 ?? TextStyle()),
                                   ),
                                   hasDivider: true),
                               Column(
@@ -250,21 +256,21 @@ class BookingView extends GetView<BookingController> {
                                   return BookingRowWidget(
                                       descriptionFlex: 2,
                                       valueFlex: 1,
-                                      description: _option.name,
+                                      description: _option.name ?? '',
                                       child: Align(
                                         alignment: Alignment.centerRight,
-                                        child: Ui.getPrice(_option.price, style: Get.textTheme.bodyText1),
+                                        child: Ui.getPrice(_option.price, style: Get.textTheme.bodyText1 ?? TextStyle()),
                                       ),
                                       hasDivider: (controller.booking.value.options.length - 1) == index);
                                 }),
                               ),
-                              if (controller.booking.value.eService.priceUnit == 'fixed')
+                              if (controller.booking.value.eService?.priceUnit == 'fixed')
                                 BookingRowWidget(
                                     description: "Quantity".tr,
                                     child: Align(
                                       alignment: Alignment.centerRight,
                                       child: Text(
-                                        "x" + controller.booking.value.quantity.toString() + " " + controller.booking.value.eService.quantityUnit.tr,
+                                        "x" + controller.booking.value.quantity.toString() + " " + (controller.booking.value.eService?.quantityUnit?.tr ?? ''),
                                         style: Get.textTheme.bodyText2,
                                       ),
                                     ),
@@ -273,7 +279,7 @@ class BookingView extends GetView<BookingController> {
                                 children: List.generate(controller.booking.value.taxes.length, (index) {
                                   var _tax = controller.booking.value.taxes.elementAt(index);
                                   return BookingRowWidget(
-                                      description: _tax.name,
+                                      description: _tax.name ?? '',
                                       child: Align(
                                         alignment: Alignment.centerRight,
                                         child: _tax.type == 'percent'
@@ -313,8 +319,8 @@ class BookingView extends GetView<BookingController> {
                                       child: Wrap(
                                         children: [
                                           Text(' - ', style: Get.textTheme.bodyText1),
-                                          Ui.getPrice(controller.booking.value.coupon.discount,
-                                              style: Get.textTheme.bodyText1, unit: controller.booking.value.coupon.discountType == 'percent' ? "%" : null),
+                                          Ui.getPrice(controller.booking.value.coupon?.discount ?? 0.0,
+                                              style: Get.textTheme.bodyText1 ?? TextStyle(), unit: controller.booking.value.coupon?.discountType == 'percent' ? "%" : null),
                                         ],
                                       ),
                                     ),
@@ -353,7 +359,7 @@ class BookingView extends GetView<BookingController> {
                 children: [
                   AutoSizeText(
                     _booking.value.eService?.name ?? '',
-                    style: Get.textTheme.headline5.merge(TextStyle(height: 1.1)),
+                    style: Get.textTheme.headline5?.merge(TextStyle(height: 1.1)) ?? TextStyle(height: 1.1),
                     overflow: TextOverflow.fade,
                   ),
                   Row(
@@ -398,27 +404,27 @@ class BookingView extends GetView<BookingController> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(DateFormat('HH:mm', Get.locale.toString()).format(_booking.value.bookingAt),
+                    Text(DateFormat('HH:mm', Get.locale.toString()).format(_booking.value.bookingAt ?? DateTime.now()),
                         maxLines: 1,
-                        style: Get.textTheme.bodyText2.merge(
+                        style: Get.textTheme.bodyText2?.merge(
                           TextStyle(color: Get.theme.colorScheme.secondary, height: 1.4),
-                        ),
+                        ) ?? TextStyle(color: Get.theme.colorScheme.secondary, height: 1.4),
                         softWrap: false,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.fade),
-                    Text(DateFormat('dd', Get.locale.toString()).format(_booking.value.bookingAt ?? ''),
+                    Text(DateFormat('dd', Get.locale.toString()).format(_booking.value.bookingAt ?? DateTime.now()),
                         maxLines: 1,
-                        style: Get.textTheme.headline3.merge(
+                        style: Get.textTheme.headline3?.merge(
                           TextStyle(color: Get.theme.colorScheme.secondary, height: 1),
-                        ),
+                        ) ?? TextStyle(color: Get.theme.colorScheme.secondary, height: 1),
                         softWrap: false,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.fade),
-                    Text(DateFormat('MMM', Get.locale.toString()).format(_booking.value.bookingAt ?? ''),
+                    Text(DateFormat('MMM', Get.locale.toString()).format(_booking.value.bookingAt ?? DateTime.now()),
                         maxLines: 1,
-                        style: Get.textTheme.bodyText2.merge(
+                        style: Get.textTheme.bodyText2?.merge(
                           TextStyle(color: Get.theme.colorScheme.secondary, height: 1),
-                        ),
+                        ) ?? TextStyle(color: Get.theme.colorScheme.secondary, height: 1),
                         softWrap: false,
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.fade),

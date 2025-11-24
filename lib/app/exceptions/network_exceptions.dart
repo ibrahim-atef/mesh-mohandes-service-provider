@@ -7,29 +7,23 @@ import '../routes/app_routes.dart';
 
 abstract class NetworkExceptions {
   static String handleResponse(Response response) {
-    int statusCode = response?.statusCode ?? 0;
+    int statusCode = response.statusCode ?? 0;
     switch (statusCode) {
       case 400:
       case 401:
       case 403:
         _get.Get.offAllNamed(Routes.LOGIN);
         return "Unauthorized Request";
-        break;
       case 404:
         return "Not found";
-        break;
       case 409:
         return "Error due to a conflict";
-        break;
       case 408:
         return "Connection request timeout";
-        break;
       case 500:
         return "Internal Server Error";
-        break;
       case 503:
         return "Service unavailable";
-        break;
       default:
         return "Received invalid status code";
     }
@@ -54,7 +48,12 @@ abstract class NetworkExceptions {
               errorMessage = "Send timeout in connection with API server";
               break;
             case DioErrorType.response:
-              errorMessage = NetworkExceptions.handleResponse(error.response);
+              if (error.response != null) {
+                errorMessage =
+                    NetworkExceptions.handleResponse(error.response!);
+              } else {
+                errorMessage = "Received invalid status code";
+              }
               break;
             case DioErrorType.sendTimeout:
               errorMessage = "Send timeout in connection with API server";

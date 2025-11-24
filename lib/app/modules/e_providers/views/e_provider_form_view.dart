@@ -58,7 +58,7 @@ class EProviderFormView extends GetView<EProviderFormController> {
                       );
                     },
                   );
-                  if (confirm) {
+                  if (confirm == true) {
                     await controller.deleteEProvider();
                   }
                 },
@@ -93,7 +93,7 @@ class EProviderFormView extends GetView<EProviderFormController> {
                     color: Get.theme.colorScheme.secondary,
                     disabledElevation: 0,
                     disabledColor: Get.theme.focusColor,
-                    child: Text("Save & Next".tr, style: Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.primaryColor))),
+                    child: Text("Save & Next".tr, style: Get.textTheme.bodyText2?.merge(TextStyle(color: Get.theme.primaryColor))),
                     elevation: 0,
                   ),
                 );
@@ -139,61 +139,65 @@ class EProviderFormView extends GetView<EProviderFormController> {
                     label: "Images".tr,
                     field: 'image',
                     tag: controller.eProviderForm.hashCode.toString(),
-                    initialImages: controller.eProvider.value.images,
+                    initialImages: controller.eProvider.value.images ?? [],
                     uploadCompleted: (uuid) {
                       controller.eProvider.update((val) {
-                        val.images = val.images ?? [];
-                        val.images.add(new Media(id: uuid));
+                        if (val != null) {
+                          val.images = val.images ?? [];
+                          val.images.add(new Media(id: uuid));
+                        }
                       });
                     },
                     reset: (uuids) {
                       controller.eProvider.update((val) {
-                        val.images.clear();
+                        if (val != null) {
+                          val.images?.clear();
+                        }
                       });
                     },
                   );
                 }),
                 TextFieldWidget(
-                  onSaved: (input) => controller.eProvider.value.name = input,
-                  validator: (input) => input.length < 3 ? "Should be more than 3 letters".tr : null,
-                  initialValue: controller.eProvider.value.name,
+                  onSaved: (input) => controller.eProvider.value.name = input ?? '',
+                  validator: (input) => (input?.length ?? 0) < 3 ? "Should be more than 3 letters".tr : null,
+                  initialValue: controller.eProvider.value.name ?? '',
                   hintText: "Architect Mayer Group".tr,
                   labelText: "Name".tr,
                 ),
                 TextFieldWidget(
-                  onSaved: (input) => controller.eProvider.value.description = input,
-                  validator: (input) => input.length < 3 ? "Should be more than 3 letters".tr : null,
+                  onSaved: (input) => controller.eProvider.value.description = input ?? '',
+                  validator: (input) => (input?.length ?? 0) < 3 ? "Should be more than 3 letters".tr : null,
                   keyboardType: TextInputType.multiline,
-                  initialValue: controller.eProvider.value.description,
+                  initialValue: controller.eProvider.value.description ?? '',
                   hintText: "Description for Architect Mayer Group".tr,
                   labelText: "Description".tr,
                 ),
                 PhoneFieldWidget(
                   labelText: "Phone Number".tr,
                   hintText: "223 665 7896".tr,
-                  initialCountryCode: Helper.getPhoneNumber(controller.eProvider.value.phoneNumber)?.countryISOCode,
-                  initialValue: Helper.getPhoneNumber(controller.eProvider.value.phoneNumber)?.number,
+                  initialCountryCode: Helper.getPhoneNumber(controller.eProvider.value.phoneNumber ?? '')?.countryISOCode,
+                  initialValue: Helper.getPhoneNumber(controller.eProvider.value.phoneNumber ?? '')?.number,
                   onSaved: (phone) {
-                    return controller.eProvider.value.phoneNumber = phone.completeNumber;
+                    controller.eProvider.value.phoneNumber = phone?.completeNumber ?? '';
                   },
                 ),
                 PhoneFieldWidget(
                   labelText: "Mobile Number".tr,
                   hintText: "223 665 7896".tr,
-                  initialCountryCode: Helper.getPhoneNumber(controller.eProvider.value.mobileNumber)?.countryISOCode,
-                  initialValue: Helper.getPhoneNumber(controller.eProvider.value.mobileNumber)?.number,
+                  initialCountryCode: Helper.getPhoneNumber(controller.eProvider.value.mobileNumber ?? '')?.countryISOCode,
+                  initialValue: Helper.getPhoneNumber(controller.eProvider.value.mobileNumber ?? '')?.number,
                   onSaved: (phone) {
-                    return controller.eProvider.value.mobileNumber = phone.completeNumber;
+                    controller.eProvider.value.mobileNumber = phone?.completeNumber ?? '';
                   },
                 ),
                 TextFieldWidget(
-                  onSaved: (input) => controller.eProvider.value.availabilityRange = double.tryParse(input) ?? 0,
-                  validator: (input) => (double.tryParse(input) ?? 0) <= 0 ? "Should be more than 0".tr : null,
-                  initialValue: controller.eProvider.value.availabilityRange?.toString() ?? null,
+                  onSaved: (input) => controller.eProvider.value.availabilityRange = double.tryParse(input ?? '') ?? 0,
+                  validator: (input) => (double.tryParse(input ?? '') ?? 0) <= 0 ? "Should be more than 0".tr : null,
+                  initialValue: controller.eProvider.value.availabilityRange?.toString(),
                   keyboardType: TextInputType.numberWithOptions(signed: false, decimal: true),
                   hintText: "5".tr,
                   labelText: "Availability Range".tr,
-                  suffix: Text(Get.find<SettingsService>().setting.value.distanceUnit.tr),
+                  suffix: Text(((Get.find<SettingsService>().setting.value.distanceUnit ?? '').tr)),
                 ),
                 Obx(() {
                   if (controller.eProviderTypes.isEmpty)
@@ -239,7 +243,9 @@ class EProviderFormView extends GetView<EProviderFormController> {
                                     },
                                   );
                                   controller.eProvider.update((val) {
-                                    val.type = selectedValue;
+                                    if (val != null && selectedValue != null) {
+                                      val.type = selectedValue;
+                                    }
                                   });
                                 },
                                 shape: StadiumBorder(),
@@ -310,9 +316,11 @@ class EProviderFormView extends GetView<EProviderFormController> {
                                     );
                                   },
                                 );
-                                controller.eProvider.update((val) {
-                                  val.employees = selectedValues?.toList();
-                                });
+                                  controller.eProvider.update((val) {
+                                    if (val != null && selectedValues != null) {
+                                      val.employees = selectedValues.toList();
+                                    }
+                                  });
                               },
                               shape: StadiumBorder(),
                               color: Get.theme.colorScheme.secondary.withOpacity(0.1),
@@ -381,7 +389,9 @@ class EProviderFormView extends GetView<EProviderFormController> {
                                 },
                               );
                               controller.eProvider.update((val) {
-                                val.taxes = selectedValues?.toList();
+                                if (val != null && selectedValues != null) {
+                                  val.taxes = selectedValues.toList();
+                                }
                               });
                             },
                             shape: StadiumBorder(),
@@ -424,10 +434,10 @@ class EProviderFormView extends GetView<EProviderFormController> {
           spacing: 5,
           runSpacing: 8,
           children: List.generate(_eProvider.employees?.length ?? 0, (index) {
-            final _user = _eProvider.employees.elementAt(index);
+            final _user = _eProvider.employees!.elementAt(index);
             return Container(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              child: Text(_user.name, style: Get.textTheme.bodyText1.merge(TextStyle(color: Get.theme.colorScheme.secondary))),
+              child: Text(_user.name ?? '', style: Get.textTheme.bodyText1?.merge(TextStyle(color: Get.theme.colorScheme.secondary))),
               decoration: BoxDecoration(
                   color: Get.theme.colorScheme.secondary.withOpacity(0.2),
                   border: Border.all(
@@ -447,10 +457,10 @@ class EProviderFormView extends GetView<EProviderFormController> {
           spacing: 5,
           runSpacing: 8,
           children: List.generate(_eProvider.taxes?.length ?? 0, (index) {
-            final tax = _eProvider.taxes.elementAt(index);
+            final tax = _eProvider.taxes!.elementAt(index);
             return Container(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              child: Text(tax.name, style: Get.textTheme.bodyText1.merge(TextStyle(color: Get.theme.colorScheme.secondary))),
+              child: Text(tax.name ?? '', style: Get.textTheme.bodyText1?.merge(TextStyle(color: Get.theme.colorScheme.secondary))),
               decoration: BoxDecoration(
                   color: Get.theme.colorScheme.secondary.withOpacity(0.2),
                   border: Border.all(

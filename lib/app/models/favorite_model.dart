@@ -3,12 +3,12 @@ import 'option_model.dart';
 import 'parents/model.dart';
 
 class Favorite extends Model {
-  String id;
-  EService eService;
-  List<Option> options;
-  String userId;
+  String? id;
+  EService? eService;
+  late List<Option> options;
+  String? userId;
 
-  Favorite({this.id, this.eService, this.options, this.userId});
+  Favorite({this.id, this.eService, List<Option>? options, this.userId}) : options = options ?? const [];
 
   Favorite.fromJson(Map<String, dynamic> json) {
     super.fromJson(json);
@@ -19,11 +19,11 @@ class Favorite extends Model {
 
   Map<String, dynamic> toJson() {
     var map = new Map<String, dynamic>();
-    map["id"] = id;
-    map["e_service_id"] = eService.id;
-    map["user_id"] = userId;
+    if (id != null) map["id"] = id;
+    if (eService?.id != null) map["e_service_id"] = eService!.id;
+    if (userId != null) map["user_id"] = userId;
     if (options is List<Option>) {
-      map["options"] = options.map((element) => element.id).toList();
+      map["options"] = options.map((element) => element.id).where((id) => id != null).toList();
     }
     return map;
   }

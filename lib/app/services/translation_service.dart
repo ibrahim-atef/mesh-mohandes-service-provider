@@ -11,8 +11,8 @@ class TranslationService extends GetxService {
 
   static List<String> languages = [];
 
-  SettingRepository _settingsRepo;
-  GetStorage _box;
+  late SettingRepository _settingsRepo;
+  late GetStorage _box;
 
   TranslationService() {
     _settingsRepo = new SettingRepository();
@@ -37,11 +37,11 @@ class TranslationService extends GetxService {
   }
 
   Locale getLocale() {
-    String _locale = _box.read<String>('language');
+    String? _locale = _box.read<String>('language');
     if (_locale == null || _locale.isEmpty) {
       _locale = Get.find<SettingsService>().setting.value.mobileLanguage;
     }
-    return fromStringToLocale(_locale);
+    return fromStringToLocale(_locale ?? 'en');
   }
 
   // get list of supported local in the application

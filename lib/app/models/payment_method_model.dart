@@ -7,16 +7,18 @@ import 'parents/model.dart';
 import 'wallet_model.dart';
 
 class PaymentMethod extends Model {
-  String id;
-  String name;
-  String description;
-  Media logo;
-  String route;
-  int order;
-  bool isDefault;
-  Wallet wallet;
+  String? id;
+  String? name;
+  String? description;
+  Media? logo;
+  String? route;
+  late int order;
+  late bool isDefault;
+  Wallet? wallet;
 
-  PaymentMethod({this.id, this.name, this.description, this.route, this.logo, this.wallet, this.isDefault = false});
+  PaymentMethod({this.id, this.name, this.description, this.route, this.logo, this.wallet, bool? isDefault, int? order}) 
+    : isDefault = isDefault ?? false,
+      order = order ?? 0;
 
   PaymentMethod.fromJson(Map<String, dynamic> json) {
     super.fromJson(json);
@@ -37,12 +39,12 @@ class PaymentMethod extends Model {
   }
 
   String getName() {
-    name = name ?? "Not Paid".tr;
-    return name.substring(name.length - min(name.length, 10), name.length);
+    String nameValue = name ?? "Not Paid".tr;
+    return nameValue.substring(nameValue.length - min(nameValue.length, 10), nameValue.length);
   }
 
   @override
-  bool operator ==(Object other) =>
+  bool operator ==(dynamic other) =>
       identical(this, other) ||
       super == other &&
           other is PaymentMethod &&

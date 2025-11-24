@@ -8,15 +8,15 @@ class CircularLoadingWidget extends StatefulWidget {
   final ValueChanged<void> onComplete;
   final String onCompleteText;
 
-  CircularLoadingWidget({Key key, this.height, this.onComplete, this.onCompleteText}) : super(key: key);
+  CircularLoadingWidget({Key? key, required this.height, required this.onComplete, required this.onCompleteText}) : super(key: key);
 
   @override
   _CircularLoadingWidgetState createState() => _CircularLoadingWidgetState();
 }
 
 class _CircularLoadingWidgetState extends State<CircularLoadingWidget> with SingleTickerProviderStateMixin {
-  Animation<double> animation;
-  AnimationController animationController;
+  late Animation<double> animation;
+  late AnimationController animationController;
 
   void initState() {
     super.initState();
@@ -52,7 +52,7 @@ class _CircularLoadingWidgetState extends State<CircularLoadingWidget> with Sing
         ? SizedBox(
             height: widget.height,
             child: Center(
-              child: Text(widget.onCompleteText ?? "", style: Get.textTheme.caption.merge(TextStyle(fontSize: 14))),
+              child: Text(widget.onCompleteText, style: Get.textTheme.caption?.merge(TextStyle(fontSize: 14))),
             ),
           )
         : Opacity(

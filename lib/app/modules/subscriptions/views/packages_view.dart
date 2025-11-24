@@ -22,7 +22,7 @@ class PackagesView extends GetView<PackagesController> {
         iconTheme: IconThemeData(color: Get.theme.hintColor),
         title: Text(
           "Subscription Packages".tr,
-          style: Get.textTheme.headline6.merge(TextStyle(letterSpacing: 1.3, color: Get.theme.hintColor)),
+          style: Get.textTheme.headline6?.merge(TextStyle(letterSpacing: 1.3, color: Get.theme.hintColor)) ?? TextStyle(letterSpacing: 1.3, color: Get.theme.hintColor),
         ),
         automaticallyImplyLeading: false,
         leading: new IconButton(
@@ -88,7 +88,7 @@ class PackagesView extends GetView<PackagesController> {
                                 },
                               );
                               controller.eProviderSubscription.update((val) {
-                                val.eProvider = selectedValue;
+                                val?.eProvider = selectedValue;
                               });
                             },
                             shape: StadiumBorder(),
@@ -102,7 +102,7 @@ class PackagesView extends GetView<PackagesController> {
                         ],
                       ),
                       Obx(() {
-                        if (controller.eProviderSubscription.value?.eProvider == null) {
+                        if (controller.eProviderSubscription.value.eProvider == null) {
                           return Padding(
                             padding: EdgeInsets.symmetric(vertical: 20),
                             child: Text(
@@ -145,7 +145,7 @@ class PackagesView extends GetView<PackagesController> {
                         Get.showSnackbar(Ui.defaultSnackBar(message: "Please Select a Service Provider!".tr));
                       } else {
                         controller.eProviderSubscription.update((val) {
-                          val.subscriptionPackage = subscriptionPackage;
+                          val?.subscriptionPackage = subscriptionPackage;
                         });
                         print(controller.eProviderSubscription.value);
                         await Get.offAndToNamed(Routes.CHECKOUT, arguments: controller.eProviderSubscription.value);

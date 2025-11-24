@@ -9,7 +9,7 @@ import 'statistics_carousel_loader_widget.dart';
 class StatisticsCarouselWidget extends StatelessWidget {
   final List<Statistic> statisticsList;
 
-  StatisticsCarouselWidget({Key key, this.statisticsList}) : super(key: key);
+  StatisticsCarouselWidget({Key? key, required this.statisticsList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

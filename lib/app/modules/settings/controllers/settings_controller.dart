@@ -39,7 +39,10 @@ class SettingsController extends GetxController {
         binding: SettingsBinding(),
       );
 
-    return null;
+    return GetPageRoute(
+      settings: settings,
+      page: () => Container(),
+    );
   }
 
   @override

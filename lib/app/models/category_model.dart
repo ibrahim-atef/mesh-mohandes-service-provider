@@ -5,16 +5,19 @@ import 'media_model.dart';
 import 'parents/model.dart';
 
 class Category extends Model {
-  String id;
-  String name;
-  String description;
-  Color color;
-  Media image;
-  bool featured;
-  List<Category> subCategories;
-  List<EService> eServices;
+  String? id;
+  String? name;
+  String? description;
+  Color? color;
+  Media? image;
+  late bool featured;
+  late List<Category> subCategories;
+  late List<EService> eServices;
 
-  Category({this.id, this.name, this.description, this.color, this.image, this.featured, this.subCategories, this.eServices});
+  Category({this.id, this.name, this.description, this.color, this.image, bool? featured, List<Category>? subCategories, List<EService>? eServices}) 
+    : featured = featured ?? false,
+      subCategories = subCategories ?? const [],
+      eServices = eServices ?? const [];
 
   Category.fromJson(Map<String, dynamic> json) {
     super.fromJson(json);
@@ -32,12 +35,12 @@ class Category extends Model {
     data['id'] = this.id;
     data['name'] = this.name;
     data['description'] = this.description;
-    data['color'] = '#${this.color.value.toRadixString(16)}';
+    data['color'] = this.color != null ? '#${this.color!.value.toRadixString(16)}' : null;
     return data;
   }
 
   @override
-  bool operator ==(Object other) =>
+  bool operator ==(dynamic other) =>
       identical(this, other) ||
       super == other &&
           other is Category &&

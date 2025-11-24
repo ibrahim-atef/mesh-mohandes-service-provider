@@ -22,6 +22,7 @@ class ChatsView extends GetView<MessagesController> {
         if (controller.chats.isEmpty) {
           return CircularLoadingWidget(
             height: Get.height,
+            onComplete: (v) {},
             onCompleteText: "Type a message to start chat!".tr,
           );
         } else {
@@ -35,7 +36,9 @@ class ChatsView extends GetView<MessagesController> {
               primary: true,
               itemBuilder: (context, index) {
                 Chat _chat = controller.chats.elementAt(index);
-                _chat.user = controller.message.value.users.firstWhere((_user) => _user.id == _chat.userId, orElse: () => new User(name: "-", avatar: new Media()));
+                _chat.user = controller.message.value.users.firstWhere(
+                    (_user) => _user.id == _chat.userId,
+                    orElse: () => new User(name: "-", avatar: new Media()));
                 return ChatMessageItem(
                   chat: _chat,
                 );
@@ -70,7 +73,8 @@ class ChatsView extends GetView<MessagesController> {
             controller.message.value.name,
             overflow: TextOverflow.fade,
             maxLines: 1,
-            style: Get.textTheme.headline6.merge(TextStyle(letterSpacing: 1.3)),
+            style:
+                Get.textTheme.titleLarge?.merge(TextStyle(letterSpacing: 1.3)),
           );
         }),
       ),
@@ -92,7 +96,12 @@ class ChatsView extends GetView<MessagesController> {
           Container(
             decoration: BoxDecoration(
               color: Get.theme.primaryColor,
-              boxShadow: [BoxShadow(color: Theme.of(context).hintColor.withOpacity(0.10), offset: Offset(0, -4), blurRadius: 10)],
+              boxShadow: [
+                BoxShadow(
+                    color: Theme.of(context).hintColor.withOpacity(0.10),
+                    offset: Offset(0, -4),
+                    blurRadius: 10)
+              ],
             ),
             child: Row(
               children: [
@@ -102,9 +111,11 @@ class ChatsView extends GetView<MessagesController> {
                     IconButton(
                       padding: EdgeInsets.zero,
                       onPressed: () async {
-                        var imageUrl = await controller.getImage(ImageSource.gallery);
+                        var imageUrl =
+                            await controller.getImage(ImageSource.gallery);
                         if (imageUrl != null && imageUrl.trim() != '') {
-                          await controller.addMessage(controller.message.value, imageUrl);
+                          await controller.addMessage(
+                              controller.message.value, imageUrl);
                         }
                         Timer(Duration(milliseconds: 100), () {
                           controller.chatTextController.clear();
@@ -119,9 +130,11 @@ class ChatsView extends GetView<MessagesController> {
                     IconButton(
                       padding: EdgeInsets.zero,
                       onPressed: () async {
-                        var imageUrl = await controller.getImage(ImageSource.camera);
+                        var imageUrl =
+                            await controller.getImage(ImageSource.camera);
                         if (imageUrl != null && imageUrl.trim() != '') {
-                          await controller.addMessage(controller.message.value, imageUrl);
+                          await controller.addMessage(
+                              controller.message.value, imageUrl);
                         }
                         Timer(Duration(milliseconds: 100), () {
                           controller.chatTextController.clear();
@@ -138,15 +151,17 @@ class ChatsView extends GetView<MessagesController> {
                 Expanded(
                   child: TextField(
                     controller: controller.chatTextController,
-                    style: Get.textTheme.bodyText1,
+                    style: Get.textTheme.bodyLarge,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.all(20),
                       hintText: "Type to start chat".tr,
-                      hintStyle: TextStyle(color: Get.theme.focusColor.withOpacity(0.8)),
+                      hintStyle: TextStyle(
+                          color: Get.theme.focusColor.withOpacity(0.8)),
                       suffixIcon: IconButton(
                         padding: EdgeInsetsDirectional.only(end: 20, start: 10),
                         onPressed: () {
-                          controller.addMessage(controller.message.value, controller.chatTextController.text);
+                          controller.addMessage(controller.message.value,
+                              controller.chatTextController.text);
                           Timer(Duration(milliseconds: 100), () {
                             controller.chatTextController.clear();
                           });
@@ -158,8 +173,10 @@ class ChatsView extends GetView<MessagesController> {
                         ),
                       ),
                       border: UnderlineInputBorder(borderSide: BorderSide.none),
-                      enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
-                      focusedBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                      enabledBorder:
+                          UnderlineInputBorder(borderSide: BorderSide.none),
+                      focusedBorder:
+                          UnderlineInputBorder(borderSide: BorderSide.none),
                     ),
                   ),
                 ),

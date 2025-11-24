@@ -22,7 +22,11 @@ class EServiceView extends GetView<EServiceController> {
       var _eService = controller.eService.value;
       if (!_eService.hasData) {
         return Scaffold(
-          body: CircularLoadingWidget(height: Get.height),
+          body: CircularLoadingWidget(
+            height: Get.height,
+            onComplete: (_) {},
+            onCompleteText: '',
+          ),
         );
       } else {
         return Scaffold(
@@ -91,7 +95,7 @@ class EServiceView extends GetView<EServiceController> {
                             if (controller.eService.value.description == '') {
                               return SizedBox();
                             }
-                            return Ui.applyHtml(_eService.description, style: Get.textTheme.bodyText1);
+                            return Ui.applyHtml(_eService.description ?? '', style: Get.textTheme.bodyText1);
                           }),
                         ),
                         buildDuration(_eService),
@@ -121,14 +125,14 @@ class EServiceView extends GetView<EServiceController> {
                                           alignment: AlignmentDirectional.topStart,
                                           children: [
                                             Hero(
-                                              tag: 'e_services_galleries' + _media.id,
+                                              tag: 'e_services_galleries' + (_media.id ?? ''),
                                               child: ClipRRect(
                                                 borderRadius: BorderRadius.all(Radius.circular(10)),
                                                 child: CachedNetworkImage(
                                                   height: 100,
                                                   width: double.infinity,
                                                   fit: BoxFit.cover,
-                                                  imageUrl: _media.thumb,
+                                                  imageUrl: _media.thumb ?? '',
                                                   placeholder: (context, url) => Image.asset(
                                                     'assets/img/loading.gif',
                                                     fit: BoxFit.cover,
@@ -144,7 +148,7 @@ class EServiceView extends GetView<EServiceController> {
                                               child: Text(
                                                 _media.name ?? '',
                                                 maxLines: 2,
-                                                style: Get.textTheme.bodyText2.merge(TextStyle(
+                                                style: Get.textTheme.bodyText2?.merge(TextStyle(
                                                   color: Get.theme.primaryColor,
                                                   shadows: <Shadow>[
                                                     Shadow(
@@ -181,7 +185,11 @@ class EServiceView extends GetView<EServiceController> {
                               Divider(height: 35, thickness: 1.3),
                               Obx(() {
                                 if (controller.reviews.isEmpty) {
-                                  return CircularLoadingWidget(height: 100);
+                                  return CircularLoadingWidget(
+                                    height: 100,
+                                    onComplete: (_) {},
+                                    onCompleteText: '',
+                                  );
                                 }
                                 return ListView.separated(
                                   padding: EdgeInsets.all(0),
@@ -275,7 +283,7 @@ class EServiceView extends GetView<EServiceController> {
               crossAxisAlignment: CrossAxisAlignment.start,
             ),
           ),
-          Text(_eService.duration, style: Get.textTheme.headline6),
+          Text(_eService.duration ?? '', style: Get.textTheme.headline6),
         ],
       ),
     );
@@ -296,12 +304,12 @@ class EServiceView extends GetView<EServiceController> {
         return Builder(
           builder: (BuildContext context) {
             return Hero(
-              tag: controller.heroTag.value + _eService.id,
+              tag: controller.heroTag.value + (_eService.id ?? ''),
               child: CachedNetworkImage(
                 width: double.infinity,
                 height: 350,
                 fit: BoxFit.cover,
-                imageUrl: media.url,
+                imageUrl: media.url ?? '',
                 placeholder: (context, url) => Image.asset(
                   'assets/img/loading.gif',
                   fit: BoxFit.cover,
@@ -348,7 +356,7 @@ class EServiceView extends GetView<EServiceController> {
               Expanded(
                 child: Text(
                   _eService.name ?? '',
-                  style: Get.textTheme.headline5.merge(TextStyle(height: 1.1)),
+                  style: Get.textTheme.headline5?.merge(TextStyle(height: 1.1)),
                   maxLines: 2,
                   softWrap: true,
                   overflow: TextOverflow.fade,
@@ -358,7 +366,7 @@ class EServiceView extends GetView<EServiceController> {
                 Container(
                   child: Text("  .  .  .  ".tr,
                       maxLines: 1,
-                      style: Get.textTheme.bodyText2.merge(
+                      style: Get.textTheme.bodyText2?.merge(
                         TextStyle(color: Colors.grey, height: 1.4, fontSize: 10),
                       ),
                       softWrap: false,
@@ -371,11 +379,11 @@ class EServiceView extends GetView<EServiceController> {
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   margin: EdgeInsets.symmetric(vertical: 3),
                 ),
-              if (_eService.eProvider != null && _eService.eProvider.available)
+              if (_eService.eProvider != null && (_eService.eProvider?.available ?? false))
                 Container(
                   child: Text("Available".tr,
                       maxLines: 1,
-                      style: Get.textTheme.bodyText2.merge(
+                      style: Get.textTheme.bodyText2?.merge(
                         TextStyle(color: Colors.green, height: 1.4, fontSize: 10),
                       ),
                       softWrap: false,
@@ -388,11 +396,11 @@ class EServiceView extends GetView<EServiceController> {
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   margin: EdgeInsets.symmetric(vertical: 3),
                 ),
-              if (_eService.eProvider != null && !_eService.eProvider.available)
+              if (_eService.eProvider != null && !(_eService.eProvider?.available ?? false))
                 Container(
                   child: Text("Offline".tr,
                       maxLines: 1,
-                      style: Get.textTheme.bodyText2.merge(
+                      style: Get.textTheme.bodyText2?.merge(
                         TextStyle(color: Colors.grey, height: 1.4, fontSize: 10),
                       ),
                       softWrap: false,
@@ -428,12 +436,12 @@ class EServiceView extends GetView<EServiceController> {
                   if (_eService.getOldPrice > 0)
                     Ui.getPrice(
                       _eService.getOldPrice,
-                      style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.focusColor, decoration: TextDecoration.lineThrough)),
+                      style: Get.textTheme.headline6?.merge(TextStyle(color: Get.theme.focusColor, decoration: TextDecoration.lineThrough)),
                       unit: _eService.getUnit,
                     ),
                   Ui.getPrice(
                     _eService.getPrice,
-                    style: Get.textTheme.headline3.merge(TextStyle(color: Get.theme.colorScheme.secondary)),
+                    style: Get.textTheme.headline3?.merge(TextStyle(color: Get.theme.colorScheme.secondary)),
                     unit: _eService.getUnit,
                   ),
                 ],
@@ -456,11 +464,11 @@ class EServiceView extends GetView<EServiceController> {
               var _category = _eService.categories.elementAt(index);
               return Container(
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                child: Text(_category.name, style: Get.textTheme.bodyText1.merge(TextStyle(color: _category.color))),
+                child: Text(_category.name ?? '', style: Get.textTheme.bodyText1?.merge(TextStyle(color: _category.color))),
                 decoration: BoxDecoration(
-                    color: _category.color.withOpacity(0.2),
+                    color: _category.color?.withOpacity(0.2),
                     border: Border.all(
-                      color: _category.color.withOpacity(0.1),
+                      color: _category.color?.withOpacity(0.1) ?? Colors.transparent,
                     ),
                     borderRadius: BorderRadius.all(Radius.circular(20))),
               );
@@ -468,7 +476,7 @@ class EServiceView extends GetView<EServiceController> {
             List.generate(_eService.subCategories.length, (index) {
               return Container(
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                child: Text(_eService.subCategories.elementAt(index).name, style: Get.textTheme.caption),
+                child: Text(_eService.subCategories.elementAt(index).name ?? '', style: Get.textTheme.caption),
                 decoration: BoxDecoration(
                     color: Get.theme.primaryColor,
                     border: Border.all(

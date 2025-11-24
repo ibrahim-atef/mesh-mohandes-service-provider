@@ -10,10 +10,10 @@ import '../../models/media_model.dart';
 import '../../repositories/upload_repository.dart';
 
 class ImageFieldController extends GetxController {
-  Rx<File> image = Rx<File>(null);
-  String uuid;
+  Rx<File?> image = Rx<File?>(null);
+  String uuid = '';
   final uploading = false.obs;
-  UploadRepository _uploadRepository;
+  late UploadRepository _uploadRepository;
 
   ImageFieldController() {
     _uploadRepository = new UploadRepository();
@@ -31,7 +31,8 @@ class ImageFieldController extends GetxController {
 
   Future pickImage(ImageSource source, String field, ValueChanged<String> uploadCompleted) async {
     ImagePicker imagePicker = ImagePicker();
-    XFile pickedFile = await imagePicker.pickImage(source: source, imageQuality: 80);
+    XFile? pickedFile = await imagePicker.pickImage(source: source, imageQuality: 80);
+    if (pickedFile == null) return;
     File imageFile = File(pickedFile.path);
     print(imageFile);
     if (imageFile != null) {
@@ -53,11 +54,11 @@ class ImageFieldController extends GetxController {
   }
 
   Future<void> deleteUploaded() async {
-    if (uuid != null) {
+    if (uuid.isNotEmpty) {
       final done = await _uploadRepository.delete(uuid);
       if (done) {
-        uuid = null;
-        image = Rx<File>(null);
+        uuid = '';
+        image.value = null;
       }
     }
   }
@@ -65,23 +66,23 @@ class ImageFieldController extends GetxController {
 
 class ImageFieldWidget extends StatelessWidget {
   ImageFieldWidget({
-    Key key,
-    @required this.label,
-    @required this.tag,
-    @required this.field,
+    Key? key,
+    required this.label,
+    required this.tag,
+    required this.field,
     this.placeholder,
     this.buttonText,
-    @required this.uploadCompleted,
+    required this.uploadCompleted,
     this.initialImage,
-    @required this.reset,
+    required this.reset,
   }) : super(key: key);
 
   final String label;
-  final String placeholder;
-  final String buttonText;
+  final String? placeholder;
+  final String? buttonText;
   final String tag;
   final String field;
-  final Media initialImage;
+  final Media? initialImage;
   final ValueChanged<String> uploadCompleted;
   final ValueChanged<String> reset;
 
@@ -152,7 +153,7 @@ class ImageFieldWidget extends StatelessWidget {
         ));
   }
 
-  Widget buildImage(Media initialImage, File image) {
+  Widget buildImage(Media? initialImage, File? image) {
     final controller = Get.put(ImageFieldController(), tag: tag);
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 10),
@@ -168,7 +169,7 @@ class ImageFieldWidget extends StatelessWidget {
                 height: 100,
                 width: 100,
                 fit: BoxFit.cover,
-                imageUrl: initialImage.thumb ?? '',
+                imageUrl: initialImage.thumb,
                 placeholder: (context, url) => Image.asset(
                   'assets/img/loading.gif',
                   fit: BoxFit.cover,

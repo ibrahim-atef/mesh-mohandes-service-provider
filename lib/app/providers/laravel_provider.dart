@@ -40,12 +40,13 @@ import 'api_provider.dart';
 import 'dio_client.dart';
 
 class LaravelApiClient extends GetxService with ApiClient {
-  DioClient _httpClient;
-  dio.Options _optionsNetwork;
-  dio.Options _optionsCache;
+  late DioClient _httpClient;
+  late dio.Options _optionsNetwork;
+  late dio.Options _optionsCache;
 
   LaravelApiClient() {
-    this.baseUrl = this.globalService.global.value.laravelBaseUrl;
+    String? baseUrlValue = this.globalService.global.value.laravelBaseUrl;
+    this.baseUrl = baseUrlValue ?? '';
     _httpClient = DioClient(this.baseUrl, new dio.Dio());
   }
 
@@ -55,13 +56,15 @@ class LaravelApiClient extends GetxService with ApiClient {
     return this;
   }
 
-  bool isLoading({String task, List<String> tasks}) {
+  bool isLoading({String? task, List<String>? tasks}) {
     return _httpClient.isLoading(task: task, tasks: tasks);
   }
 
   void setLocale(String locale) {
-    _optionsNetwork.headers['Accept-Language'] = locale;
-    _optionsCache.headers['Accept-Language'] = locale;
+    _optionsNetwork.headers ??= <String, dynamic>{};
+    _optionsCache.headers ??= <String, dynamic>{};
+    _optionsNetwork.headers!['Accept-Language'] = locale;
+    _optionsCache.headers!['Accept-Language'] = locale;
   }
 
   void forceRefresh() {
@@ -737,8 +740,14 @@ class LaravelApiClient extends GetxService with ApiClient {
       'api_token': authService.apiToken,
     };
     if (eProviderId != null) {
-      _queryParameters['search'] += ';e_provider_id:$eProviderId';
-      _queryParameters['searchFields'] += ';e_provider_id:=';
+      String? search = _queryParameters['search'] as String?;
+      String? searchFields = _queryParameters['searchFields'] as String?;
+      if (search != null) {
+        _queryParameters['search'] = search + ';e_provider_id:$eProviderId';
+      }
+      if (searchFields != null) {
+        _queryParameters['searchFields'] = searchFields + ';e_provider_id:=';
+      }
       _queryParameters['searchJoin'] = 'and';
     }
     Uri _uri = getApiBaseUri("provider/e_services").replace(queryParameters: _queryParameters);
@@ -1163,8 +1172,8 @@ class LaravelApiClient extends GetxService with ApiClient {
   String getPayPalUrl(EProviderSubscription eProviderSubscription) {
     var _queryParameters = {
       'api_token': authService.apiToken,
-      'subscription_package_id': eProviderSubscription.subscriptionPackage.id,
-      'e_provider_id': eProviderSubscription.eProvider.id,
+      'subscription_package_id': eProviderSubscription.subscriptionPackage?.id ?? '',
+      'e_provider_id': eProviderSubscription.eProvider?.id ?? '',
     };
     Uri _uri = getBaseUri("subscription/payments/paypal/express-checkout").replace(queryParameters: _queryParameters);
     return _uri.toString();
@@ -1173,8 +1182,8 @@ class LaravelApiClient extends GetxService with ApiClient {
   String getRazorPayUrl(EProviderSubscription eProviderSubscription) {
     var _queryParameters = {
       'api_token': authService.apiToken,
-      'subscription_package_id': eProviderSubscription.subscriptionPackage.id,
-      'e_provider_id': eProviderSubscription.eProvider.id,
+      'subscription_package_id': eProviderSubscription.subscriptionPackage?.id ?? '',
+      'e_provider_id': eProviderSubscription.eProvider?.id ?? '',
     };
     Uri _uri = getBaseUri("subscription/payments/razorpay/checkout").replace(queryParameters: _queryParameters);
     return _uri.toString();
@@ -1183,8 +1192,8 @@ class LaravelApiClient extends GetxService with ApiClient {
   String getStripeUrl(EProviderSubscription eProviderSubscription) {
     var _queryParameters = {
       'api_token': authService.apiToken,
-      'subscription_package_id': eProviderSubscription.subscriptionPackage.id,
-      'e_provider_id': eProviderSubscription.eProvider.id,
+      'subscription_package_id': eProviderSubscription.subscriptionPackage?.id ?? '',
+      'e_provider_id': eProviderSubscription.eProvider?.id ?? '',
     };
     Uri _uri = getBaseUri("subscription/payments/stripe/checkout").replace(queryParameters: _queryParameters);
     return _uri.toString();
@@ -1193,8 +1202,8 @@ class LaravelApiClient extends GetxService with ApiClient {
   String getPayStackUrl(EProviderSubscription eProviderSubscription) {
     var _queryParameters = {
       'api_token': authService.apiToken,
-      'subscription_package_id': eProviderSubscription.subscriptionPackage.id,
-      'e_provider_id': eProviderSubscription.eProvider.id,
+      'subscription_package_id': eProviderSubscription.subscriptionPackage?.id ?? '',
+      'e_provider_id': eProviderSubscription.eProvider?.id ?? '',
     };
     Uri _uri = getBaseUri("subscription/payments/paystack/checkout").replace(queryParameters: _queryParameters);
     return _uri.toString();
@@ -1203,8 +1212,8 @@ class LaravelApiClient extends GetxService with ApiClient {
   String getPayMongoUrl(EProviderSubscription eProviderSubscription) {
     var _queryParameters = {
       'api_token': authService.apiToken,
-      'subscription_package_id': eProviderSubscription.subscriptionPackage.id,
-      'e_provider_id': eProviderSubscription.eProvider.id,
+      'subscription_package_id': eProviderSubscription.subscriptionPackage?.id ?? '',
+      'e_provider_id': eProviderSubscription.eProvider?.id ?? '',
     };
     Uri _uri = getBaseUri("subscription/payments/paymongo/checkout").replace(queryParameters: _queryParameters);
     return _uri.toString();
@@ -1213,8 +1222,8 @@ class LaravelApiClient extends GetxService with ApiClient {
   String getFlutterWaveUrl(EProviderSubscription eProviderSubscription) {
     var _queryParameters = {
       'api_token': authService.apiToken,
-      'subscription_package_id': eProviderSubscription.subscriptionPackage.id,
-      'e_provider_id': eProviderSubscription.eProvider.id,
+      'subscription_package_id': eProviderSubscription.subscriptionPackage?.id ?? '',
+      'e_provider_id': eProviderSubscription.eProvider?.id ?? '',
     };
     Uri _uri = getBaseUri("subscription/payments/flutterwave/checkout").replace(queryParameters: _queryParameters);
     return _uri.toString();
@@ -1223,8 +1232,8 @@ class LaravelApiClient extends GetxService with ApiClient {
   String getStripeFPXUrl(EProviderSubscription eProviderSubscription) {
     var _queryParameters = {
       'api_token': authService.apiToken,
-      'subscription_package_id': eProviderSubscription.subscriptionPackage.id,
-      'e_provider_id': eProviderSubscription.eProvider.id,
+      'subscription_package_id': eProviderSubscription.subscriptionPackage?.id ?? '',
+      'e_provider_id': eProviderSubscription.eProvider?.id ?? '',
     };
     Uri _uri = getBaseUri("subscription/payments/stripe-fpx/checkout").replace(queryParameters: _queryParameters);
     return _uri.toString();

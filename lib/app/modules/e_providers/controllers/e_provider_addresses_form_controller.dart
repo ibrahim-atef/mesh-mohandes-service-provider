@@ -11,7 +11,7 @@ class EProviderAddressesFormController extends GetxController {
   final addresses = <Address>[].obs;
   final eProvider = EProvider().obs;
   GlobalKey<FormState> eProviderAddressesForm = new GlobalKey<FormState>();
-  EProviderRepository _eProviderRepository;
+  late EProviderRepository _eProviderRepository;
 
   EProviderAddressesFormController() {
     _eProviderRepository = new EProviderRepository();
@@ -19,12 +19,12 @@ class EProviderAddressesFormController extends GetxController {
 
   @override
   void onInit() async {
-    var arguments = Get.arguments as Map<String, dynamic>;
+    var arguments = Get.arguments as Map<String, dynamic>?;
     if (arguments != null) {
       eProvider.value = arguments['eProvider'] as EProvider;
     }
-    eProvider.value.addresses = eProvider.value.addresses ?? <Address>[];
-    addresses.assignAll(eProvider.value.addresses);
+    eProvider.value.addresses ??= <Address>[];
+    addresses.assignAll(eProvider.value.addresses!);
     super.onInit();
   }
 
@@ -38,14 +38,17 @@ class EProviderAddressesFormController extends GetxController {
     await getEProvider();
     await getAddresses();
     if (showMessage) {
-      Get.showSnackbar(Ui.SuccessSnackBar(message: eProvider.value.name + " " + "page refreshed successfully".tr));
+      Get.showSnackbar(Ui.SuccessSnackBar(message: (eProvider.value.name ?? '') + " " + "page refreshed successfully".tr));
     }
   }
 
   Future getEProvider() async {
     if (eProvider.value.hasData) {
       try {
-        eProvider.value = await _eProviderRepository.get(eProvider.value.id);
+        String? id = eProvider.value.id;
+        if (id != null) {
+          eProvider.value = await _eProviderRepository.get(id);
+        }
       } catch (e) {
         Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
       }
@@ -91,10 +94,13 @@ class EProviderAddressesFormController extends GetxController {
 
   void toggleAddress(bool value, Address address) {
     eProvider.update((val) {
-      if (value) {
-        val.addresses.add(address);
-      } else {
-        val.addresses.removeWhere((element) => element == address);
+      if (val != null) {
+        if (value) {
+          val.addresses ??= <Address>[];
+          val.addresses!.add(address);
+        } else {
+          val.addresses?.removeWhere((element) => element == address);
+        }
       }
     });
   }

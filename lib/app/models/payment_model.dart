@@ -3,13 +3,13 @@ import 'payment_method_model.dart';
 import 'payment_status_model.dart';
 
 class Payment extends Model {
-  String id;
-  String description;
-  double amount;
-  PaymentMethod paymentMethod;
-  PaymentStatus paymentStatus;
+  String? id;
+  String? description;
+  late double amount;
+  PaymentMethod? paymentMethod;
+  PaymentStatus? paymentStatus;
 
-  Payment({this.id, this.description, this.amount, this.paymentMethod, this.paymentStatus});
+  Payment({this.id, this.description, double? amount, this.paymentMethod, this.paymentStatus}) : amount = amount ?? 0.0;
 
   Payment.fromJson(Map<String, dynamic> json) {
     super.fromJson(json);
@@ -28,14 +28,12 @@ class Payment extends Model {
     if (description != null) {
       data['description'] = this.description;
     }
-    if (amount != null) {
-      data['amount'] = this.amount;
-    }
+    data['amount'] = this.amount;
     if (paymentMethod != null) {
-      data['payment_method_id'] = this.paymentMethod.id;
+      data['payment_method_id'] = this.paymentMethod!.id;
     }
     if (paymentStatus != null) {
-      data['payment_status_id'] = this.paymentStatus.id;
+      data['payment_status_id'] = this.paymentStatus!.id;
     }
     return data;
   }

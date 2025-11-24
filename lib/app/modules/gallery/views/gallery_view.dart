@@ -29,13 +29,17 @@ class GalleryView extends GetView<GalleryController> {
       body: SafeArea(
         child: Obx(() {
           if (!controller.current.value.hasData) {
-            return CircularLoadingWidget(height: 300);
+            return CircularLoadingWidget(
+              height: 300,
+              onComplete: (_) {},
+              onCompleteText: '',
+            );
           }
           return Stack(
             alignment: AlignmentDirectional.bottomCenter,
             children: [
               Hero(
-                tag: controller.heroTag.value + controller.current.value.id,
+                tag: controller.heroTag.value + (controller.current.value.id ?? ''),
                 child: CarouselSlider(
                   options: CarouselOptions(
                     autoPlay: false,
@@ -62,7 +66,11 @@ class GalleryView extends GetView<GalleryController> {
                             width: double.infinity,
                             fit: BoxFit.contain,
                             imageUrl: _media.url,
-                            placeholder: (context, url) => CircularLoadingWidget(height: 200),
+                            placeholder: (context, url) => CircularLoadingWidget(
+                              height: 200,
+                              onComplete: (_) {},
+                              onCompleteText: '',
+                            ),
                             errorWidget: (context, url, error) => Icon(Icons.error_outline),
                           ),
                         ).marginSymmetric(horizontal: 20),
@@ -75,9 +83,9 @@ class GalleryView extends GetView<GalleryController> {
                 padding: const EdgeInsets.all(20),
                 child: Obx(() {
                   return Text(
-                    controller.current.value.name ?? '',
+                    controller.current.value.name,
                     maxLines: 2,
-                    style: Get.textTheme.bodyText2.merge(
+                    style: Get.textTheme.bodyText2?.merge(
                       TextStyle(
                         color: Get.theme.primaryColor,
                         shadows: <Shadow>[
@@ -88,6 +96,15 @@ class GalleryView extends GetView<GalleryController> {
                           ),
                         ],
                       ),
+                    ) ?? TextStyle(
+                      color: Get.theme.primaryColor,
+                      shadows: <Shadow>[
+                        Shadow(
+                          offset: Offset(0, 1),
+                          blurRadius: 6.0,
+                          color: Get.theme.hintColor.withOpacity(0.6),
+                        ),
+                      ],
                     ),
                   );
                 }),

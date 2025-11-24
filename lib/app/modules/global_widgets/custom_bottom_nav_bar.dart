@@ -7,10 +7,10 @@ class CustomBottomNavigationBar extends StatefulWidget {
   final Color backgroundColor;
   final Color itemColor;
   final List<CustomBottomNavigationItem> children;
-  final Function(int) onChange;
+  final Function(int)? onChange;
   final int currentIndex;
 
-  CustomBottomNavigationBar({this.backgroundColor = BACKGROUND_COLOR, this.itemColor = PRIMARY_COLOR, this.currentIndex = 0, @required this.children, this.onChange});
+  CustomBottomNavigationBar({this.backgroundColor = BACKGROUND_COLOR, this.itemColor = PRIMARY_COLOR, this.currentIndex = 0, required this.children, this.onChange});
 
   @override
   _CustomBottomNavigationBarState createState() => _CustomBottomNavigationBarState();
@@ -18,9 +18,7 @@ class CustomBottomNavigationBar extends StatefulWidget {
 
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   void _changeIndex(int index) {
-    if (widget.onChange != null) {
-      widget.onChange(index);
-    }
+    widget.onChange?.call(index);
   }
 
   @override
@@ -83,7 +81,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 class CustomBottomNavigationItem {
   final IconData icon;
   final String label;
-  final Color color;
+  final Color? color;
 
-  CustomBottomNavigationItem({@required this.icon, @required this.label, this.color});
+  CustomBottomNavigationItem({required this.icon, required this.label, this.color});
 }

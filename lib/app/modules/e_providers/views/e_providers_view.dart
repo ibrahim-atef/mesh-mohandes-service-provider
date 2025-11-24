@@ -31,7 +31,7 @@ class EProvidersView extends GetView<EProvidersController> {
         automaticallyImplyLeading: false,
         leading: new IconButton(
           icon: new Icon(Icons.sort, color: Get.theme.hintColor),
-          onPressed: () => _scaffoldKey.currentState.openDrawer(),
+          onPressed: () => _scaffoldKey.currentState?.openDrawer(),
         ),
         elevation: 0,
       ),
@@ -57,7 +57,7 @@ class EProvidersView extends GetView<EProvidersController> {
                         child: RawChip(
                           elevation: 0,
                           label: Text(_filter.toString().tr),
-                          labelStyle: controller.isSelected(_filter) ? Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.primaryColor)) : Get.textTheme.bodyText2,
+                          labelStyle: controller.isSelected(_filter) ? Get.textTheme.bodyText2?.merge(TextStyle(color: Get.theme.primaryColor)) : Get.textTheme.bodyText2,
                           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 15),
                           backgroundColor: Get.theme.focusColor.withOpacity(0.1),
                           selectedColor: Get.theme.colorScheme.secondary,

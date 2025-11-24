@@ -6,7 +6,7 @@ import '../../../repositories/e_provider_repository.dart';
 
 class ReviewController extends GetxController {
   final review = Review().obs;
-  EProviderRepository _eProviderRepository;
+  late EProviderRepository _eProviderRepository;
 
   ReviewController() {
     _eProviderRepository = new EProviderRepository();
@@ -33,7 +33,7 @@ class ReviewController extends GetxController {
 
   Future getReview() async {
     try {
-      review.value = await _eProviderRepository.getReview(review.value.id);
+      review.value = await _eProviderRepository.getReview(review.value.id ?? '');
     } catch (e) {
       Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
     }

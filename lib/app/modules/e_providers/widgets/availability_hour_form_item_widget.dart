@@ -7,9 +7,9 @@ import '../controllers/e_provider_availability_form_controller.dart';
 
 class AvailabilityHourFromItemWidget extends GetView<EProviderAvailabilityFormController> {
   const AvailabilityHourFromItemWidget({
-    Key key,
-    @required MapEntry<String, List<AvailabilityHour>> availabilityHour,
-    @required List<String> data,
+    Key? key,
+    required MapEntry<String, List<AvailabilityHour>> availabilityHour,
+    required List<String> data,
   })  : _availabilityHour = availabilityHour,
         _data = data,
         super(key: key);
@@ -65,7 +65,7 @@ class AvailabilityHourFromItemWidget extends GetView<EProviderAvailabilityFormCo
                               title: "Delete Availability Hour".tr, content: "Are you sure you want to delete this slot?".tr, submitText: "Submit".tr, cancelText: "Cancel".tr);
                         },
                       );
-                      if (confirm && _hour.hasData) {
+                      if (confirm == true && _hour.hasData) {
                         await controller.deleteAvailabilityHour(_hour);
                       }
                     },

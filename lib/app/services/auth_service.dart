@@ -7,9 +7,9 @@ import 'settings_service.dart';
 
 class AuthService extends GetxService {
   final user = User().obs;
-  GetStorage _box;
+  late GetStorage _box;
 
-  UserRepository _usersRepo;
+  late UserRepository _usersRepo;
 
   AuthService() {
     _usersRepo = new UserRepository();
@@ -28,7 +28,7 @@ class AuthService extends GetxService {
   }
 
   Future getCurrentUser() async {
-    if (user.value.auth == null && _box.hasData('current_user')) {
+    if (!user.value.auth && _box.hasData('current_user')) {
       user.value = User.fromJson(await _box.read('current_user'));
       user.value.auth = true;
     } else {
@@ -54,7 +54,7 @@ class AuthService extends GetxService {
     }
   }
 
-  bool get isAuth => user.value.auth ?? false;
+  bool get isAuth => user.value.auth;
 
-  String get apiToken => (user.value.auth ?? false) ? user.value.apiToken : '';
+  String get apiToken => user.value.auth ? (user.value.apiToken ?? '') : '';
 }

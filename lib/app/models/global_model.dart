@@ -1,18 +1,26 @@
 import 'parents/model.dart';
 
 class Global extends Model {
-  String mockBaseUrl;
-  String laravelBaseUrl;
-  String apiPath;
-  int received;
-  int accepted;
-  int onTheWay;
-  int ready;
-  int inProgress;
-  int done;
-  int failed;
+  String? mockBaseUrl;
+  String? laravelBaseUrl;
+  String? apiPath;
+  late int received;
+  late int accepted;
+  late int onTheWay;
+  late int ready;
+  late int inProgress;
+  late int done;
+  late int failed;
 
-  Global({this.mockBaseUrl, this.laravelBaseUrl, this.apiPath});
+  Global({this.mockBaseUrl, this.laravelBaseUrl, this.apiPath}) {
+    received = 0;
+    accepted = 0;
+    onTheWay = 0;
+    ready = 0;
+    inProgress = 0;
+    done = 0;
+    failed = 0;
+  }
 
   Global.fromJson(Map<String, dynamic> json) {
     mockBaseUrl = json['mock_base_url'].toString();

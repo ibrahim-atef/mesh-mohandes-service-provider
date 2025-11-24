@@ -10,7 +10,7 @@ import 'package:intl_phone_field/phone_number.dart';
 
 class PhoneFieldWidget extends StatelessWidget {
   const PhoneFieldWidget(
-      {Key key,
+      {Key? key,
       this.onSaved,
       this.onChanged,
       this.initialValue,
@@ -28,32 +28,36 @@ class PhoneFieldWidget extends StatelessWidget {
       this.countries})
       : super(key: key);
 
-  final FormFieldSetter<PhoneNumber> onSaved;
-  final ValueChanged<PhoneNumber> onChanged;
-  final String initialValue;
-  final String hintText;
-  final String errorText;
-  final TextAlign textAlign;
-  final String labelText;
-  final TextStyle style;
-  final bool obscureText;
-  final String initialCountryCode;
-  final List<String> countries;
-  final bool isFirst;
-  final bool isLast;
-  final Widget suffixIcon;
-  final Widget suffix;
+  final FormFieldSetter<PhoneNumber>? onSaved;
+  final ValueChanged<PhoneNumber>? onChanged;
+  final String? initialValue;
+  final String? hintText;
+  final String? errorText;
+  final TextAlign? textAlign;
+  final String? labelText;
+  final TextStyle? style;
+  final bool? obscureText;
+  final String? initialCountryCode;
+  final List<String>? countries;
+  final bool? isFirst;
+  final bool? isLast;
+  final Widget? suffixIcon;
+  final Widget? suffix;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 20, bottom: 14, left: 20, right: 20),
-      margin: EdgeInsets.only(left: 20, right: 20, top: topMargin, bottom: bottomMargin),
+      margin: EdgeInsets.only(
+          left: 20, right: 20, top: topMargin, bottom: bottomMargin),
       decoration: BoxDecoration(
           color: Get.theme.primaryColor,
           borderRadius: buildBorderRadius,
           boxShadow: [
-            BoxShadow(color: Get.theme.focusColor.withOpacity(0.1), blurRadius: 10, offset: Offset(0, 5)),
+            BoxShadow(
+                color: Get.theme.focusColor.withOpacity(0.1),
+                blurRadius: 10,
+                offset: Offset(0, 5)),
           ],
           border: Border.all(color: Get.theme.focusColor.withOpacity(0.05))),
       child: Column(
@@ -61,7 +65,7 @@ class PhoneFieldWidget extends StatelessWidget {
         children: [
           Text(
             labelText ?? "",
-            style: Get.textTheme.bodyText1,
+            style: Get.textTheme.bodyLarge,
             textAlign: textAlign ?? TextAlign.start,
           ),
           IntlPhoneField(
@@ -71,14 +75,15 @@ class PhoneFieldWidget extends StatelessWidget {
               initialValue: initialValue ?? '',
               initialCountryCode: initialCountryCode ?? 'DE',
               showDropdownIcon: false,
-              pickerDialogStyle: PickerDialogStyle(countryNameStyle: Get.textTheme.bodyText2),
-              style: style ?? Get.textTheme.bodyText2,
+              pickerDialogStyle:
+                  PickerDialogStyle(countryNameStyle: Get.textTheme.bodyMedium),
+              style: style ?? Get.textTheme.bodyMedium,
               textAlign: textAlign ?? TextAlign.start,
               disableLengthCheck: true,
               autovalidateMode: AutovalidateMode.disabled,
               decoration: InputDecoration(
                 hintText: hintText ?? '',
-                hintStyle: Get.textTheme.caption,
+                hintStyle: Get.textTheme.bodySmall,
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 contentPadding: EdgeInsets.all(0),
                 border: OutlineInputBorder(borderSide: BorderSide.none),
@@ -94,20 +99,20 @@ class PhoneFieldWidget extends StatelessWidget {
   }
 
   BorderRadius get buildBorderRadius {
-    if (isFirst != null && isFirst) {
+    if (isFirst == true) {
       return BorderRadius.vertical(top: Radius.circular(10));
     }
-    if (isLast != null && isLast) {
+    if (isLast == true) {
       return BorderRadius.vertical(bottom: Radius.circular(10));
     }
-    if (isFirst != null && !isFirst && isLast != null && !isLast) {
+    if (isFirst == false && isLast == false) {
       return BorderRadius.all(Radius.circular(0));
     }
     return BorderRadius.all(Radius.circular(10));
   }
 
   double get topMargin {
-    if ((isFirst != null && isFirst)) {
+    if (isFirst == true) {
       return 20;
     } else if (isFirst == null) {
       return 20;
@@ -117,7 +122,7 @@ class PhoneFieldWidget extends StatelessWidget {
   }
 
   double get bottomMargin {
-    if ((isLast != null && isLast)) {
+    if (isLast == true) {
       return 10;
     } else if (isLast == null) {
       return 10;

@@ -6,9 +6,9 @@ import '../../../models/subscription_package_model.dart';
 
 class PackageCardWidget extends StatelessWidget {
   const PackageCardWidget({
-    Key key,
-    this.subscriptionPackage,
-    this.onTap,
+    Key? key,
+    required this.subscriptionPackage,
+    required this.onTap,
   }) : super(key: key);
 
   final SubscriptionPackage subscriptionPackage;
@@ -33,7 +33,7 @@ class PackageCardWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      subscriptionPackage.name,
+                      subscriptionPackage.name ?? '',
                       style: Get.textTheme.headline6,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
@@ -44,18 +44,18 @@ class PackageCardWidget extends StatelessWidget {
                       children: [
                         Ui.getPrice(
                           subscriptionPackage.getPrice,
-                          style: Get.textTheme.headline2.merge(TextStyle(fontSize: 28, color: Get.theme.colorScheme.secondary)),
+                          style: Get.textTheme.headline2?.merge(TextStyle(fontSize: 28, color: Get.theme.colorScheme.secondary)) ?? TextStyle(fontSize: 28, color: Get.theme.colorScheme.secondary),
                         ),
                         if (subscriptionPackage.getOldPrice > 0)
                           Ui.getPrice(
                             subscriptionPackage.getOldPrice,
-                            style: Get.textTheme.headline1.merge(TextStyle(color: Get.theme.focusColor, decoration: TextDecoration.lineThrough)),
+                            style: Get.textTheme.headline1?.merge(TextStyle(color: Get.theme.focusColor, decoration: TextDecoration.lineThrough)) ?? TextStyle(color: Get.theme.focusColor, decoration: TextDecoration.lineThrough),
                           ),
                       ],
                     ),
                     SizedBox(height: 20),
                     Ui.applyHtml(
-                      subscriptionPackage.description,
+                      subscriptionPackage.description ?? '',
                       style: Get.textTheme.caption,
                     )
                   ],
@@ -72,7 +72,7 @@ class PackageCardWidget extends StatelessWidget {
                 children: [
                   Text(
                     "Choose Package".tr,
-                    style: Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.colorScheme.secondary)),
+                    style: Get.textTheme.bodyText2?.merge(TextStyle(color: Get.theme.colorScheme.secondary)) ?? TextStyle(color: Get.theme.colorScheme.secondary),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                   ),

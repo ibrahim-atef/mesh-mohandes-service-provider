@@ -6,7 +6,7 @@ import '../../../repositories/subscription_repository.dart';
 
 class SubscriptionsController extends GetxController {
   final eProviderSubscriptions = <EProviderSubscription>[].obs;
-  SubscriptionRepository _subscriptionRepository;
+  late SubscriptionRepository _subscriptionRepository;
 
   SubscriptionsController() {
     _subscriptionRepository = new SubscriptionRepository();
@@ -18,7 +18,7 @@ class SubscriptionsController extends GetxController {
     super.onInit();
   }
 
-  Future refreshSubscriptions({bool showMessage}) async {
+  Future refreshSubscriptions({bool? showMessage}) async {
     await getSubscriptions();
     if (showMessage == true) {
       Get.showSnackbar(Ui.SuccessSnackBar(message: "List of subscriptions refreshed successfully".tr));

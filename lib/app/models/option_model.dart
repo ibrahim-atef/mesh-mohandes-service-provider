@@ -5,16 +5,16 @@ import 'media_model.dart';
 import 'parents/model.dart';
 
 class Option extends Model {
-  String id;
-  String optionGroupId;
-  String eServiceId;
-  String name;
-  double price;
-  Media image;
-  String description;
+  String? id;
+  String? optionGroupId;
+  String? eServiceId;
+  String? name;
+  late double price;
+  Media? image;
+  String? description;
   var checked = false.obs;
 
-  Option({this.id, this.optionGroupId, this.eServiceId, this.name, this.price, this.image, this.description, this.checked});
+  Option({this.id, this.optionGroupId, this.eServiceId, this.name, this.price = 0.0, this.image, this.description, RxBool? checked}) : checked = checked ?? false.obs;
 
   Option.fromJson(Map<String, dynamic> json) {
     super.fromJson(json);
@@ -35,14 +35,14 @@ class Option extends Model {
     if (checked != null) map["checked"] = checked.value;
     if (optionGroupId != null) map["option_group_id"] = optionGroupId;
     if (eServiceId != null) map["e_service_id"] = eServiceId;
-    if (this.image != null && Uuid.isUuid(image.id)) {
-      map['image'] = this.image.id;
+    if (this.image != null && Uuid.isUuid(image!.id ?? '')) {
+      map['image'] = this.image!.id ?? '';
     }
     return map;
   }
 
   @override
-  bool operator ==(Object other) =>
+  bool operator ==(dynamic other) =>
       identical(this, other) ||
       super == other &&
           other is Option &&

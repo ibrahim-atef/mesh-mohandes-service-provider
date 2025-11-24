@@ -3,20 +3,26 @@ import 'package:get/get.dart';
 import 'parents/model.dart';
 
 class Notification extends Model {
-  String id;
-  String type;
-  Map<String, dynamic> data;
-  bool read;
-  DateTime createdAt;
+  String? id;
+  String? type;
+  Map<String, dynamic>? data;
+  late bool read;
+  DateTime? createdAt;
 
-  Notification();
+  Notification() {
+    this.id = null;
+    this.type = null;
+    this.data = null;
+    this.read = false;
+    this.createdAt = null;
+  }
 
   Notification.fromJson(Map<String, dynamic> json) {
     super.fromJson(json);
     type = stringFromJson(json, 'type');
     data = mapFromJson(json, 'data');
     read = boolFromJson(json, 'read_at');
-    createdAt = dateFromJson(json, 'created_at', defaultValue: DateTime.now().toLocal());
+    createdAt = dateFromJson(json, 'created_at', defaultValue: DateTime.now().toLocal()) ?? DateTime.now().toLocal();
   }
 
   Map markReadMap() {
@@ -32,10 +38,10 @@ class Notification extends Model {
   }
 
   String getMessage() {
-    if (type == 'App\\Notifications\\NewMessage') {
-      return data['from'] + ' ' + type.tr;
+    if (type == 'App\\Notifications\\NewMessage' && data != null) {
+      return (data!['from']?.toString() ?? '') + ' ' + (type ?? '').tr;
     } else {
-      return type.tr;
+      return (type ?? '').tr;
     }
   }
 }

@@ -14,15 +14,15 @@ const _defaultReceiveTimeout = Duration.millisecondsPerMinute;
 class DioClient {
   final String baseUrl;
 
-  Dio _dio;
-  Options optionsNetwork;
-  Options optionsCache;
-  final List<Interceptor> interceptors;
+  late Dio _dio;
+  late Options optionsNetwork;
+  late Options optionsCache;
+  final List<Interceptor>? interceptors;
   final _progress = <String>[].obs;
 
   DioClient(
     this.baseUrl,
-    Dio dio, {
+    Dio? dio, {
     this.interceptors,
   }) {
     _dio = dio ?? Dio();
@@ -32,8 +32,8 @@ class DioClient {
       ..options.receiveTimeout = _defaultReceiveTimeout
       ..httpClientAdapter
       ..options.headers = {'Content-Type': 'application/json; charset=UTF-8', 'X-Requested-With': 'XMLHttpRequest', 'Accept-Language': 'en'};
-    if (interceptors?.isNotEmpty ?? false) {
-      _dio.interceptors.addAll(interceptors);
+    if (interceptors != null && interceptors!.isNotEmpty) {
+      _dio.interceptors.addAll(interceptors!);
     }
     if (kDebugMode) {
       _dio.interceptors.add(LogInterceptor(responseBody: true, error: true, requestHeader: false, responseHeader: false, request: false, requestBody: false));
@@ -49,10 +49,10 @@ class DioClient {
 
   Future<dynamic> get(
     String uri, {
-    Map<String, dynamic> queryParameters,
-    Options options,
-    CancelToken cancelToken,
-    ProgressCallback onReceiveProgress,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onReceiveProgress,
   }) async {
     try {
       var response = await _dio.get(
@@ -74,9 +74,9 @@ class DioClient {
 
   Future<dynamic> getUri(
     Uri uri, {
-    Options options,
-    CancelToken cancelToken,
-    ProgressCallback onReceiveProgress,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onReceiveProgress,
   }) async {
     CustomTrace programInfo = CustomTrace(StackTrace.current);
     try {
@@ -117,11 +117,11 @@ class DioClient {
   Future<dynamic> post(
     String uri, {
     data,
-    Map<String, dynamic> queryParameters,
-    Options options,
-    CancelToken cancelToken,
-    ProgressCallback onSendProgress,
-    ProgressCallback onReceiveProgress,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
   }) async {
     try {
       var response = await _dio.post(
@@ -144,10 +144,10 @@ class DioClient {
   Future<dynamic> postUri(
     Uri uri, {
     data,
-    Options options,
-    CancelToken cancelToken,
-    ProgressCallback onSendProgress,
-    ProgressCallback onReceiveProgress,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
   }) async {
     CustomTrace programInfo = CustomTrace(StackTrace.current);
     try {
@@ -174,11 +174,11 @@ class DioClient {
   Future<dynamic> put(
     String uri, {
     data,
-    Map<String, dynamic> queryParameters,
-    Options options,
-    CancelToken cancelToken,
-    ProgressCallback onSendProgress,
-    ProgressCallback onReceiveProgress,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
   }) async {
     try {
       var response = await _dio.put(
@@ -201,10 +201,10 @@ class DioClient {
   Future<dynamic> putUri(
     Uri uri, {
     data,
-    Options options,
-    CancelToken cancelToken,
-    ProgressCallback onSendProgress,
-    ProgressCallback onReceiveProgress,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
   }) async {
     CustomTrace programInfo = CustomTrace(StackTrace.current);
     try {
@@ -231,11 +231,11 @@ class DioClient {
   Future<dynamic> patch(
     String uri, {
     data,
-    Map<String, dynamic> queryParameters,
-    Options options,
-    CancelToken cancelToken,
-    ProgressCallback onSendProgress,
-    ProgressCallback onReceiveProgress,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
   }) async {
     try {
       var response = await _dio.patch(
@@ -258,10 +258,10 @@ class DioClient {
   Future<dynamic> patchUri(
     Uri uri, {
     data,
-    Options options,
-    CancelToken cancelToken,
-    ProgressCallback onSendProgress,
-    ProgressCallback onReceiveProgress,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
   }) async {
     CustomTrace programInfo = CustomTrace(StackTrace.current);
     try {
@@ -288,9 +288,9 @@ class DioClient {
   Future<dynamic> delete(
     String uri, {
     data,
-    Map<String, dynamic> queryParameters,
-    Options options,
-    CancelToken cancelToken,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
   }) async {
     try {
       var response = await _dio.delete(
@@ -311,8 +311,8 @@ class DioClient {
   Future<dynamic> deleteUri(
     Uri uri, {
     data,
-    Options options,
-    CancelToken cancelToken,
+    Options? options,
+    CancelToken? cancelToken,
   }) async {
     CustomTrace programInfo = CustomTrace(StackTrace.current);
     try {
@@ -334,12 +334,15 @@ class DioClient {
     }
   }
 
-  bool isLoading({String task, List<String> tasks}) {
+  bool isLoading({String? task, List<String>? tasks}) {
     //Get.log(_progress.toString());
     if (tasks != null) {
       return _progress.any((_task) => _progress.contains(_task));
     }
-    return _progress.contains(task);
+    if (task != null) {
+      return _progress.contains(task);
+    }
+    return false;
   }
 
   String _getTaskName(programInfo) {

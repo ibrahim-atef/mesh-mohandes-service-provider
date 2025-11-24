@@ -5,10 +5,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../search/controllers/search_controller.dart';
+import '../search/controllers/search_controller.dart' as search_controller;
 import 'circular_loading_widget.dart';
 
-class FilterBottomSheetWidget extends GetView<SearchController> {
+class FilterBottomSheetWidget extends GetView<search_controller.SearchController> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,7 +29,11 @@ class FilterBottomSheetWidget extends GetView<SearchController> {
               children: [
                 Obx(() {
                   if (controller.categories.isEmpty) {
-                    return CircularLoadingWidget(height: 100);
+                    return CircularLoadingWidget(
+                      height: 100,
+                      onComplete: (_) {},
+                      onCompleteText: '',
+                    );
                   }
                   return ExpansionTile(
                     title: Text("Categories".tr, style: Get.textTheme.bodyText2),
@@ -40,10 +44,12 @@ class FilterBottomSheetWidget extends GetView<SearchController> {
                           controlAffinity: ListTileControlAffinity.trailing,
                           value: controller.selectedCategories.contains(_category.id),
                           onChanged: (value) {
-                            controller.toggleCategory(value, _category);
+                            if (value != null) {
+                              controller.toggleCategory(value, _category);
+                            }
                           },
                           title: Text(
-                            _category.name,
+                            _category.name ?? '',
                             style: Get.textTheme.bodyText1,
                             overflow: TextOverflow.fade,
                             softWrap: false,

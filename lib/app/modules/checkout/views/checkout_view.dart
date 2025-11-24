@@ -36,7 +36,11 @@ class CheckoutView extends GetView<CheckoutController> {
           padding: EdgeInsets.symmetric(vertical: 10),
           child: Obx(() {
             if (controller.isLoading.isTrue) {
-              return CircularLoadingWidget(height: 200);
+              return CircularLoadingWidget(
+                height: 200,
+                onComplete: (_) {},
+                onCompleteText: '',
+              );
             }
             return Column(
               children: [
@@ -103,9 +107,9 @@ class CheckoutView extends GetView<CheckoutController> {
                     child: Text(
                       "Confirm & Pay Now".tr,
                       textAlign: TextAlign.center,
-                      style: Get.textTheme.headline6.merge(
+                      style: Get.textTheme.headline6?.merge(
                         TextStyle(color: Get.theme.primaryColor),
-                      ),
+                      ) ?? TextStyle(color: Get.theme.primaryColor),
                     ),
                   ),
                   Icon(Icons.arrow_forward_ios, color: Get.theme.primaryColor, size: 20)

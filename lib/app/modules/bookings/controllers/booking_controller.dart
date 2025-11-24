@@ -18,11 +18,11 @@ import '../../../services/global_service.dart';
 import '../../home/controllers/home_controller.dart';
 
 class BookingController extends GetxController {
-  BookingRepository _bookingRepository;
-  EProviderRepository _eProviderRepository;
-  PaymentRepository _paymentRepository;
+  late BookingRepository _bookingRepository;
+  late EProviderRepository _eProviderRepository;
+  late PaymentRepository _paymentRepository;
   final bookingStatuses = <BookingStatus>[].obs;
-  Timer timer;
+  Timer? timer;
   final booking = Booking().obs;
 
   BookingController() {
@@ -52,11 +52,13 @@ class BookingController extends GetxController {
 
   Future<void> getBooking() async {
     try {
-      booking.value = await _bookingRepository.get(booking.value.id);
-      if (booking.value.status == Get.find<HomeController>().getStatusByOrder(Get.find<GlobalService>().global.value.inProgress) && timer == null) {
+      booking.value = await _bookingRepository.get(booking.value.id ?? '');
+      if (booking.value.status != null && booking.value.status == Get.find<HomeController>().getStatusByOrder(Get.find<GlobalService>().global.value.inProgress) && timer == null) {
         timer = Timer.periodic(Duration(minutes: 1), (t) {
           booking.update((val) {
-            val.duration += (1 / 60);
+            if (val != null) {
+              val.duration = val.duration + (1 / 60);
+            }
           });
         });
       }
@@ -67,10 +69,12 @@ class BookingController extends GetxController {
 
   Future<void> changeBookingStatus(BookingStatus bookingStatus) async {
     try {
-      final _booking = new Booking(id: booking.value.id, status: bookingStatus);
+      final _booking = new Booking(id: booking.value.id ?? '', status: bookingStatus);
       await _bookingRepository.update(_booking);
       booking.update((val) {
-        val.status = bookingStatus;
+        if (val != null) {
+          val.status = bookingStatus;
+        }
       });
     } catch (e) {
       Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
@@ -78,7 +82,7 @@ class BookingController extends GetxController {
   }
 
   Future<void> acceptBookingService() async {
-    if (booking.value.status.order == Get.find<GlobalService>().global.value.received) {
+    if (booking.value.status?.order == Get.find<GlobalService>().global.value.received) {
       final _status = Get.find<HomeController>().getStatusByOrder(Get.find<GlobalService>().global.value.accepted);
       await changeBookingStatus(_status);
     }
@@ -97,11 +101,13 @@ class BookingController extends GetxController {
   Future<void> confirmPaymentBookingService() async {
     try {
       final _status = Get.find<HomeController>().getStatusByOrder(Get.find<GlobalService>().global.value.done);
-      final _payment = new Payment(id: booking.value.payment.id, paymentStatus: PaymentStatus(id: '2')); //Paid
+      final _payment = new Payment(id: booking.value.payment?.id ?? '', paymentStatus: PaymentStatus(id: '2')); //Paid
       final result = await _paymentRepository.update(_payment);
       booking.update((val) {
-        val.payment = result;
-        val.status = _status;
+        if (val != null) {
+          val.payment = result;
+          val.status = _status;
+        }
       });
       timer?.cancel();
     } catch (e) {
@@ -111,13 +117,15 @@ class BookingController extends GetxController {
 
   Future<void> declineBookingService() async {
     try {
-      if (booking.value.status.order < Get.find<GlobalService>().global.value.onTheWay) {
+      if ((booking.value.status?.order ?? 0) < Get.find<GlobalService>().global.value.onTheWay) {
         final _status = Get.find<HomeController>().getStatusByOrder(Get.find<GlobalService>().global.value.failed);
-        final _booking = new Booking(id: booking.value.id, cancel: true, status: _status);
+        final _booking = new Booking(id: booking.value.id ?? '', cancel: true, status: _status);
         await _bookingRepository.update(_booking);
         booking.update((val) {
-          val.cancel = true;
-          val.status = _status;
+          if (val != null) {
+            val.cancel = true;
+            val.status = _status;
+          }
         });
       }
     } catch (e) {
@@ -144,11 +152,11 @@ class BookingController extends GetxController {
   }
 
   Future<void> startChat() async {
-    List<User> _employees = await _eProviderRepository.getEmployees(booking.value.eProvider.id);
+    List<User> _employees = await _eProviderRepository.getEmployees(booking.value.eProvider?.id ?? '');
     _employees = _employees
         .map((e) {
-          if (booking.value.eProvider.images.isNotEmpty) {
-            e.avatar = booking.value.eProvider.images[0];
+          if ((booking.value.eProvider?.images.length ?? 0) > 0) {
+            e.avatar = booking.value.eProvider!.images[0];
           } else {
             e.avatar = new Media();
           }
@@ -156,8 +164,10 @@ class BookingController extends GetxController {
         })
         .toSet()
         .toList();
-    _employees.insert(0, booking.value.user);
-    Message _message = new Message(_employees, name: booking.value.eProvider.name);
+    if (booking.value.user != null) {
+      _employees.insert(0, booking.value.user!);
+    }
+    Message _message = new Message(_employees, name: booking.value.eProvider?.name ?? '');
     Get.toNamed(Routes.CHAT, arguments: _message);
   }
 }

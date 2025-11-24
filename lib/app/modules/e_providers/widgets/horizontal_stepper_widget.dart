@@ -5,15 +5,15 @@ import '../widgets/step_widget.dart';
 
 class HorizontalStepperWidget extends StatelessWidget {
   const HorizontalStepperWidget({
-    Key key,
-    this.steps,
+    Key? key,
+    required this.steps,
     this.padding,
     this.controller,
   }) : super(key: key);
 
   final List<StepWidget> steps;
-  final EdgeInsets padding;
-  final ScrollController controller;
+  final EdgeInsets? padding;
+  final ScrollController? controller;
 
   @override
   Widget build(BuildContext context) {

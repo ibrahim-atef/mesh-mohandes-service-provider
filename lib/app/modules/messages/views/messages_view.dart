@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -39,7 +38,8 @@ class MessagesView extends GetView<MessagesController> {
                   return MessageItemWidget(
                     message: controller.messages.elementAt(index),
                     onDismissed: (conversation) async {
-                      await controller.deleteMessage(controller.messages.elementAt(index));
+                      await controller
+                          .deleteMessage(controller.messages.elementAt(index));
                     },
                   );
                 }
@@ -47,6 +47,7 @@ class MessagesView extends GetView<MessagesController> {
         } else {
           return CircularLoadingWidget(
             height: Get.height,
+            onComplete: (v) {},
             onCompleteText: "Messages List Empty".tr,
           );
         }
@@ -60,7 +61,7 @@ class MessagesView extends GetView<MessagesController> {
       appBar: AppBar(
         title: Text(
           "Chats".tr,
-          style: Get.textTheme.headline6,
+          style: Get.textTheme.titleLarge,
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -75,7 +76,7 @@ class MessagesView extends GetView<MessagesController> {
       body: RefreshIndicator(
           onRefresh: () async {
             controller.messages.clear();
-            controller.lastDocument = new Rx<DocumentSnapshot>(null);
+            controller.lastDocument.value = null;
             await controller.listenForMessages();
           },
           child: conversationsList()),

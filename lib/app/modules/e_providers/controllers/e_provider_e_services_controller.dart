@@ -15,7 +15,7 @@ class EProviderEServicesController extends GetxController {
   final page = 0.obs;
   final isLoading = true.obs;
   final isDone = false.obs;
-  EProviderRepository _eProviderRepository;
+  late EProviderRepository _eProviderRepository;
   ScrollController scrollController = ScrollController();
 
   EProviderEServicesController() {
@@ -39,7 +39,7 @@ class EProviderEServicesController extends GetxController {
     scrollController.dispose();
   }
 
-  Future refreshEServices({bool showMessage}) async {
+  Future refreshEServices({bool? showMessage}) async {
     toggleSelected(selected.value);
     await loadEServicesOfCategory(filter: selected.value);
     if (showMessage == true) {
@@ -59,7 +59,7 @@ class EProviderEServicesController extends GetxController {
     }
   }
 
-  Future loadEServicesOfCategory({CategoryFilter filter}) async {
+  Future loadEServicesOfCategory({CategoryFilter? filter}) async {
     try {
       isLoading.value = true;
       isDone.value = false;

@@ -6,7 +6,7 @@ import '../../global_widgets/block_button_widget.dart';
 
 class EProvidersEmptyListWidget extends StatelessWidget {
   const EProvidersEmptyListWidget({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -73,7 +73,7 @@ class EProvidersEmptyListWidget extends StatelessWidget {
           color: Get.theme.colorScheme.secondary,
           text: Text(
             "Become a Service Provider".tr,
-            style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.primaryColor)),
+            style: Get.textTheme.headline6?.merge(TextStyle(color: Get.theme.primaryColor)),
           ).paddingSymmetric(horizontal: 20, vertical: 3),
           onPressed: () => {Get.offAndToNamed(Routes.E_PROVIDER_ADDRESSES_FORM)},
         ),

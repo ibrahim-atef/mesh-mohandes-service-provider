@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ConfirmDialog<V> extends StatefulWidget {
-  ConfirmDialog({Key key, this.content, this.title, this.submitText, this.cancelText}) : super(key: key);
+  ConfirmDialog({Key? key, required this.content, required this.title, required this.submitText, required this.cancelText}) : super(key: key);
 
   final String title;
   final String content;
@@ -25,21 +25,21 @@ class _ConfirmDialogState<V> extends State<ConfirmDialog<V>> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(widget.title ?? "Confirm".tr),
+      title: Text(widget.title.isNotEmpty ? widget.title : "Confirm".tr),
       contentPadding: EdgeInsets.only(top: 12.0),
       content: Padding(
         padding: EdgeInsetsDirectional.only(start: 24.0, end: 20.0, top: 12.0, bottom: 12.0),
-        child: Text(widget.content ?? "Are you sure?".tr, style: Get.textTheme.bodyText2),
+        child: Text(widget.content.isNotEmpty ? widget.content : "Are you sure?".tr, style: Get.textTheme.bodyText2),
       ),
       actions: <Widget>[
         MaterialButton(
           elevation: 0,
-          child: Text(widget.cancelText ?? ""),
+          child: Text(widget.cancelText),
           onPressed: _onCancelTap,
         ),
         MaterialButton(
           elevation: 0,
-          child: Text(widget.submitText ?? ""),
+          child: Text(widget.submitText),
           onPressed: _onSubmitTap,
         )
       ],

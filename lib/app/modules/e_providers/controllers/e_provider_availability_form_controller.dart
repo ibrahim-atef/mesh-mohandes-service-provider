@@ -13,7 +13,7 @@ class EProviderAvailabilityFormController extends GetxController {
   final availabilityHour = AvailabilityHour().obs;
   GlobalKey<FormState> eProviderAvailabilityForm = new GlobalKey<FormState>();
   ScrollController scrollController = ScrollController();
-  EProviderRepository _eProviderRepository;
+  late EProviderRepository _eProviderRepository;
 
   EProviderAvailabilityFormController() {
     _eProviderRepository = new EProviderRepository();
@@ -21,7 +21,7 @@ class EProviderAvailabilityFormController extends GetxController {
 
   @override
   void onInit() async {
-    var arguments = Get.arguments as Map<String, dynamic>;
+    var arguments = Get.arguments as Map<String, dynamic>?;
     if (arguments != null) {
       eProvider.value = arguments['eProvider'] as EProvider;
     }
@@ -46,15 +46,18 @@ class EProviderAvailabilityFormController extends GetxController {
     await getEProvider();
     getDays();
     if (showMessage) {
-      Get.showSnackbar(Ui.SuccessSnackBar(message: eProvider.value.name + " " + "page refreshed successfully".tr));
+      Get.showSnackbar(Ui.SuccessSnackBar(message: (eProvider.value.name ?? '') + " " + "page refreshed successfully".tr));
     }
   }
 
   Future getEProvider() async {
     if (eProvider.value.hasData) {
       try {
-        eProvider.value = await _eProviderRepository.get(eProvider.value.id);
-        availabilityHour.value.eProvider = eProvider.value;
+        String? id = eProvider.value.id;
+        if (id != null) {
+          eProvider.value = await _eProviderRepository.get(id);
+          availabilityHour.value.eProvider = eProvider.value;
+        }
       } catch (e) {
         Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
       }
@@ -74,18 +77,20 @@ class EProviderAvailabilityFormController extends GetxController {
   }
 
   void createAvailabilityHour() async {
-    Get.focusScope.unfocus();
-    if (eProviderAvailabilityForm.currentState.validate()) {
+    Get.focusScope?.unfocus();
+    if (eProviderAvailabilityForm.currentState?.validate() ?? false) {
       try {
-        eProviderAvailabilityForm.currentState.save();
+        eProviderAvailabilityForm.currentState?.save();
         scrollController.animateTo(0, duration: Duration(milliseconds: 500), curve: Curves.ease);
         final _availabilityHour = await _eProviderRepository.createAvailabilityHour(this.availabilityHour.value);
         eProvider.update((val) {
-          val.availabilityHours.insert(0, _availabilityHour);
-          return val;
+          if (val != null) {
+            val.availabilityHours ??= <AvailabilityHour>[];
+            val.availabilityHours!.insert(0, _availabilityHour);
+          }
         });
         availabilityHour.value = AvailabilityHour(eProvider: availabilityHour.value.eProvider);
-        eProviderAvailabilityForm.currentState.reset();
+        eProviderAvailabilityForm.currentState?.reset();
       } catch (e) {
         Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
       } finally {}
@@ -105,8 +110,9 @@ class EProviderAvailabilityFormController extends GetxController {
     try {
       availabilityHour = await _eProviderRepository.deleteAvailabilityHour(availabilityHour);
       eProvider.update((val) {
-        val.availabilityHours.removeWhere((element) => element.id == availabilityHour.id);
-        return val;
+        if (val != null) {
+          val.availabilityHours?.removeWhere((element) => element.id == availabilityHour.id);
+        }
       });
     } catch (e) {
       Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));

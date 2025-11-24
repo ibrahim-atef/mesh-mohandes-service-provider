@@ -8,32 +8,38 @@ import '../services/global_service.dart';
 import 'parents/model.dart';
 
 class Media extends Model {
-  String id;
-  String name;
-  String url;
-  String thumb;
-  String icon;
-  String size;
+  @override
+  String? id;
+  late String name;
+  late String url;
+  late String thumb;
+  late String icon;
+  late String size;
 
-  Media({String id, String url, String thumb, String icon}) {
+  Media({String? id, String? url, String? thumb, String? icon}) {
     this.id = id ?? "";
+    this.name = "";
     this.url = url ?? "${Get.find<GlobalService>().baseUrl}images/image_default.png";
     this.thumb = thumb ?? "${Get.find<GlobalService>().baseUrl}images/image_default.png";
     this.icon = icon ?? "${Get.find<GlobalService>().baseUrl}images/image_default.png";
+    this.size = "";
   }
 
   Media.fromJson(Map<String, dynamic> jsonMap) {
     try {
-      id = jsonMap['id'].toString();
-      name = jsonMap['name'];
-      url = jsonMap['url'];
-      thumb = jsonMap['thumb'];
-      icon = jsonMap['icon'];
-      size = jsonMap['formatted_size'];
+      id = jsonMap['id']?.toString() ?? "";
+      name = jsonMap['name']?.toString() ?? "";
+      url = jsonMap['url']?.toString() ?? "${Get.find<GlobalService>().baseUrl}images/image_default.png";
+      thumb = jsonMap['thumb']?.toString() ?? "${Get.find<GlobalService>().baseUrl}images/image_default.png";
+      icon = jsonMap['icon']?.toString() ?? "${Get.find<GlobalService>().baseUrl}images/image_default.png";
+      size = jsonMap['formatted_size']?.toString() ?? "";
     } catch (e) {
+      id = "";
+      name = "";
       url = "${Get.find<GlobalService>().baseUrl}images/image_default.png";
       thumb = "${Get.find<GlobalService>().baseUrl}images/image_default.png";
       icon = "${Get.find<GlobalService>().baseUrl}images/image_default.png";
+      size = "";
       print(e);
     }
   }
@@ -50,7 +56,7 @@ class Media extends Model {
   }
 
   @override
-  bool operator ==(Object other) =>
+  bool operator ==(dynamic other) =>
       identical(this, other) ||
       super == other &&
           other is Media &&

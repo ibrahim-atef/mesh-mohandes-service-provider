@@ -9,13 +9,15 @@ import 'search_services_list_item_widget.dart';
 class SearchServicesListWidget extends StatelessWidget {
   final List<EService> services;
 
-  SearchServicesListWidget({Key key, List<EService> this.services}) : super(key: key);
+  SearchServicesListWidget({Key? key, required List<EService> this.services})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       if (this.services.isEmpty) {
-        return CircularLoadingWidget(height: 300);
+        return CircularLoadingWidget(
+            height: 300, onComplete: (v) {}, onCompleteText: '');
       } else {
         return ListView.builder(
           padding: EdgeInsets.only(bottom: 10, top: 10),

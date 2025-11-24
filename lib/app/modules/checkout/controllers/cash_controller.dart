@@ -7,7 +7,7 @@ import '../../../repositories/subscription_repository.dart';
 class CashController extends GetxController {
   final eProviderSubscription = new EProviderSubscription().obs;
 
-  SubscriptionRepository _subscriptionRepository;
+  late SubscriptionRepository _subscriptionRepository;
 
   CashController() {
     _subscriptionRepository = new SubscriptionRepository();
@@ -29,23 +29,20 @@ class CashController extends GetxController {
   }
 
   bool isLoading() {
-    if (eProviderSubscription.value != null && !eProviderSubscription.value.hasData) {
+    if (!eProviderSubscription.value.hasData) {
       return true;
     }
     return false;
   }
 
   bool isDone() {
-    if (eProviderSubscription.value != null && eProviderSubscription.value.hasData) {
+    if (eProviderSubscription.value.hasData) {
       return true;
     }
     return false;
   }
 
   bool isFailed() {
-    if (eProviderSubscription.value == null) {
-      return true;
-    }
     return false;
   }
 }

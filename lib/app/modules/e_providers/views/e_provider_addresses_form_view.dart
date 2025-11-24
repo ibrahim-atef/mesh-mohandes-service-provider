@@ -64,7 +64,7 @@ class EProviderAddressesFormView extends GetView<EProviderAddressesFormControlle
                     disabledElevation: 0,
                     disabledColor: Get.theme.focusColor,
                     color: Get.theme.colorScheme.secondary,
-                    child: Text("Save & Next".tr, style: Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.primaryColor))),
+                    child: Text("Save & Next".tr, style: Get.textTheme.bodyText2?.merge(TextStyle(color: Get.theme.primaryColor))),
                     elevation: 0,
                   );
                 }),
@@ -112,7 +112,7 @@ class EProviderAddressesFormView extends GetView<EProviderAddressesFormControlle
                 child: (controller.addresses.isEmpty)
                     ? Shimmer.fromColors(
                         baseColor: Colors.grey.withOpacity(0.15),
-                        highlightColor: Colors.grey[200].withOpacity(0.1),
+                        highlightColor: (Colors.grey[200] ?? Colors.grey).withOpacity(0.1),
                         child: Container(
                           width: double.infinity,
                           height: 220,
@@ -158,7 +158,9 @@ class EProviderAddressesFormView extends GetView<EProviderAddressesFormControlle
                                           ),
                                           value: controller.eProvider.value?.addresses?.contains(_address) ?? false,
                                           onChanged: (value) {
-                                            controller.toggleAddress(value, _address);
+                                            if (value != null) {
+                                              controller.toggleAddress(value, _address);
+                                            }
                                           },
                                         ),
                                       );
@@ -170,7 +172,7 @@ class EProviderAddressesFormView extends GetView<EProviderAddressesFormControlle
                                         children: [
                                           Text(_address.getDescription, style: Get.textTheme.subtitle2),
                                           SizedBox(height: 5),
-                                          Text(_address.address, style: Get.textTheme.caption),
+                                          Text(_address.address ?? '', style: Get.textTheme.caption),
                                         ],
                                       ),
                                     ),
@@ -201,7 +203,7 @@ class EProviderAddressesFormView extends GetView<EProviderAddressesFormControlle
                                                 cancelText: "Cancel".tr);
                                           },
                                         );
-                                        if (confirm && _address.hasData) {
+                                        if (confirm == true && _address.hasData) {
                                           await controller.deleteAddress(_address);
                                         }
                                       },

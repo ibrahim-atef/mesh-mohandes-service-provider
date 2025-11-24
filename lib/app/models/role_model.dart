@@ -1,11 +1,11 @@
 import 'parents/model.dart';
 
 class Role extends Model {
-  String id;
-  String name;
-  bool isdDefault;
+  String? id;
+  String? name;
+  late bool isdDefault;
 
-  Role({this.id, this.name, this.isdDefault});
+  Role({this.id, this.name, bool? isdDefault}) : isdDefault = isdDefault ?? false;
 
   Role.fromJson(Map<String, dynamic> json) {
     super.fromJson(json);
@@ -23,7 +23,7 @@ class Role extends Model {
   }
 
   @override
-  bool operator ==(Object other) =>
+  bool operator ==(dynamic other) =>
       identical(this, other) || super == other && other is Role && runtimeType == other.runtimeType && id == other.id && name == other.name && isdDefault == other.isdDefault;
 
   @override

@@ -1,14 +1,14 @@
 class CustomTrace {
   final StackTrace _trace;
 
-  String fileName;
-  String functionName;
-  String callerFunctionName;
+  late String fileName;
+  late String functionName;
+  late String callerFunctionName;
   String message;
-  int lineNumber;
-  int columnNumber;
+  late int lineNumber;
+  late int columnNumber;
 
-  CustomTrace(this._trace, {this.message}) {
+  CustomTrace(this._trace, {this.message = ''}) {
     _parseTrace();
   }
 
@@ -41,10 +41,10 @@ class CustomTrace {
     var frames = this._trace.toString().split("\n");
 
     /* The first frame is the current function */
-    this.functionName = _getFunctionNameFromFrame(frames[0]);
+    this.functionName = frames.isNotEmpty ? _getFunctionNameFromFrame(frames[0]) : '';
 
     /* The second frame is the caller function */
-    this.callerFunctionName = _getFunctionNameFromFrame(frames[1]);
+    this.callerFunctionName = frames.length > 1 ? _getFunctionNameFromFrame(frames[1]) : '';
 
     /* The first frame has all the information we need */
     var traceString = frames[0];
@@ -64,11 +64,15 @@ class CustomTrace {
     */
     try {
       this.fileName = listOfInfos[0];
-      this.lineNumber = int.tryParse(listOfInfos[1]);
+      this.lineNumber = int.tryParse(listOfInfos[1]) ?? 0;
       var columnStr = listOfInfos[2];
       columnStr = columnStr.replaceFirst(")", "");
-      this.columnNumber = int.tryParse(columnStr);
-    } catch (e) {}
+      this.columnNumber = int.tryParse(columnStr) ?? 0;
+    } catch (e) {
+      this.fileName = '';
+      this.lineNumber = 0;
+      this.columnNumber = 0;
+    }
   }
 
   @override

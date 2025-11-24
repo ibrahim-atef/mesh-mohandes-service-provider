@@ -8,7 +8,7 @@ import '../../root/controllers/root_controller.dart';
 
 class CustomPageDrawerLinkWidget extends GetView<RootController> {
   const CustomPageDrawerLinkWidget({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -22,7 +22,7 @@ class CustomPageDrawerLinkWidget extends GetView<RootController> {
           var _page = controller.customPages.elementAt(index);
           return DrawerLinkWidget(
             icon: getDrawerLinkIcon(_page),
-            text: _page.title,
+            text: _page.title ?? '',
             onTap: (e) async {
               //print(_page.id);
               await Get.offAndToNamed(Routes.CUSTOM_PAGES, arguments: _page);

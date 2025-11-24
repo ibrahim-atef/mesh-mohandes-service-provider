@@ -7,7 +7,7 @@ import '../../../common/ui.dart';
 import '../media_model.dart';
 
 abstract class Model {
-  String id;
+  String? id;
 
   bool get hasData => id != null;
 
@@ -17,6 +17,7 @@ abstract class Model {
 
   @override
   bool operator ==(dynamic other) {
+    if (other is! Model) return false;
     return other.id == this.id;
   }
 
@@ -58,11 +59,11 @@ abstract class Model {
     }
   }
 
-  String transStringFromJson(Map<String, dynamic> json, String attribute, {String defaultValue = '', String defaultLocale}) {
+  String transStringFromJson(Map<String, dynamic> json, String attribute, {String defaultValue = '', String? defaultLocale}) {
     try {
       if (json != null && json[attribute] != null) {
         if (json[attribute] is Map<String, dynamic>) {
-          var json2 = json[attribute][defaultLocale ?? Get.locale.languageCode];
+          var json2 = json[attribute][defaultLocale ?? Get.locale?.languageCode];
           if (json2 == null) {
             var languageCode2 = 'en';
             if (json[attribute][languageCode2] != null && json[attribute][languageCode2] != 'null')
@@ -86,7 +87,7 @@ abstract class Model {
     }
   }
 
-  DateTime dateFromJson(Map<String, dynamic> json, String attribute, {DateTime defaultValue}) {
+  DateTime? dateFromJson(Map<String, dynamic> json, String attribute, {DateTime? defaultValue}) {
     try {
       return json != null
           ? json[attribute] != null
@@ -98,7 +99,7 @@ abstract class Model {
     }
   }
 
-  dynamic mapFromJson(Map<String, dynamic> json, String attribute, {Map<dynamic, dynamic> defaultValue}) {
+  dynamic mapFromJson(Map<String, dynamic> json, String attribute, {Map<dynamic, dynamic>? defaultValue}) {
     try {
       return json != null
           ? json[attribute] != null
@@ -124,18 +125,23 @@ abstract class Model {
     }
   }
 
-  double doubleFromJson(Map<String, dynamic> json, String attribute, {int decimal = 2, double defaultValue = 0.0}) {
+  double doubleFromJson(Map<String, dynamic> json, String attribute, {int decimal = 2, double? defaultValue}) {
     try {
       if (json != null && json[attribute] != null) {
+        double? parsed;
         if (json[attribute] is double) {
-          return double.tryParse(json[attribute].toStringAsFixed(decimal));
+          parsed = json[attribute] as double;
+        } else if (json[attribute] is int) {
+          parsed = (json[attribute] as int).toDouble();
+        } else {
+          parsed = double.tryParse(json[attribute].toString());
         }
-        if (json[attribute] is int) {
-          return double.tryParse(json[attribute].toDouble().toStringAsFixed(decimal));
+        if (parsed != null) {
+          return double.parse(parsed.toStringAsFixed(decimal));
         }
-        return double.tryParse(double.tryParse(json[attribute]).toStringAsFixed(decimal));
+        return defaultValue ?? 0.0;
       }
-      return defaultValue;
+      return defaultValue ?? 0.0;
     } catch (e) {
       throw Exception('Error while parsing ' + attribute + '[' + e.toString() + ']');
     }
@@ -184,8 +190,21 @@ abstract class Model {
   }
 
   List<T> listFromJsonArray<T>(Map<String, dynamic> json, List<String> attribute, T Function(Map<String, dynamic>) callback) {
-    String _attribute = attribute.firstWhere((element) => (json[element] != null), orElse: () => null);
-    return listFromJson(json, _attribute, callback);
+    try {
+      String? _attribute;
+      for (var attr in attribute) {
+        if (json[attr] != null) {
+          _attribute = attr;
+          break;
+        }
+      }
+      if (_attribute == null) {
+        return <T>[];
+      }
+      return listFromJson(json, _attribute, callback);
+    } catch (e) {
+      return <T>[];
+    }
   }
 
   List<T> listFromJson<T>(Map<String, dynamic> json, String attribute, T Function(Map<String, dynamic>) callback) {
@@ -204,7 +223,7 @@ abstract class Model {
     }
   }
 
-  T objectFromJson<T>(Map<String, dynamic> json, String attribute, T Function(Map<String, dynamic>) callback, {T defaultValue = null}) {
+  T? objectFromJson<T>(Map<String, dynamic> json, String attribute, T Function(Map<String, dynamic>) callback, {T? defaultValue}) {
     try {
       if (json != null && json[attribute] != null && json[attribute] is Map<String, dynamic>) {
         return callback(json[attribute]);

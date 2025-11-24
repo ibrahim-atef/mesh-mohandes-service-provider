@@ -5,13 +5,13 @@ import '../models/booking_status_model.dart';
 import '../providers/laravel_provider.dart';
 
 class BookingRepository {
-  LaravelApiClient _laravelApiClient;
+  late LaravelApiClient _laravelApiClient;
 
   BookingRepository() {
     this._laravelApiClient = Get.find<LaravelApiClient>();
   }
 
-  Future<List<Booking>> all(String statusId, {int page}) {
+  Future<List<Booking>> all(String statusId, {int page = 1}) {
     return _laravelApiClient.getBookings(statusId, page);
   }
 

@@ -1,42 +1,42 @@
 import 'parents/model.dart';
 
 class Setting extends Model {
-  String appName;
-  String providerAppName;
-  bool enableStripe;
-  String defaultTax;
-  String defaultCurrency;
-  String fcmKey;
-  bool enablePaypal;
-  String defaultTheme;
-  String mainColor;
-  String mainDarkColor;
-  String secondColor;
-  String secondDarkColor;
-  String accentColor;
-  String accentDarkColor;
-  String scaffoldDarkColor;
-  String scaffoldColor;
-  String googleMapsKey;
-  String mobileLanguage;
-  String defaultCountryCode;
-  String appVersion;
-  bool enableVersion;
-  bool currencyRight;
-  int defaultCurrencyDecimalDigits;
-  bool enableRazorpay;
-  String distanceUnit;
-  bool enableOtp;
-  List modules;
+  String? appName;
+  String? providerAppName;
+  late bool enableStripe;
+  String? defaultTax;
+  String? defaultCurrency;
+  String? fcmKey;
+  late bool enablePaypal;
+  String? defaultTheme;
+  String? mainColor;
+  String? mainDarkColor;
+  String? secondColor;
+  String? secondDarkColor;
+  String? accentColor;
+  String? accentDarkColor;
+  String? scaffoldDarkColor;
+  String? scaffoldColor;
+  String? googleMapsKey;
+  String? mobileLanguage;
+  String? defaultCountryCode;
+  String? appVersion;
+  late bool enableVersion;
+  late bool currencyRight;
+  late int defaultCurrencyDecimalDigits;
+  late bool enableRazorpay;
+  String? distanceUnit;
+  late bool enableOtp;
+  List? modules;
 
   Setting(
       {this.appName,
       this.providerAppName,
-      this.enableStripe,
+      bool? enableStripe,
       this.defaultTax,
       this.defaultCurrency,
       this.fcmKey,
-      this.enablePaypal,
+      bool? enablePaypal,
       this.mainColor,
       this.mainDarkColor,
       this.secondColor,
@@ -49,13 +49,21 @@ class Setting extends Model {
       this.mobileLanguage,
       this.defaultCountryCode,
       this.appVersion,
-      this.enableVersion,
-      this.currencyRight,
-      this.defaultCurrencyDecimalDigits,
-      this.enableRazorpay,
+      bool? enableVersion,
+      bool? currencyRight,
+      int? defaultCurrencyDecimalDigits,
+      bool? enableRazorpay,
       this.distanceUnit,
-      this.enableOtp,
-      this.modules});
+      bool? enableOtp,
+      this.modules,
+      this.defaultTheme})
+    : enableStripe = enableStripe ?? false,
+      enablePaypal = enablePaypal ?? false,
+      enableVersion = enableVersion ?? false,
+      currencyRight = currencyRight ?? false,
+      defaultCurrencyDecimalDigits = defaultCurrencyDecimalDigits ?? 2,
+      enableRazorpay = enableRazorpay ?? false,
+      enableOtp = enableOtp ?? false;
 
   Setting.fromJson(Map<String, dynamic> json) {
     appName = this.stringFromJson(json, 'app_name');

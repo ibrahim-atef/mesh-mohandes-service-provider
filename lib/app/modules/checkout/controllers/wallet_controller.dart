@@ -9,7 +9,7 @@ class WalletController extends GetxController {
   final eProviderSubscription = new EProviderSubscription().obs;
   final wallet = new Wallet().obs;
 
-  SubscriptionRepository _subscriptionRepository;
+  late SubscriptionRepository _subscriptionRepository;
 
   WalletController() {
     _subscriptionRepository = new SubscriptionRepository();
@@ -32,23 +32,20 @@ class WalletController extends GetxController {
   }
 
   bool isLoading() {
-    if (eProviderSubscription.value != null && !eProviderSubscription.value.hasData) {
+    if (!eProviderSubscription.value.hasData) {
       return true;
     }
     return false;
   }
 
   bool isDone() {
-    if (eProviderSubscription.value != null && eProviderSubscription.value.hasData) {
+    if (eProviderSubscription.value.hasData) {
       return true;
     }
     return false;
   }
 
   bool isFailed() {
-    if (eProviderSubscription.value == null) {
-      return true;
-    }
     return false;
   }
 }

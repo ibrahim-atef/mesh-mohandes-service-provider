@@ -6,11 +6,11 @@ import '../../../../common/ui.dart';
 import '../../../models/notification_model.dart' as model;
 
 class NotificationItemWidget extends StatelessWidget {
-  NotificationItemWidget({Key key, this.notification, this.onDismissed, this.onTap, this.icon}) : super(key: key);
+  NotificationItemWidget({Key? key, required this.notification, required this.onDismissed, required this.onTap, this.icon}) : super(key: key);
   final model.Notification notification;
   final ValueChanged<model.Notification> onDismissed;
   final ValueChanged<model.Notification> onTap;
-  final Widget icon;
+  final Widget? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -103,10 +103,10 @@ class NotificationItemWidget extends StatelessWidget {
                       this.notification.getMessage(),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 3,
-                      style: Get.textTheme.bodyText1.merge(TextStyle(fontWeight: notification.read ? FontWeight.w300 : FontWeight.w600)),
+                      style: Get.textTheme.bodyText1?.merge(TextStyle(fontWeight: notification.read ? FontWeight.w300 : FontWeight.w600)) ?? TextStyle(fontWeight: notification.read ? FontWeight.w300 : FontWeight.w600),
                     ),
                     Text(
-                      DateFormat('d, MMMM y | HH:mm', Get.locale.toString()).format(this.notification.createdAt),
+                      DateFormat('d, MMMM y | HH:mm', Get.locale.toString()).format(this.notification.createdAt ?? DateTime.now()),
                       style: Get.textTheme.caption,
                     )
                   ],

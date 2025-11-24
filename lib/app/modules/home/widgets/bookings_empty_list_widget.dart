@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 class BookingsEmptyListWidget extends StatelessWidget {
   const BookingsEmptyListWidget({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

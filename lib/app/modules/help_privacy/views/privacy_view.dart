@@ -24,11 +24,13 @@ class PrivacyView extends GetView<PrivacyController> {
           ),
         ),
         body: RefreshIndicator(
-          onRefresh: () async {},
-          child: WebView(
-              initialUrl: "${Get.find<GlobalService>().baseUrl}privacy/index.html",
-              // initialUrl: "http://handyman.smartersvision.com/mock/privacy/",
-              javascriptMode: JavascriptMode.unrestricted),
+          onRefresh: () async {
+            controller.webViewController.reload();
+          },
+          child: WebViewWidget(
+            controller: controller.webViewController
+              ..loadRequest(Uri.parse("${Get.find<GlobalService>().baseUrl}privacy/index.html")),
+          ),
         ));
   }
 }

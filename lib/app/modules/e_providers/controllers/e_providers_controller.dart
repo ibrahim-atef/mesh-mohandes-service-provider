@@ -14,7 +14,7 @@ class EProvidersController extends GetxController {
   final isLoading = true.obs;
   final isDone = false.obs;
 
-  EProviderRepository _eProviderRepository;
+  late EProviderRepository _eProviderRepository;
   ScrollController scrollController = ScrollController();
 
   EProvidersController() {
@@ -37,7 +37,7 @@ class EProvidersController extends GetxController {
     scrollController.dispose();
   }
 
-  Future refreshEProviders({bool showMessage}) async {
+  Future refreshEProviders({bool? showMessage}) async {
     toggleSelected(selected.value);
     await loadEProvidersOfFilter(filter: selected.value);
     if (showMessage == true) {
@@ -57,7 +57,7 @@ class EProvidersController extends GetxController {
     }
   }
 
-  Future loadEProvidersOfFilter({EProviderFilter filter}) async {
+  Future loadEProvidersOfFilter({EProviderFilter? filter}) async {
     try {
       isLoading.value = true;
       isDone.value = false;
@@ -96,7 +96,7 @@ class EProvidersController extends GetxController {
     try {
       await _eProviderRepository.delete(eProvider);
       eProviders.remove(eProvider);
-      Get.showSnackbar(Ui.SuccessSnackBar(message: eProvider.name + " " + "has been removed".tr));
+      Get.showSnackbar(Ui.SuccessSnackBar(message: (eProvider.name ?? '') + " " + "has been removed".tr));
     } catch (e) {
       Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
     }

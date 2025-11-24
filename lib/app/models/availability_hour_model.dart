@@ -8,21 +8,21 @@ import 'e_provider_model.dart';
 import 'parents/model.dart';
 
 class AvailabilityHour extends Model {
-  String id;
-  String day;
-  String startAt;
-  String endAt;
-  String data;
-  EProvider eProvider;
+  String? id;
+  String? day;
+  String? startAt;
+  String? endAt;
+  late String data;
+  EProvider? eProvider;
 
-  AvailabilityHour({this.id, this.day, this.startAt, this.endAt, this.data, this.eProvider});
+  AvailabilityHour({this.id, this.day, this.startAt, this.endAt, String? data, this.eProvider}) : data = data ?? '';
 
   AvailabilityHour.fromJson(Map<String, dynamic> json) {
     super.fromJson(json);
     day = stringFromJson(json, 'day');
     startAt = stringFromJson(json, 'start_at');
     endAt = stringFromJson(json, 'end_at');
-    data = transStringFromJson(json, 'data');
+    data = transStringFromJson(json, 'data', defaultValue: '');
     eProvider = objectFromJson(json, 'e_provider', (value) => EProvider.fromJson(value));
   }
 
@@ -32,17 +32,17 @@ class AvailabilityHour extends Model {
     if (day != null) data['day'] = this.day;
     if (startAt != null) data['start_at'] = this.startAt;
     if (endAt != null) data['end_at'] = this.endAt;
-    if (data != null) data['data'] = this.data;
-    if (this.eProvider != null) data['e_provider_id'] = this.eProvider.id;
+    data['data'] = this.data;
+    if (this.eProvider != null) data['e_provider_id'] = this.eProvider!.id;
     return data;
   }
 
   String toDuration() {
-    return '$startAt - $endAt';
+    return '${startAt ?? ''} - ${endAt ?? ''}';
   }
 
   @override
-  bool operator ==(Object other) =>
+  bool operator ==(dynamic other) =>
       identical(this, other) ||
       super == other &&
           other is AvailabilityHour &&

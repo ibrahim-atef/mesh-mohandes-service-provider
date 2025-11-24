@@ -1,11 +1,11 @@
 import 'parents/model.dart';
 
 class PaymentStatus extends Model {
-  String id;
-  String status;
-  int order;
+  String? id;
+  String? status;
+  late int order;
 
-  PaymentStatus({this.id, this.status, this.order});
+  PaymentStatus({this.id, this.status, int? order}) : order = order ?? 0;
 
   PaymentStatus.fromJson(Map<String, dynamic> json) {
     super.fromJson(json);

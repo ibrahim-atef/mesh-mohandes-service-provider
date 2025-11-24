@@ -14,7 +14,7 @@ import '../models/user_model.dart';
 import '../providers/laravel_provider.dart';
 
 class EProviderRepository {
-  LaravelApiClient _laravelApiClient;
+  late LaravelApiClient _laravelApiClient;
 
   EProviderRepository() {
     this._laravelApiClient = Get.find<LaravelApiClient>();
@@ -25,7 +25,7 @@ class EProviderRepository {
   }
 
   Future<List<EProvider>> getAll() {
-    return _laravelApiClient.getEProviders(null);
+    return _laravelApiClient.getEProviders(1);
   }
 
   Future<List<Review>> getReviews(String userId) {
@@ -48,8 +48,8 @@ class EProviderRepository {
     return _laravelApiClient.getEProviderExperiences(eProviderId);
   }
 
-  Future<List<EService>> getEServices({String eProviderId, int page}) {
-    return _laravelApiClient.getEProviderEServices(eProviderId, page);
+  Future<List<EService>> getEServices({String? eProviderId, int? page}) {
+    return _laravelApiClient.getEProviderEServices(eProviderId ?? '', page ?? 1);
   }
 
   Future<List<User>> getAllEmployees() {
@@ -64,24 +64,24 @@ class EProviderRepository {
     return _laravelApiClient.getEProviderEmployees(eProviderId);
   }
 
-  Future<List<EService>> getPopularEServices({String eProviderId, int page}) {
-    return _laravelApiClient.getEProviderPopularEServices(eProviderId, page);
+  Future<List<EService>> getPopularEServices({String? eProviderId, int? page}) {
+    return _laravelApiClient.getEProviderPopularEServices(eProviderId ?? '', page ?? 1);
   }
 
-  Future<List<EService>> getMostRatedEServices({String eProviderId, int page}) {
-    return _laravelApiClient.getEProviderMostRatedEServices(eProviderId, page);
+  Future<List<EService>> getMostRatedEServices({String? eProviderId, int? page}) {
+    return _laravelApiClient.getEProviderMostRatedEServices(eProviderId ?? '', page ?? 1);
   }
 
-  Future<List<EService>> getAvailableEServices({String eProviderId, int page}) {
-    return _laravelApiClient.getEProviderAvailableEServices(eProviderId, page);
+  Future<List<EService>> getAvailableEServices({String? eProviderId, int? page}) {
+    return _laravelApiClient.getEProviderAvailableEServices(eProviderId ?? '', page ?? 1);
   }
 
-  Future<List<EService>> getFeaturedEServices({String eProviderId, int page}) {
-    return _laravelApiClient.getEProviderFeaturedEServices(eProviderId, page);
+  Future<List<EService>> getFeaturedEServices({String? eProviderId, int? page}) {
+    return _laravelApiClient.getEProviderFeaturedEServices(eProviderId ?? '', page ?? 1);
   }
 
-  Future<List<EProvider>> getEProviders({int page}) {
-    return _laravelApiClient.getEProviders(page);
+  Future<List<EProvider>> getEProviders({int? page}) {
+    return _laravelApiClient.getEProviders(page ?? 1);
   }
 
   Future<List<EProviderType>> getEProviderTypes() {
@@ -122,16 +122,16 @@ class EProviderRepository {
     return _laravelApiClient.deleteAvailabilityHour(availabilityHour);
   }
 
-  Future<List<EProvider>> getAcceptedEProviders({int page}) {
-    return _laravelApiClient.getAcceptedEProviders(page);
+  Future<List<EProvider>> getAcceptedEProviders({int? page}) {
+    return _laravelApiClient.getAcceptedEProviders(page ?? 1);
   }
 
-  Future<List<EProvider>> getFeaturedEProviders({int page}) {
-    return _laravelApiClient.getFeaturedEProviders(page);
+  Future<List<EProvider>> getFeaturedEProviders({int? page}) {
+    return _laravelApiClient.getFeaturedEProviders(page ?? 1);
   }
 
-  Future<List<EProvider>> getPendingEProviders({int page}) {
-    return _laravelApiClient.getPendingEProviders(page);
+  Future<List<EProvider>> getPendingEProviders({int? page}) {
+    return _laravelApiClient.getPendingEProviders(page ?? 1);
   }
 
   Future<EProvider> create(EProvider eProvider) {

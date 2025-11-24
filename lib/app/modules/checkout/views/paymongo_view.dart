@@ -14,7 +14,7 @@ class PayMongoViewWidget extends GetView<PayMongoController> {
         centerTitle: true,
         title: Text(
           "PayMongo Payment".tr,
-          style: Get.textTheme.headline6.merge(TextStyle(letterSpacing: 1.3)),
+          style: Get.textTheme.headline6?.merge(TextStyle(letterSpacing: 1.3)) ?? TextStyle(letterSpacing: 1.3),
         ),
         automaticallyImplyLeading: false,
         leading: new IconButton(
@@ -25,20 +25,12 @@ class PayMongoViewWidget extends GetView<PayMongoController> {
       body: Stack(
         children: <Widget>[
           Obx(() {
-            return WebView(
-                debuggingEnabled: true,
-                initialUrl: controller.url.value,
-                javascriptMode: JavascriptMode.unrestricted,
-                onWebViewCreated: (WebViewController _con) {
-                  controller.webView = _con;
-                },
-                onPageStarted: (String url) {
-                  controller.url.value = url;
-                  controller.showConfirmationIfSuccess();
-                },
-                onPageFinished: (String url) {
-                  controller.progress.value = 1;
-                });
+            if (controller.webView != null && controller.url.value.isNotEmpty) {
+              controller.webView!.loadRequest(Uri.parse(controller.url.value));
+            }
+            return controller.webView != null
+                ? WebViewWidget(controller: controller.webView!)
+                : Center(child: CircularProgressIndicator());
           }),
           Obx(() {
             if (controller.progress.value < 1) {

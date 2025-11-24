@@ -11,7 +11,7 @@ import '../../../services/auth_service.dart';
 class ChatMessageItem extends StatelessWidget {
   final Chat chat;
 
-  ChatMessageItem({this.chat});
+  ChatMessageItem({required this.chat});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class ChatMessageItem extends StatelessWidget {
                   child: new Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      new Text(this.chat.user.name, style: Get.textTheme.bodyText2.merge(TextStyle(fontWeight: FontWeight.w600))),
+                      new Text(this.chat.user?.name ?? '', style: Get.textTheme.bodyText2?.merge(TextStyle(fontWeight: FontWeight.w600))),
                       new Container(
                         margin: const EdgeInsets.only(top: 5.0),
                         child: new Text(chat.text, style: Get.textTheme.bodyText1),
@@ -68,7 +68,7 @@ class ChatMessageItem extends StatelessWidget {
                     child: CachedNetworkImage(
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      imageUrl: this.chat.user.avatar.thumb,
+                      imageUrl: this.chat.user?.avatar?.thumb ?? '',
                       placeholder: (context, url) => Image.asset(
                         'assets/img/loading.gif',
                         fit: BoxFit.cover,
@@ -116,7 +116,7 @@ class ChatMessageItem extends StatelessWidget {
                   child: new Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      new Text(this.chat.user.name, style: Get.textTheme.bodyText1.merge(TextStyle(fontWeight: FontWeight.w600))),
+                      new Text(this.chat.user?.name ?? '', style: Get.textTheme.bodyText1?.merge(TextStyle(fontWeight: FontWeight.w600))),
                       new Container(
                         margin: const EdgeInsets.only(top: 5.0),
                         child: InkWell(
@@ -156,7 +156,7 @@ class ChatMessageItem extends StatelessWidget {
                     child: CachedNetworkImage(
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      imageUrl: this.chat.user.avatar.thumb,
+                      imageUrl: this.chat.user?.avatar?.thumb ?? '',
                       placeholder: (context, url) => Image.asset(
                         'assets/img/loading.gif',
                         fit: BoxFit.cover,
@@ -209,7 +209,7 @@ class ChatMessageItem extends StatelessWidget {
                     child: CachedNetworkImage(
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      imageUrl: this.chat.user.avatar.thumb,
+                      imageUrl: this.chat.user?.avatar?.thumb ?? '',
                       placeholder: (context, url) => Image.asset(
                         'assets/img/loading.gif',
                         fit: BoxFit.cover,
@@ -223,12 +223,12 @@ class ChatMessageItem extends StatelessWidget {
                   child: new Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      new Text(this.chat.user.name, style: Get.textTheme.bodyText2.merge(TextStyle(fontWeight: FontWeight.w600, color: Get.theme.primaryColor))),
+                      new Text(this.chat.user?.name ?? '', style: Get.textTheme.bodyText2?.merge(TextStyle(fontWeight: FontWeight.w600, color: Get.theme.primaryColor))),
                       new Container(
                         margin: const EdgeInsets.only(top: 5.0),
                         child: new Text(
                           chat.text,
-                          style: Get.textTheme.bodyText1.merge(TextStyle(color: Get.theme.primaryColor)),
+                          style: Get.textTheme.bodyText1?.merge(TextStyle(color: Get.theme.primaryColor)),
                         ),
                       ),
                     ],
@@ -277,7 +277,7 @@ class ChatMessageItem extends StatelessWidget {
                     child: CachedNetworkImage(
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      imageUrl: this.chat.user.avatar.thumb,
+                      imageUrl: this.chat.user?.avatar?.thumb ?? '',
                       placeholder: (context, url) => Image.asset(
                         'assets/img/loading.gif',
                         fit: BoxFit.cover,
@@ -291,7 +291,7 @@ class ChatMessageItem extends StatelessWidget {
                   child: new Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      new Text(this.chat.user.name, style: Get.textTheme.bodyText2.merge(TextStyle(fontWeight: FontWeight.w600, color: Get.theme.primaryColor))),
+                      new Text(this.chat.user?.name ?? '', style: Get.textTheme.bodyText2?.merge(TextStyle(fontWeight: FontWeight.w600, color: Get.theme.primaryColor))),
                       new Container(
                         margin: const EdgeInsets.only(top: 5.0),
                         child: InkWell(

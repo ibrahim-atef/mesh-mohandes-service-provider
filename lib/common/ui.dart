@@ -8,15 +8,21 @@ import 'package:intl/intl.dart' show DateFormat;
 import '../app/services/settings_service.dart';
 
 class Ui {
-  static GetSnackBar SuccessSnackBar({String title = 'Success', String message}) {
+  static GetSnackBar SuccessSnackBar(
+      {String title = 'Success', required String message}) {
     Get.log("[$title] $message");
     return GetSnackBar(
-      titleText: Text(title.tr, style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.primaryColor))),
-      messageText: Text(message, style: Get.textTheme.caption.merge(TextStyle(color: Get.theme.primaryColor))),
+      titleText: Text(title.tr,
+          style: Get.textTheme.titleLarge
+              ?.merge(TextStyle(color: Get.theme.primaryColor))),
+      messageText: Text(message,
+          style: Get.textTheme.bodySmall
+              ?.merge(TextStyle(color: Get.theme.primaryColor))),
       snackPosition: SnackPosition.BOTTOM,
       margin: EdgeInsets.all(20),
       backgroundColor: Colors.green,
-      icon: Icon(Icons.check_circle_outline, size: 32, color: Get.theme.primaryColor),
+      icon: Icon(Icons.check_circle_outline,
+          size: 32, color: Get.theme.primaryColor),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
       borderRadius: 8,
       dismissDirection: DismissDirection.horizontal,
@@ -24,58 +30,80 @@ class Ui {
     );
   }
 
-  static GetSnackBar ErrorSnackBar({String title = 'Error', String message}) {
+  static GetSnackBar ErrorSnackBar(
+      {String title = 'Error', required String message}) {
     Get.log("[$title] $message", isError: true);
     return GetSnackBar(
-      titleText: Text(title.tr, style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.primaryColor))),
-      messageText: Text(message.substring(0, min(message.length, 700)), style: Get.textTheme.caption.merge(TextStyle(color: Get.theme.primaryColor))),
+      titleText: Text(title.tr,
+          style: Get.textTheme.titleLarge
+              ?.merge(TextStyle(color: Get.theme.primaryColor))),
+      messageText: Text(message.substring(0, min(message.length, 700)),
+          style: Get.textTheme.bodySmall
+              ?.merge(TextStyle(color: Get.theme.primaryColor))),
       snackPosition: SnackPosition.BOTTOM,
       margin: EdgeInsets.all(20),
       backgroundColor: Colors.redAccent,
-      icon: Icon(Icons.remove_circle_outline, size: 32, color: Get.theme.primaryColor),
+      icon: Icon(Icons.remove_circle_outline,
+          size: 32, color: Get.theme.primaryColor),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
       borderRadius: 8,
       duration: Duration(seconds: 5),
     );
   }
 
-  static GetSnackBar defaultSnackBar({String title = 'Alert', String message}) {
+  static GetSnackBar defaultSnackBar(
+      {String title = 'Alert', required String message}) {
     Get.log("[$title] $message", isError: false);
     return GetSnackBar(
-      titleText: Text(title.tr, style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.hintColor))),
-      messageText: Text(message, style: Get.textTheme.caption.merge(TextStyle(color: Get.theme.focusColor))),
+      titleText: Text(title.tr,
+          style: Get.textTheme.titleLarge
+              ?.merge(TextStyle(color: Get.theme.hintColor))),
+      messageText: Text(message,
+          style: Get.textTheme.bodySmall
+              ?.merge(TextStyle(color: Get.theme.focusColor))),
       snackPosition: SnackPosition.BOTTOM,
       margin: EdgeInsets.all(20),
       backgroundColor: Get.theme.primaryColor,
       borderColor: Get.theme.focusColor.withOpacity(0.1),
-      icon: Icon(Icons.warning_amber_rounded, size: 32, color: Get.theme.hintColor),
+      icon: Icon(Icons.warning_amber_rounded,
+          size: 32, color: Get.theme.hintColor),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
       borderRadius: 8,
       duration: Duration(seconds: 5),
     );
   }
 
-  static GetSnackBar notificationSnackBar({String title = 'Notification', String message, OnTap onTap, Widget mainButton}) {
+  static GetSnackBar notificationSnackBar(
+      {String title = 'Notification',
+      required String message,
+      void Function(GetSnackBar)? onTap,
+      Widget? mainButton}) {
     Get.log("[$title] $message", isError: false);
     return GetSnackBar(
       onTap: onTap,
       mainButton: mainButton,
-      titleText: Text(title.tr, style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.hintColor))),
-      messageText: Text(message, style: Get.textTheme.caption.merge(TextStyle(color: Get.theme.focusColor))),
+      titleText: Text(title.tr,
+          style: Get.textTheme.titleLarge
+              ?.merge(TextStyle(color: Get.theme.hintColor))),
+      messageText: Text(message,
+          style: Get.textTheme.bodySmall
+              ?.merge(TextStyle(color: Get.theme.focusColor))),
       snackPosition: SnackPosition.TOP,
       margin: EdgeInsets.all(20),
       backgroundColor: Get.theme.primaryColor,
       borderColor: Get.theme.focusColor.withOpacity(0.1),
-      icon: Icon(Icons.notifications_none, size: 32, color: Get.theme.hintColor),
+      icon:
+          Icon(Icons.notifications_none, size: 32, color: Get.theme.hintColor),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
       borderRadius: 8,
       duration: Duration(seconds: 5),
     );
   }
 
-  static Color parseColor(String hexCode, {double opacity}) {
+  static Color parseColor(String hexCode, {double? opacity}) {
     try {
-      return Color(int.tryParse(hexCode.replaceAll("#", "0xFF"))).withOpacity(opacity ?? 1);
+      return Color(int.tryParse(hexCode.replaceAll("#", "0xFF")) ?? 0xFFCCCCCC)
+          .withOpacity(opacity ?? 1);
     } catch (e) {
       return Color(0xFFCCCCCC).withOpacity(opacity ?? 1);
     }
@@ -89,40 +117,50 @@ class Ui {
     if (rate - rate.floor() > 0) {
       list.add(Icon(Icons.star_half, size: size, color: Color(0xFFFFB24D)));
     }
-    list.addAll(List.generate(5 - rate.floor() - (rate - rate.floor()).ceil(), (index) {
+    list.addAll(
+        List.generate(5 - rate.floor() - (rate - rate.floor()).ceil(), (index) {
       return Icon(Icons.star_border, size: size, color: Color(0xFFFFB24D));
     }));
     return list;
   }
 
-  static Widget getPrice(double myPrice, {TextStyle style, String zeroPlaceholder = '-', String unit}) {
+  static Widget getPrice(double myPrice,
+      {TextStyle? style, String zeroPlaceholder = '-', String? unit}) {
     var _setting = Get.find<SettingsService>();
-    if (style != null) {
-      style = style.merge(TextStyle(fontSize: style.fontSize + 2));
-    }
+    style = style?.merge(TextStyle(fontSize: style.fontSize! + 2));
     try {
       if (myPrice == 0) {
-        return Text('-', style: style ?? Get.textTheme.subtitle2);
+        return Text('-', style: style ?? Get.textTheme.titleSmall);
       }
       return RichText(
         softWrap: false,
         overflow: TextOverflow.fade,
         maxLines: 1,
-        text: _setting.setting.value.currencyRight != null && _setting.setting.value?.currencyRight == false
+        text: _setting.setting.value.currencyRight == false
             ? TextSpan(
-                text: _setting.setting.value?.defaultCurrency,
-                style: getPriceStyle(style),
+                text: _setting.setting.value.defaultCurrency,
+                style: getPriceStyle(style ?? Get.textTheme.titleSmall!),
                 children: <TextSpan>[
-                  TextSpan(text: myPrice.toStringAsFixed(_setting.setting.value?.defaultCurrencyDecimalDigits) ?? '', style: style ?? Get.textTheme.subtitle2),
-                  if (unit != null) TextSpan(text: " " + unit + " ", style: getPriceStyle(style)),
+                  TextSpan(
+                      text: myPrice.toStringAsFixed(
+                          _setting.setting.value.defaultCurrencyDecimalDigits),
+                      style: style ?? Get.textTheme.titleSmall),
+                  TextSpan(
+                      text: " " + unit! + " ",
+                      style: getPriceStyle(style ?? Get.textTheme.titleSmall!)),
                 ],
               )
             : TextSpan(
-                text: myPrice.toStringAsFixed(_setting.setting.value?.defaultCurrencyDecimalDigits) ?? '',
-                style: style ?? Get.textTheme.subtitle2,
+                text: myPrice.toStringAsFixed(
+                    _setting.setting.value.defaultCurrencyDecimalDigits),
+                style: style ?? Get.textTheme.titleSmall,
                 children: <TextSpan>[
-                  TextSpan(text: _setting.setting.value?.defaultCurrency, style: getPriceStyle(style)),
-                  if (unit != null) TextSpan(text: " " + unit + " ", style: getPriceStyle(style)),
+                  TextSpan(
+                      text: _setting.setting.value.defaultCurrency,
+                      style: getPriceStyle(style ?? Get.textTheme.titleSmall!)),
+                  TextSpan(
+                      text: " " + unit! + " ",
+                      style: getPriceStyle(style ?? Get.textTheme.titleSmall!)),
                 ],
               ),
       );
@@ -132,33 +170,42 @@ class Ui {
   }
 
   static TextStyle getPriceStyle(TextStyle style) {
-    if (style == null) {
-      return Get.textTheme.subtitle2.merge(
-        TextStyle(fontWeight: FontWeight.w300, fontSize: Get.textTheme.subtitle2.fontSize - 4),
-      );
-    } else {
-      return style.merge(TextStyle(fontWeight: FontWeight.w300, fontSize: style.fontSize - 4));
-    }
+    return style.merge(
+        TextStyle(fontWeight: FontWeight.w300, fontSize: style.fontSize! - 4));
   }
 
-  static BoxDecoration getBoxDecoration({Color color, double radius, Border border, Gradient gradient}) {
+  static BoxDecoration getBoxDecoration(
+      {Color? color, double? radius, Border? border, Gradient? gradient}) {
     return BoxDecoration(
       color: color ?? Get.theme.primaryColor,
       borderRadius: BorderRadius.all(Radius.circular(radius ?? 10)),
       boxShadow: [
-        BoxShadow(color: Get.theme.focusColor.withOpacity(0.1), blurRadius: 10, offset: Offset(0, 5)),
+        BoxShadow(
+            color: Get.theme.focusColor.withOpacity(0.1),
+            blurRadius: 10,
+            offset: Offset(0, 5)),
       ],
-      border: border ?? Border.all(color: Get.theme.focusColor.withOpacity(0.05)),
+      border:
+          border ?? Border.all(color: Get.theme.focusColor.withOpacity(0.05)),
       gradient: gradient,
     );
   }
 
-  static InputDecoration getInputDecoration({String hintText = '', String errorText, IconData iconData, Widget suffixIcon, Widget suffix}) {
+  static InputDecoration getInputDecoration(
+      {String hintText = '',
+      String? errorText,
+      IconData? iconData,
+      Widget? suffixIcon,
+      Widget? suffix}) {
     return InputDecoration(
       hintText: hintText,
-      hintStyle: Get.textTheme.caption,
-      prefixIcon: iconData != null ? Icon(iconData, color: Get.theme.focusColor).marginOnly(right: 14) : SizedBox(),
-      prefixIconConstraints: iconData != null ? BoxConstraints.expand(width: 38, height: 38) : BoxConstraints.expand(width: 0, height: 0),
+      hintStyle: Get.textTheme.bodySmall,
+      prefixIcon: iconData != null
+          ? Icon(iconData, color: Get.theme.focusColor).marginOnly(right: 14)
+          : SizedBox(),
+      prefixIconConstraints: iconData != null
+          ? BoxConstraints.expand(width: 38, height: 38)
+          : BoxConstraints.expand(width: 0, height: 0),
       floatingLabelBehavior: FloatingLabelBehavior.never,
       contentPadding: EdgeInsets.all(0),
       border: OutlineInputBorder(borderSide: BorderSide.none),
@@ -170,47 +217,42 @@ class Ui {
     );
   }
 
-  static Html applyHtml(String html, {TextStyle style, TextAlign textAlign, Alignment alignment = Alignment.centerLeft}) {
-    CustomRenderMatcher pMatcher() => (context) => context.tree.element?.localName == "p";
+  static Html applyHtml(String html,
+      {TextStyle? style,
+      TextAlign? textAlign,
+      Alignment alignment = Alignment.centerLeft}) {
     return Html(
-      data: html.replaceAll('\r\n', '') ?? '',
-      customRenders: {
-        pMatcher(): CustomRender.widget(widget: (context, child) {
-          return Text(
-            context.tree.element.text,
-            textAlign: textAlign,
-            style: style == null ? Get.textTheme.bodyText1.merge(TextStyle(fontSize: 11)) : style.merge(TextStyle(fontSize: 11)),
-          );
-        }),
-      },
+      data: html.replaceAll('\r\n', ''),
       style: {
         "*": Style(
-          textAlign: textAlign,
+          textAlign: textAlign ?? TextAlign.center,
           alignment: alignment,
           color: style == null ? Get.theme.hintColor : style.color,
-          fontSize: style == null ? FontSize(16.0) : FontSize(style.fontSize),
-          display: Display.INLINE_BLOCK,
+          fontSize: style == null ? FontSize(16.0) : FontSize(style.fontSize!),
+          display: Display.inline,
           fontWeight: style == null ? FontWeight.w300 : style.fontWeight,
-          width: Get.width,
+          width: Width(Get.width),
         ),
         "li": Style(
           textAlign: textAlign,
           lineHeight: LineHeight.normal,
-          listStylePosition: ListStylePosition.OUTSIDE,
-          fontSize: style == null ? FontSize(14.0) : FontSize(style.fontSize),
-          display: Display.BLOCK,
+          listStylePosition: ListStylePosition.outside,
+          fontSize: style == null ? FontSize(14.0) : FontSize(style.fontSize!),
+          display: Display.block,
         ),
         "h4,h5,h6": Style(
           textAlign: textAlign,
-          fontSize: style == null ? FontSize(16.0) : FontSize(style.fontSize + 2),
+          fontSize:
+              style == null ? FontSize(16.0) : FontSize(style.fontSize! + 2),
         ),
         "h1,h2,h3": Style(
           textAlign: textAlign,
           lineHeight: LineHeight.number(2),
-          fontSize: style == null ? FontSize(18.0) : FontSize(style.fontSize + 4),
+          fontSize:
+              style == null ? FontSize(18.0) : FontSize(style.fontSize! + 4),
         ),
         "br": Style(
-          height: 0,
+          height: Height(0),
         ),
       },
     );
@@ -237,57 +279,55 @@ class Ui {
     }
   }
 
-  static Html removeHtml(String html, {TextStyle style, TextAlign textAlign, Alignment alignment = Alignment.centerLeft}) {
-    CustomRenderMatcher pMatcher() => (context) => context.tree.element?.localName == "p";
+  static Html removeHtml(String html,
+      {TextStyle? style,
+      TextAlign? textAlign,
+      Alignment alignment = Alignment.centerLeft}) {
     return Html(
-      data: html.replaceAll('\r\n', '') ?? '',
-      customRenders: {
-        pMatcher(): CustomRender.widget(widget: (context, child) {
-          return Text(
-            context.tree.element.text,
-            textAlign: textAlign,
-            style: style == null ? Get.textTheme.bodyText1.merge(TextStyle(fontSize: 11)) : style.merge(TextStyle(fontSize: 11)),
-          );
-        }),
-      },
+      data: html.replaceAll('\r\n', ''),
       style: {
         "*": Style(
           textAlign: textAlign,
           alignment: alignment,
-          color: style == null ? Get.theme.hintColor : style.color,
-          fontSize: style == null ? FontSize(11.0) : FontSize(style.fontSize),
-          display: Display.INLINE_BLOCK,
-          fontWeight: style == null ? FontWeight.w300 : style.fontWeight,
-          width: Get.width,
+          color: style?.color ?? Get.theme.hintColor,
+          fontSize: style != null && style.fontSize != null
+              ? FontSize(style.fontSize!)
+              : FontSize(11.0),
+          display: Display.inline,
+          fontWeight: style?.fontWeight ?? FontWeight.w300,
+          width: Width(Get.width),
         ),
         "br": Style(
-          height: 0,
+          height: Height(0),
         ),
       },
     );
   }
 
-  static Future<String> showTimePickerDialog(BuildContext context, String initialTime) async {
+  static Future<String> showTimePickerDialog(
+      BuildContext context, String initialTime) async {
     DateTime dateTime = DateTime.now();
-    if (initialTime != null) {
-      dateTime = DateFormat("HH:mm").parse(initialTime);
-    }
-    final TimeOfDay time = TimeOfDay(hour: dateTime.hour, minute: dateTime.minute);
-    final TimeOfDay picked = await showTimePicker(
+    dateTime = DateFormat("HH:mm").parse(initialTime);
+    final TimeOfDay time =
+        TimeOfDay(hour: dateTime.hour, minute: dateTime.minute);
+    final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: time,
       initialEntryMode: TimePickerEntryMode.input,
-      builder: (BuildContext context, Widget child) {
-        return child.paddingAll(10);
+      builder: (BuildContext context, Widget? child) {
+        return child?.paddingAll(10) ?? Container();
       },
     );
     if (picked != null) {
-      return picked.hour.toString().padLeft(2, '0') + ':' + picked.minute.toString().padLeft(2, '0');
+      return picked.hour.toString().padLeft(2, '0') +
+          ':' +
+          picked.minute.toString().padLeft(2, '0');
     }
     return "00:00";
   }
 
-  static AlignmentDirectional getAlignmentDirectional(String alignmentDirectional) {
+  static AlignmentDirectional getAlignmentDirectional(
+      String alignmentDirectional) {
     switch (alignmentDirectional) {
       case 'top_start':
         return AlignmentDirectional.topStart;

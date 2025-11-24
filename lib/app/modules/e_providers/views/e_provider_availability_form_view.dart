@@ -25,8 +25,8 @@ class EProviderAvailabilityFormView extends GetView<EProviderAvailabilityFormCon
           automaticallyImplyLeading: false,
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back_ios, color: Get.theme.hintColor),
-            onPressed: () async {
-              await Get.back();
+            onPressed: () {
+              Get.back();
             },
           ),
           elevation: 0,
@@ -55,7 +55,7 @@ class EProviderAvailabilityFormView extends GetView<EProviderAvailabilityFormCon
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   color: Get.theme.colorScheme.secondary,
-                  child: Text("Finish".tr, style: Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.primaryColor))),
+                  child: Text("Finish".tr, style: Get.textTheme.bodyText2?.merge(TextStyle(color: Get.theme.primaryColor))),
                   elevation: 0,
                 ),
               ),
@@ -162,7 +162,9 @@ class EProviderAvailabilityFormView extends GetView<EProviderAvailabilityFormCon
                               },
                             );
                             controller.availabilityHour.update((val) {
-                              val.day = selectedValue;
+                              if (val != null) {
+                                val.day = selectedValue;
+                              }
                             });
                           },
                           shape: StadiumBorder(),
@@ -215,9 +217,11 @@ class EProviderAvailabilityFormView extends GetView<EProviderAvailabilityFormCon
                         ),
                         MaterialButton(
                           onPressed: () async {
-                            final picked = await Ui.showTimePickerDialog(context, controller.availabilityHour.value.startAt);
+                            final picked = await Ui.showTimePickerDialog(context, controller.availabilityHour.value.startAt ?? '');
                             controller.availabilityHour.update((val) {
-                              val.startAt = picked;
+                              if (val != null) {
+                                val.startAt = picked;
+                              }
                             });
                           },
                           shape: StadiumBorder(),
@@ -243,7 +247,7 @@ class EProviderAvailabilityFormView extends GetView<EProviderAvailabilityFormCon
                         return Padding(
                           padding: EdgeInsets.symmetric(vertical: 20),
                           child: Text(
-                            controller.availabilityHour.value?.startAt,
+                            controller.availabilityHour.value?.startAt ?? '',
                             style: Get.textTheme.bodyText2,
                           ),
                         );
@@ -276,9 +280,11 @@ class EProviderAvailabilityFormView extends GetView<EProviderAvailabilityFormCon
                         ),
                         MaterialButton(
                           onPressed: () async {
-                            final picked = await Ui.showTimePickerDialog(context, controller.availabilityHour.value.endAt);
+                            final picked = await Ui.showTimePickerDialog(context, controller.availabilityHour.value.endAt ?? '');
                             controller.availabilityHour.update((val) {
-                              val.endAt = picked;
+                              if (val != null) {
+                                val.endAt = picked;
+                              }
                             });
                           },
                           shape: StadiumBorder(),
@@ -304,7 +310,7 @@ class EProviderAvailabilityFormView extends GetView<EProviderAvailabilityFormCon
                         return Padding(
                           padding: EdgeInsets.symmetric(vertical: 20),
                           child: Text(
-                            controller.availabilityHour.value?.endAt,
+                            controller.availabilityHour.value?.endAt ?? '',
                             style: Get.textTheme.bodyText2,
                           ),
                         );
@@ -315,7 +321,13 @@ class EProviderAvailabilityFormView extends GetView<EProviderAvailabilityFormCon
               ),
               Obx(() {
                 return TextFieldWidget(
-                  onSaved: (input) => controller.availabilityHour.value.data = input,
+                  onSaved: (input) {
+                    controller.availabilityHour.update((val) {
+                      if (val != null) {
+                        val.data = input ?? '';
+                      }
+                    });
+                  },
                   keyboardType: TextInputType.multiline,
                   initialValue: controller.availabilityHour.value.data,
                   hintText: "Notes for this availability hour".tr,
@@ -332,7 +344,7 @@ class EProviderAvailabilityFormView extends GetView<EProviderAvailabilityFormCon
       padding: EdgeInsets.symmetric(vertical: 10),
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 4),
-        child: Text(_availabilityHour.day.tr ?? '', style: Get.textTheme.bodyText2),
+        child: Text((_availabilityHour.day ?? '').tr, style: Get.textTheme.bodyText2),
         decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20))),
       ),
     );

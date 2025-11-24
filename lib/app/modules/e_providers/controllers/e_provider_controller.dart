@@ -21,7 +21,7 @@ class EProviderController extends GetxController {
   final featuredEServices = <EService>[].obs;
   final currentSlide = 0.obs;
   String heroTag = "";
-  EProviderRepository _eProviderRepository;
+  late EProviderRepository _eProviderRepository;
 
   EProviderController() {
     _eProviderRepository = new EProviderRepository();
@@ -49,13 +49,16 @@ class EProviderController extends GetxController {
     await getGalleries();
     await getReviews();
     if (showMessage) {
-      Get.showSnackbar(Ui.SuccessSnackBar(message: eProvider.value.name + " " + "page refreshed successfully".tr));
+      Get.showSnackbar(Ui.SuccessSnackBar(message: (eProvider.value.name ?? '') + " " + "page refreshed successfully".tr));
     }
   }
 
   Future getEProvider() async {
     try {
-      eProvider.value = await _eProviderRepository.get(eProvider.value.id);
+      String? id = eProvider.value.id;
+      if (id != null) {
+        eProvider.value = await _eProviderRepository.get(id);
+      }
     } catch (e) {
       Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
     }
@@ -63,7 +66,10 @@ class EProviderController extends GetxController {
 
   Future getFeaturedEServices() async {
     try {
-      featuredEServices.assignAll(await _eProviderRepository.getFeaturedEServices(eProviderId: eProvider.value.id, page: 1));
+      String? id = eProvider.value.id;
+      if (id != null) {
+        featuredEServices.assignAll(await _eProviderRepository.getFeaturedEServices(eProviderId: id, page: 1));
+      }
     } catch (e) {
       Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
     }
@@ -71,7 +77,10 @@ class EProviderController extends GetxController {
 
   Future getReviews() async {
     try {
-      reviews.assignAll(await _eProviderRepository.getReviews(eProvider.value.id));
+      String? id = eProvider.value.id;
+      if (id != null) {
+        reviews.assignAll(await _eProviderRepository.getReviews(id));
+      }
     } catch (e) {
       Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
     }
@@ -79,7 +88,10 @@ class EProviderController extends GetxController {
 
   Future getAwards() async {
     try {
-      awards.assignAll(await _eProviderRepository.getAwards(eProvider.value.id));
+      String? id = eProvider.value.id;
+      if (id != null) {
+        awards.assignAll(await _eProviderRepository.getAwards(id));
+      }
     } catch (e) {
       Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
     }
@@ -87,7 +99,10 @@ class EProviderController extends GetxController {
 
   Future getExperiences() async {
     try {
-      experiences.assignAll(await _eProviderRepository.getExperiences(eProvider.value.id));
+      String? id = eProvider.value.id;
+      if (id != null) {
+        experiences.assignAll(await _eProviderRepository.getExperiences(id));
+      }
     } catch (e) {
       Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
     }
@@ -95,22 +110,28 @@ class EProviderController extends GetxController {
 
   Future getGalleries() async {
     try {
-      final _galleries = await _eProviderRepository.getGalleries(eProvider.value.id);
-      galleries.assignAll(_galleries.map((e) {
-        e.image.name = e.description;
-        return e.image;
-      }));
+      String? id = eProvider.value.id;
+      if (id != null) {
+        final _galleries = await _eProviderRepository.getGalleries(id);
+        galleries.assignAll(_galleries.where((e) => e.image != null).map((e) {
+          e.image!.name = e.description ?? '';
+          return e.image!;
+        }));
+      }
     } catch (e) {
       Get.showSnackbar(Ui.ErrorSnackBar(message: e.toString()));
     }
   }
 
   void startChat() {
-    List<User> _employees = eProvider.value.employees.map((e) {
-      e.avatar = eProvider.value.images[0];
-      return e;
-    }).toList();
-    Message _message = new Message(_employees, name: eProvider.value.name);
-    Get.toNamed(Routes.CHAT, arguments: _message);
+    List<User>? employeesList = eProvider.value.employees;
+    if (employeesList != null && eProvider.value.images.isNotEmpty) {
+      List<User> _employees = employeesList.map((e) {
+        e.avatar = eProvider.value.images[0];
+        return e;
+      }).toList();
+      Message _message = new Message(_employees, name: eProvider.value.name ?? '');
+      Get.toNamed(Routes.CHAT, arguments: _message);
+    }
   }
 }

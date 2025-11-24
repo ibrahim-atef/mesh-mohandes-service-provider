@@ -8,7 +8,7 @@ class StatisticCarouselItemWidget extends StatelessWidget {
   final double marginLeft;
   final Statistic statistic;
 
-  StatisticCarouselItemWidget({Key key, this.marginLeft, this.statistic}) : super(key: key);
+  StatisticCarouselItemWidget({Key? key, required this.marginLeft, required this.statistic}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,19 +20,19 @@ class StatisticCarouselItemWidget extends StatelessWidget {
       child: Column(
         children: [
           if (statistic.description == "total_earning")
-            Ui.getPrice(double.tryParse(statistic.value),
-                style: Get.textTheme.headline2.merge(
+            Ui.getPrice(double.tryParse(statistic.value ?? '0') ?? 0.0,
+                style: Get.textTheme.headline2?.merge(
                   TextStyle(height: 1),
-                ))
+                ) ?? TextStyle(height: 1))
           else
             Text(
-              statistic.value,
+              statistic.value ?? '',
               textAlign: TextAlign.center,
-              style: Get.textTheme.headline2.merge(TextStyle(height: 1)),
+              style: Get.textTheme.headline2?.merge(TextStyle(height: 1)) ?? TextStyle(height: 1),
             ),
           SizedBox(height: 8),
           Text(
-            statistic.description.tr,
+            (statistic.description ?? '').tr,
             textAlign: TextAlign.center,
             maxLines: 3,
             style: Get.textTheme.caption,

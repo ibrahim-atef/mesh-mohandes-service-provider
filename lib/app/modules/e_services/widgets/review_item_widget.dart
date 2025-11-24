@@ -8,7 +8,7 @@ import '../../../models/review_model.dart';
 class ReviewItemWidget extends StatelessWidget {
   final Review review;
 
-  ReviewItemWidget({Key key, this.review}) : super(key: key);
+  ReviewItemWidget({Key? key, required this.review}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class ReviewItemWidget extends StatelessWidget {
                   height: 65,
                   width: 65,
                   fit: BoxFit.cover,
-                  imageUrl: review.user.avatar.thumb,
+                  imageUrl: review.user?.avatar?.thumb ?? '',
                   placeholder: (context, url) => Image.asset(
                     'assets/img/loading.gif',
                     fit: BoxFit.cover,
@@ -44,14 +44,14 @@ class ReviewItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      review.user.name,
+                      review.user?.name ?? '',
                       overflow: TextOverflow.fade,
                       softWrap: false,
                       maxLines: 2,
-                      style: Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.hintColor)),
+                      style: Get.textTheme.bodyText2?.merge(TextStyle(color: Get.theme.hintColor)),
                     ),
                     Text(
-                      review.user.bio,
+                      review.user?.bio ?? '',
                       overflow: TextOverflow.ellipsis,
                       style: Get.textTheme.caption,
                     ),
@@ -65,7 +65,7 @@ class ReviewItemWidget extends StatelessWidget {
                   label: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(review.rate.toString(), style: Get.textTheme.bodyText1.merge(TextStyle(color: Get.theme.primaryColor))),
+                      Text(review.rate.toString(), style: Get.textTheme.bodyText1?.merge(TextStyle(color: Get.theme.primaryColor))),
                       Icon(
                         Icons.star_border,
                         color: Get.theme.primaryColor,
@@ -73,13 +73,13 @@ class ReviewItemWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  backgroundColor: Get.theme.colorScheme.secondary.withOpacity(0.9),
+                  backgroundColor: Get.theme.colorScheme.secondary?.withOpacity(0.9),
                   shape: StadiumBorder(),
                 ),
               ),
             ],
           ),
-          Ui.removeHtml(review.review, style: Get.textTheme.bodyText1),
+          Ui.removeHtml(review.review ?? '', style: Get.textTheme.bodyText1),
         ],
       ),
     );

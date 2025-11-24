@@ -7,11 +7,11 @@ import 'dart:core';
 import 'parents/model.dart';
 
 class EProviderType extends Model {
-  String id;
-  String name;
-  double commission;
+  String? id;
+  String? name;
+  late double commission;
 
-  EProviderType({this.id, this.name, this.commission});
+  EProviderType({this.id, this.name, double? commission}) : commission = commission ?? 0.0;
 
   EProviderType.fromJson(Map<String, dynamic> json) {
     super.fromJson(json);

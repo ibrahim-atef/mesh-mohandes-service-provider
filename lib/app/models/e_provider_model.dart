@@ -15,46 +15,47 @@ import 'tax_model.dart';
 import 'user_model.dart';
 
 class EProvider extends Model {
-  String id;
-  String name;
-  String description;
-  List<Media> images;
-  String phoneNumber;
-  String mobileNumber;
-  EProviderType type;
-  List<AvailabilityHour> availabilityHours;
-  double availabilityRange;
-  bool available;
-  bool featured;
-  List<Address> addresses;
-  List<Tax> taxes;
+  String? id;
+  String? name;
+  String? description;
+  late List<Media> images;
+  String? phoneNumber;
+  String? mobileNumber;
+  EProviderType? type;
+  late List<AvailabilityHour> availabilityHours;
+  late double availabilityRange;
+  late bool available;
+  late bool featured;
+  late List<Address> addresses;
+  late List<Tax> taxes;
 
-  List<User> employees;
-  double rate;
-  List<Review> reviews;
-  int totalReviews;
-  bool verified;
-  int bookingsInProgress;
+  late List<User> employees;
+  late double rate;
+  late List<Review> reviews;
+  late int totalReviews;
+  late bool verified;
+  late int bookingsInProgress;
 
   EProvider(
       {this.id,
       this.name,
       this.description,
-      this.images,
+      this.images = const [],
       this.phoneNumber,
       this.mobileNumber,
       this.type,
-      this.availabilityHours,
-      this.availabilityRange,
-      this.available,
-      this.featured,
-      this.addresses,
-      this.employees,
-      this.rate,
-      this.reviews,
-      this.totalReviews,
-      this.verified,
-      this.bookingsInProgress});
+      this.availabilityHours = const [],
+      this.availabilityRange = 0.0,
+      this.available = false,
+      this.featured = false,
+      this.addresses = const [],
+      this.employees = const [],
+      this.rate = 0.0,
+      this.reviews = const [],
+      this.totalReviews = 0,
+      this.verified = false,
+      this.bookingsInProgress = 0,
+      this.taxes = const []});
 
   EProvider.fromJson(Map<String, dynamic> json) {
     super.fromJson(json);
@@ -83,42 +84,40 @@ class EProvider extends Model {
     if (id != null) data['id'] = this.id;
     if (name != null) data['name'] = this.name;
     if (description != null) data['description'] = this.description;
-    if (available != null) data['available'] = this.available;
+    data['available'] = this.available;
     if (phoneNumber != null) data['phone_number'] = this.phoneNumber;
     if (mobileNumber != null) data['mobile_number'] = this.mobileNumber;
-    if (rate != null) data['rate'] = this.rate;
-    if (totalReviews != null) data['total_reviews'] = this.totalReviews;
-    if (verified != null) data['verified'] = this.verified;
+    data['rate'] = this.rate;
+    data['total_reviews'] = this.totalReviews;
+    data['verified'] = this.verified;
     if (this.type != null) {
-      data['e_provider_type_id'] = this.type.id;
+      data['e_provider_type_id'] = this.type!.id;
     }
-    if (this.images != null) {
-      data['image'] = this.images.where((element) => Uuid.isUuid(element.id)).map((v) => v.id).toList();
+    if (this.images.isNotEmpty) {
+      data['image'] = this.images.where((element) => Uuid.isUuid(element.id ?? '')).map((v) => v.id ?? '').toList();
     }
-    if (this.addresses != null) {
+    if (this.addresses.isNotEmpty) {
       data['addresses'] = this.addresses.map((v) => v?.id).toList();
     }
-    if (this.employees != null) {
+    if (this.employees.isNotEmpty) {
       data['employees'] = this.employees.map((v) => v?.id).toList();
     }
-    if (this.taxes != null) {
+    if (this.taxes.isNotEmpty) {
       data['taxes'] = this.taxes.map((v) => v?.id).toList();
     }
-    if (this.availabilityRange != null) {
-      data['availability_range'] = availabilityRange;
-    }
+    data['availability_range'] = availabilityRange;
     return data;
   }
 
-  String get firstImageUrl => this.images?.first?.url ?? '';
+  String get firstImageUrl => this.images.isNotEmpty ? (this.images.first.url ?? '') : '';
 
-  String get firstImageThumb => this.images?.first?.thumb ?? '';
+  String get firstImageThumb => this.images.isNotEmpty ? (this.images.first.thumb ?? '') : '';
 
-  String get firstImageIcon => this.images?.first?.icon ?? '';
+  String get firstImageIcon => this.images.isNotEmpty ? (this.images.first.icon ?? '') : '';
 
   String get firstAddress {
     if (this.addresses.isNotEmpty) {
-      return this.addresses.first?.address;
+      return this.addresses.first?.address ?? '';
     }
     return '';
   }
@@ -131,10 +130,12 @@ class EProvider extends Model {
   Map<String, List<AvailabilityHour>> groupedAvailabilityHours() {
     Map<String, List<AvailabilityHour>> result = {};
     this.availabilityHours.forEach((element) {
-      if (result.containsKey(element.day)) {
-        result[element.day].add(element);
-      } else {
-        result[element.day] = [element];
+      if (element.day != null) {
+        if (result.containsKey(element.day)) {
+          result[element.day!]!.add(element);
+        } else {
+          result[element.day!] = [element];
+        }
       }
     });
     return result;
@@ -151,7 +152,7 @@ class EProvider extends Model {
   }
 
   @override
-  bool operator ==(Object other) =>
+  bool operator ==(dynamic other) =>
       identical(this, other) ||
       super == other &&
           other is EProvider &&

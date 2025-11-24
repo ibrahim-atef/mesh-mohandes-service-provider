@@ -9,10 +9,10 @@ class MultiSelectDialogItem<V> {
 }
 
 class MultiSelectDialog<V> extends StatefulWidget {
-  MultiSelectDialog({Key key, this.items, this.initialSelectedValues, this.title, this.submitText, this.cancelText}) : super(key: key);
+  MultiSelectDialog({Key? key, required this.items, this.initialSelectedValues, required this.title, required this.submitText, required this.cancelText}) : super(key: key);
 
   final List<MultiSelectDialogItem<V>> items;
-  final Set<V> initialSelectedValues;
+  final Set<V>? initialSelectedValues;
   final String title;
   final String submitText;
   final String cancelText;
@@ -26,8 +26,9 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
 
   void initState() {
     super.initState();
-    if (widget.initialSelectedValues != null) {
-      _selectedValues.addAll(widget.initialSelectedValues);
+    final initialValues = widget.initialSelectedValues;
+    if (initialValues != null) {
+      _selectedValues.addAll(initialValues);
     }
   }
 
@@ -84,7 +85,7 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
       activeColor: Get.theme.colorScheme.secondary,
       title: Text(item.label, style: Theme.of(context).textTheme.bodyText2),
       controlAffinity: ListTileControlAffinity.leading,
-      onChanged: (checked) => _onItemCheckedChange(item.value, checked),
+      onChanged: (checked) => _onItemCheckedChange(item.value, checked ?? false),
     );
   }
 }

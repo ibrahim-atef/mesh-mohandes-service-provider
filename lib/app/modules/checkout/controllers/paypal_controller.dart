@@ -8,8 +8,8 @@ import '../../../routes/app_routes.dart';
 import '../../../services/global_service.dart';
 
 class PayPalController extends GetxController {
-  WebViewController webView;
-  PaymentRepository _paymentRepository;
+  WebViewController? webView;
+  late PaymentRepository _paymentRepository;
   final url = "".obs;
   final progress = 0.0.obs;
   final eProviderSubscription = new EProviderSubscription().obs;
@@ -22,7 +22,28 @@ class PayPalController extends GetxController {
   void onInit() {
     eProviderSubscription.value = Get.arguments['eProviderSubscription'] as EProviderSubscription;
     getUrl();
+    _initWebViewController();
     super.onInit();
+  }
+
+  void _initWebViewController() {
+    final controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageStarted: (String url) {
+            this.url.value = url;
+            showConfirmationIfSuccess();
+          },
+          onPageFinished: (String url) {
+            progress.value = 1.0;
+          },
+        ),
+      );
+    webView = controller;
+    if (url.value.isNotEmpty) {
+      controller.loadRequest(Uri.parse(url.value));
+    }
   }
 
   void getUrl() {

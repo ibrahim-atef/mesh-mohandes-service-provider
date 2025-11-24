@@ -2,12 +2,14 @@ import 'option_model.dart';
 import 'parents/model.dart';
 
 class OptionGroup extends Model {
-  String id;
-  String name;
-  bool allowMultiple;
-  List<Option> options;
+  String? id;
+  String? name;
+  late bool allowMultiple;
+  late List<Option> options;
 
-  OptionGroup({this.id, this.name, this.options});
+  OptionGroup({this.id, this.name, List<Option>? options, bool? allowMultiple}) 
+    : options = options ?? const [],
+      allowMultiple = allowMultiple ?? false;
 
   OptionGroup.fromJson(Map<String, dynamic> json) {
     super.fromJson(json);
@@ -25,7 +27,7 @@ class OptionGroup extends Model {
   }
 
   @override
-  bool operator ==(Object other) =>
+  bool operator ==(dynamic other) =>
       identical(this, other) ||
       super == other &&
           other is OptionGroup &&

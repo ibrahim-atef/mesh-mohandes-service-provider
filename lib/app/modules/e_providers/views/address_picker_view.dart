@@ -11,18 +11,17 @@ import '../controllers/e_provider_addresses_form_controller.dart';
 // ignore: must_be_immutable
 class AddressPickerView extends GetView<EProviderAddressesFormController> {
   AddressPickerView({
-    Key key,
-  }) {
-    _address = Get.arguments['address'] as Address;
-  }
+    Key? key,
+  }) : _address = Get.arguments != null ? Get.arguments['address'] as Address : Address(),
+       super(key: key);
 
-  Address _address;
+  late Address _address;
 
   @override
   Widget build(BuildContext context) {
     return PlacePicker(
-      apiKey: Get.find<SettingsService>().setting.value.googleMapsKey,
-      initialPosition: _address?.getLatLng(),
+      apiKey: Get.find<SettingsService>().setting.value.googleMapsKey ?? '',
+      initialPosition: _address.getLatLng(),
       useCurrentLocation: true,
       selectInitialPosition: true,
       usePlaceDetailSearch: true,
@@ -64,8 +63,12 @@ class AddressPickerView extends GetView<EProviderAddressesFormController> {
                     ),
                     BlockButtonWidget(
                       onPressed: () async {
-                        _address.latitude = selectedPlace.geometry.location.lat;
-                        _address.longitude = selectedPlace.geometry.location.lng;
+                        final geometry = selectedPlace?.geometry;
+                        final location = geometry?.location;
+                        if (location != null) {
+                          _address.latitude = location.lat;
+                          _address.longitude = location.lng;
+                        }
                         if (_address.hasData) {
                           await controller.updateAddress(_address);
                         } else {
@@ -76,7 +79,7 @@ class AddressPickerView extends GetView<EProviderAddressesFormController> {
                       color: Get.theme.colorScheme.secondary,
                       text: Text(
                         "Pick Here".tr,
-                        style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.primaryColor)),
+                        style: Get.textTheme.headline6?.merge(TextStyle(color: Get.theme.primaryColor)),
                       ),
                     ).paddingSymmetric(horizontal: 20),
                     SizedBox(height: 10),

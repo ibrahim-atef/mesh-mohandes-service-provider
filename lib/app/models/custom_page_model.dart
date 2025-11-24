@@ -1,10 +1,10 @@
 import 'parents/model.dart';
 
 class CustomPage extends Model {
-  String id;
-  String title;
-  String content;
-  DateTime updatedAt;
+  String? id;
+  String? title;
+  String? content;
+  DateTime? updatedAt;
 
   CustomPage({this.id, this.title, this.content, this.updatedAt});
 
@@ -18,14 +18,14 @@ class CustomPage extends Model {
   @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    data['title'] = this.title;
-    data['content'] = this.content;
-    data['updated_at'] = this.updatedAt;
+    if (title != null) data['title'] = this.title;
+    if (content != null) data['content'] = this.content;
+    if (updatedAt != null) data['updated_at'] = this.updatedAt!.toIso8601String();
     return data;
   }
 
   @override
-  bool operator ==(Object other) =>
+  bool operator ==(dynamic other) =>
       identical(this, other) ||
       super == other &&
           other is CustomPage &&

@@ -7,7 +7,7 @@ import '../../../routes/app_routes.dart';
 import '../controllers/profile_controller.dart';
 
 class DeleteAccountWidget extends GetView<ProfileController> {
-  DeleteAccountWidget({Key key}) : super(key: key);
+  DeleteAccountWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +21,9 @@ class DeleteAccountWidget extends GetView<ProfileController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Delete your account!", style: Get.textTheme.bodyText2.merge(TextStyle(color: Colors.redAccent))),
+                Text("Delete your account!", style: Get.textTheme.bodyText2?.merge(TextStyle(color: Colors.redAccent))),
                 Text("Once you delete this account, there is no going back. Please be certain.",
-                    style: Get.textTheme.caption.merge(TextStyle(color: Colors.redAccent))),
+                    style: Get.textTheme.caption?.merge(TextStyle(color: Colors.redAccent))),
               ],
             ),
           ),
@@ -48,7 +48,7 @@ class DeleteAccountWidget extends GetView<ProfileController> {
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               color: Colors.redAccent,
-              child: Text("Delete".tr, style: Get.textTheme.bodyText2.merge(TextStyle(color: Get.theme.primaryColor))),
+              child: Text("Delete".tr, style: Get.textTheme.bodyText2?.merge(TextStyle(color: Get.theme.primaryColor))),
               elevation: 0,
               highlightElevation: 0,
               hoverElevation: 0,

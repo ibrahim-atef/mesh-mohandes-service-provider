@@ -17,13 +17,20 @@ import 'ui.dart';
 class MapsUtil {
   static Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
     ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List();
+    final ByteData? byteData =
+        await fi.image.toByteData(format: ui.ImageByteFormat.png);
+    return byteData!.buffer.asUint8List();
   }
 
-  static Future<Marker> getMarker({Address address, String id = '', String description = ''}) async {
-    final Uint8List markerIcon = await getBytesFromAsset('assets/img/marker.png', 120);
+  static Future<Marker> getMarker(
+      {required Address address,
+      String id = '',
+      String description = ''}) async {
+    final Uint8List markerIcon =
+        await getBytesFromAsset('assets/img/marker.png', 120);
     final Marker marker = Marker(
         markerId: MarkerId(id),
         icon: BitmapDescriptor.fromBytes(markerIcon),
@@ -42,11 +49,13 @@ class MapsUtil {
     return marker;
   }
 
-  static Widget getStaticMaps(List<LatLng> latLngs, {double height = 168, String size = '400x160', double zoom = 13}) {
+  static Widget getStaticMaps(List<LatLng> latLngs,
+      {double height = 168, String size = '400x160', double zoom = 13}) {
     String _markers = '';
 
     latLngs.forEach((element) {
-      _markers += 'markers=icon:${Get.find<LaravelApiClient>().getBaseUrl("images")}marker.png%7Cscale:5%7C'
+      _markers +=
+          'markers=icon:${Get.find<LaravelApiClient>().getBaseUrl("images")}marker.png%7Cscale:5%7C'
           '${element.latitude},'
           '${element.longitude}&';
     });
@@ -58,7 +67,7 @@ class MapsUtil {
       imageUrl: 'https://maps.googleapis.com/maps/api/staticmap?'
           'zoom=$zoom&'
           'size=$size&'
-          'language=${Get.locale.languageCode}&'
+          'language=${Get.locale?.languageCode ?? 'en'}&'
           'maptype=roadmap&$_markers'
           'key=${Get.find<SettingsService>().setting.value.googleMapsKey}',
       placeholder: (context, url) => Image.asset(
@@ -74,7 +83,7 @@ class MapsUtil {
   static void openMapsSheet(context, LatLng latLng, String _title) async {
     try {
       final coords = launcher.Coords(latLng.latitude, latLng.longitude);
-      final title = _title ?? "";
+      final title = _title;
       final availableMaps = await launcher.MapLauncher.installedMaps;
 
       showModalBottomSheet(
@@ -92,7 +101,8 @@ class MapsUtil {
                           destinationTitle: title,
                           destination: coords,
                         ),
-                        title: Text(map.mapName, style: Get.textTheme.bodyText2),
+                        title:
+                            Text(map.mapName, style: Get.textTheme.bodyMedium),
                         leading: SvgPicture.asset(
                           map.icon,
                           height: 30.0,

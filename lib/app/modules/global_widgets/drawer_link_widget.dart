@@ -11,10 +11,10 @@ class DrawerLinkWidget extends StatelessWidget {
   final ValueChanged<void> onTap;
 
   const DrawerLinkWidget({
-    Key key,
-    this.icon,
-    this.text,
-    this.onTap,
+    Key? key,
+    required this.icon,
+    required this.text,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -38,7 +38,7 @@ class DrawerLinkWidget extends StatelessWidget {
               color: Get.theme.focusColor.withOpacity(0.2),
             ),
             Expanded(
-              child: Text(text.tr, style: Get.textTheme.bodyText2.merge(TextStyle(fontSize: 14))),
+              child: Text(text.tr, style: Get.textTheme.bodyText2?.merge(TextStyle(fontSize: 14))),
             ),
           ],
         ),

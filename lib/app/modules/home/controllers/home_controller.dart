@@ -11,8 +11,8 @@ import '../../../services/global_service.dart';
 import '../../root/controllers/root_controller.dart';
 
 class HomeController extends GetxController {
-  StatisticRepository _statisticRepository;
-  BookingRepository _bookingsRepository;
+  late StatisticRepository _statisticRepository;
+  late BookingRepository _bookingsRepository;
 
   final statistics = <Statistic>[].obs;
   final bookings = <Booking>[].obs;
@@ -22,7 +22,7 @@ class HomeController extends GetxController {
   final isDone = false.obs;
   final currentStatus = '1'.obs;
 
-  ScrollController scrollController;
+  late ScrollController scrollController;
 
   HomeController() {
     _statisticRepository = new StatisticRepository();
@@ -37,14 +37,14 @@ class HomeController extends GetxController {
 
   @override
   void onClose() {
-    scrollController?.dispose();
+    scrollController.dispose();
   }
 
-  Future refreshHome({bool showMessage = false, String statusId}) async {
+  Future refreshHome({bool showMessage = false, String? statusId}) async {
     await getBookingStatuses();
     await getStatistics();
     Get.find<RootController>().getNotificationsCount();
-    changeTab(statusId);
+    changeTab(statusId ?? '');
     if (showMessage) {
       Get.showSnackbar(Ui.SuccessSnackBar(message: "Home page refreshed successfully".tr));
     }
@@ -59,7 +59,7 @@ class HomeController extends GetxController {
     });
   }
 
-  void changeTab(String statusId) async {
+  void changeTab(String? statusId) async {
     this.bookings.clear();
     currentStatus.value = statusId ?? currentStatus.value;
     page.value = 0;
@@ -87,7 +87,7 @@ class HomeController extends GetxController {
         return BookingStatus();
       });
 
-  Future loadBookingsOfStatus({String statusId}) async {
+  Future loadBookingsOfStatus({required String statusId}) async {
     try {
       isLoading.value = true;
       isDone.value = false;
@@ -127,7 +127,7 @@ class HomeController extends GetxController {
 
   Future<void> declineBookingService(Booking booking) async {
     try {
-      if (booking.status.order < Get.find<GlobalService>().global.value.onTheWay) {
+      if ((booking.status?.order ?? 0) < Get.find<GlobalService>().global.value.onTheWay) {
         final _status = getStatusByOrder(Get.find<GlobalService>().global.value.failed);
         final _booking = new Booking(id: booking.id, cancel: true, status: _status);
         await _bookingsRepository.update(_booking);

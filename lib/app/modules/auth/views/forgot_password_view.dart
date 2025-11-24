@@ -20,7 +20,7 @@ class ForgotPasswordView extends GetView<AuthController> {
         appBar: AppBar(
           title: Text(
             "Forgot Password".tr,
-            style: Get.textTheme.headline6.merge(TextStyle(color: context.theme.primaryColor)),
+            style: Get.textTheme.headline6?.merge(TextStyle(color: context.theme.primaryColor)) ?? TextStyle(color: context.theme.primaryColor),
           ),
           centerTitle: true,
           backgroundColor: Get.theme.colorScheme.secondary,
@@ -51,13 +51,13 @@ class ForgotPasswordView extends GetView<AuthController> {
                       child: Column(
                         children: [
                           Text(
-                            _settings.appName,
-                            style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.primaryColor, fontSize: 24)),
+                            _settings.appName ?? '',
+                            style: Get.textTheme.headline6?.merge(TextStyle(color: Get.theme.primaryColor, fontSize: 24)) ?? TextStyle(color: Get.theme.primaryColor, fontSize: 24),
                           ),
                           SizedBox(height: 5),
                           Text(
                             "Welcome to the best service provider system!".tr,
-                            style: Get.textTheme.caption.merge(TextStyle(color: Get.theme.primaryColor)),
+                            style: Get.textTheme.caption?.merge(TextStyle(color: Get.theme.primaryColor)) ?? TextStyle(color: Get.theme.primaryColor),
                             textAlign: TextAlign.center,
                           ),
                           // Text("Fill the following credentials to login your account", style: Get.textTheme.caption.merge(TextStyle(color: Get.theme.primaryColor))),
@@ -84,7 +84,11 @@ class ForgotPasswordView extends GetView<AuthController> {
               ),
               Obx(() {
                 if (controller.loading.isTrue)
-                  return CircularLoadingWidget(height: 300);
+                  return CircularLoadingWidget(
+                    height: 300,
+                    onComplete: (_) {},
+                    onCompleteText: '',
+                  );
                 else {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -92,9 +96,9 @@ class ForgotPasswordView extends GetView<AuthController> {
                       TextFieldWidget(
                         labelText: "Email Address".tr,
                         hintText: "johndoe@gmail.com".tr,
-                        initialValue: controller.currentUser?.value?.email,
-                        onSaved: (input) => controller.currentUser.value.email = input,
-                        validator: (input) => !GetUtils.isEmail(input) ? "Should be a valid email".tr : null,
+                        initialValue: controller.currentUser.value.email,
+                        onSaved: (input) => controller.currentUser.value.email = input ?? '',
+                        validator: (input) => input != null && !GetUtils.isEmail(input) ? "Should be a valid email".tr : null,
                         iconData: Icons.alternate_email,
                       ),
                       BlockButtonWidget(
@@ -102,7 +106,7 @@ class ForgotPasswordView extends GetView<AuthController> {
                         color: Get.theme.colorScheme.secondary,
                         text: Text(
                           "Send Reset Link".tr,
-                          style: Get.textTheme.headline6.merge(TextStyle(color: Get.theme.primaryColor)),
+                          style: Get.textTheme.headline6?.merge(TextStyle(color: Get.theme.primaryColor)) ?? TextStyle(color: Get.theme.primaryColor),
                         ),
                       ).paddingSymmetric(vertical: 35, horizontal: 20),
                       Row(

@@ -12,7 +12,7 @@ import '../controllers/checkout_controller.dart';
 
 class PaymentMethodItemWidget extends GetWidget<CheckoutController> {
   PaymentMethodItemWidget({
-    @required PaymentMethod paymentMethod,
+    required PaymentMethod paymentMethod,
   }) : _paymentMethod = paymentMethod;
 
   final PaymentMethod _paymentMethod;
@@ -28,25 +28,27 @@ class PaymentMethodItemWidget extends GetWidget<CheckoutController> {
           data: ThemeData(
             toggleableActiveColor: Get.theme.primaryColor,
           ),
-          child: RadioListTile(
+          child: RadioListTile<PaymentMethod?>(
               value: _paymentMethod,
               groupValue: controller.selectedPaymentMethod.value,
-              onChanged: (PaymentMethod value) {
-                if (value.wallet == null || value.wallet.balance >= controller.eProviderSubscription.value.subscriptionPackage.getPrice) {
-                  controller.selectPaymentMethod(value);
+              onChanged: (PaymentMethod? value) {
+                if (value != null) {
+                  if (value.wallet == null || (value.wallet?.balance ?? 0) >= (controller.eProviderSubscription.value.subscriptionPackage?.getPrice ?? 0)) {
+                    controller.selectPaymentMethod(value);
+                  }
                 }
               },
-              title: Text(_paymentMethod.name, style: controller.getTitleTheme(_paymentMethod)).paddingOnly(bottom: 5),
+              title: Text(_paymentMethod.name ?? '', style: controller.getTitleTheme(_paymentMethod)).paddingOnly(bottom: 5),
               subtitle: _paymentMethod.wallet == null
-                  ? Text(_paymentMethod.description, style: controller.getSubTitleTheme(_paymentMethod))
-                  : Ui.getPrice(double.tryParse(_paymentMethod.description) ?? 0, style: controller.getSubTitleTheme(_paymentMethod)),
+                  ? Text(_paymentMethod.description ?? '', style: controller.getSubTitleTheme(_paymentMethod))
+                  : Ui.getPrice(double.tryParse(_paymentMethod.description ?? '') ?? 0, style: controller.getSubTitleTheme(_paymentMethod)),
               secondary: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 child: CachedNetworkImage(
                   height: 60,
                   width: 60,
                   fit: BoxFit.cover,
-                  imageUrl: _paymentMethod.logo.thumb,
+                  imageUrl: _paymentMethod.logo?.thumb ?? '',
                   placeholder: (context, url) => Image.asset(
                     'assets/img/loading.gif',
                     fit: BoxFit.cover,

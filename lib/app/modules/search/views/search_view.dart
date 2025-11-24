@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 
 import '../../../../common/ui.dart';
 import '../../global_widgets/filter_bottom_sheet_widget.dart';
-import '../controllers/search_controller.dart';
+import '../controllers/search_controller.dart' as search_controller;
 import '../widgets/search_services_list_widget.dart';
 
-class SearchView extends GetView<SearchController> {
+class SearchView extends GetView<search_controller.SearchController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

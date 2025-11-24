@@ -14,7 +14,7 @@ class ImagesFieldController extends GetxController {
   final images = <File>[].obs;
   List<String> uuids = <String>[];
   final uploading = false.obs;
-  UploadRepository _uploadRepository;
+  late UploadRepository _uploadRepository;
 
   ImagesFieldController() {
     _uploadRepository = new UploadRepository();
@@ -32,16 +32,19 @@ class ImagesFieldController extends GetxController {
 
   Future pickImage(ImageSource source, String field, ValueChanged<String> uploadCompleted) async {
     ImagePicker imagePicker = ImagePicker();
-    XFile pickedFile = await imagePicker.pickImage(source: source, imageQuality: 80);
+    XFile? pickedFile = await imagePicker.pickImage(source: source, imageQuality: 80);
+    if (pickedFile == null) return;
     File imageFile = File(pickedFile.path);
     print(imageFile);
     if (imageFile != null) {
       try {
         uploading.value = true;
         var _uuid = await _uploadRepository.image(imageFile, field);
-        uuids.add(_uuid);
-        images.add(imageFile);
-        uploadCompleted(_uuid);
+        if (_uuid != null) {
+          uuids.add(_uuid);
+          images.add(imageFile);
+          uploadCompleted(_uuid);
+        }
         uploading.value = false;
       } catch (e) {
         uploading.value = false;
@@ -66,23 +69,23 @@ class ImagesFieldController extends GetxController {
 
 class ImagesFieldWidget extends StatelessWidget {
   ImagesFieldWidget({
-    Key key,
-    @required this.label,
-    @required this.tag,
-    @required this.field,
+    Key? key,
+    required this.label,
+    required this.tag,
+    required this.field,
     this.placeholder,
     this.buttonText,
-    @required this.uploadCompleted,
+    required this.uploadCompleted,
     this.initialImages,
-    @required this.reset,
+    required this.reset,
   }) : super(key: key);
 
   final String label;
-  final String placeholder;
-  final String buttonText;
+  final String? placeholder;
+  final String? buttonText;
   final String tag;
   final String field;
-  final List<Media> initialImages;
+  final List<Media>? initialImages;
   final ValueChanged<String> uploadCompleted;
   final ValueChanged<List<String>> reset;
 
@@ -153,21 +156,21 @@ class ImagesFieldWidget extends StatelessWidget {
         ));
   }
 
-  Widget buildImages(List<Media> initialImages, List<File> images) {
+  Widget buildImages(List<Media>? initialImages, List<File> images) {
     final controller = Get.put(ImagesFieldController(), tag: tag);
     List<Widget> thumbs = [];
     thumbs.addAll(
-      (initialImages
-              ?.where((image) {
-                return !Uuid.isUuid(image.id);
+      ((initialImages ?? [])
+              .where((image) {
+                return image.id != null && !Uuid.isUuid(image.id!);
               })
-              ?.map((image) => ClipRRect(
+              .map((image) => ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     child: CachedNetworkImage(
                       height: 100,
                       width: 100,
                       fit: BoxFit.cover,
-                      imageUrl: image?.thumb ?? '',
+                      imageUrl: image.thumb,
                       placeholder: (context, url) => Image.asset(
                         'assets/img/loading.gif',
                         fit: BoxFit.cover,
@@ -177,11 +180,10 @@ class ImagesFieldWidget extends StatelessWidget {
                       errorWidget: (context, url, error) => Icon(Icons.error_outline),
                     ),
                   ))
-              ?.toList() ??
-          []),
+              .toList()),
     );
     thumbs.addAll(images
-            ?.map((image) => ClipRRect(
+            .map((image) => ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   child: Image.file(
                     image,
@@ -190,8 +192,7 @@ class ImagesFieldWidget extends StatelessWidget {
                     height: 100,
                   ),
                 ))
-            ?.toList() ??
-        []);
+            .toList());
 
     thumbs.add(
       Obx(() {

@@ -8,13 +8,17 @@ import 'e_providers_empty_list_widget.dart';
 import 'e_providers_list_item_widget.dart';
 
 class EProvidersListWidget extends GetView<EProvidersController> {
-  EProvidersListWidget({Key key}) : super(key: key);
+  EProvidersListWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       if (Get.find<LaravelApiClient>().isLoading(tasks: ['getEProviders', 'getAcceptedEProviders', 'getFeaturedEProviders', 'getPendingEProviders'])) {
-        return CircularLoadingWidget(height: 300);
+        return CircularLoadingWidget(
+          height: 300,
+          onComplete: (_) {},
+          onCompleteText: '',
+        );
       } else {
         if (controller.eProviders.isEmpty && controller.selected.value == EProviderFilter.ALL) {
           return EProvidersEmptyListWidget();
