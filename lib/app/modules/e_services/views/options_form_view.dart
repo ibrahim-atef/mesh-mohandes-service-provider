@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/app_color.dart';
 import '../../../models/media_model.dart';
 import '../../../models/option_group_model.dart';
 import '../../../routes/app_routes.dart';
@@ -37,7 +38,7 @@ class OptionsFormView extends GetView<OptionsFormController> {
               padding: EdgeInsets.symmetric(horizontal: 20),
               icon: new Icon(
                 Icons.delete_outline,
-                color: Colors.redAccent,
+                color: AppColor.error,
                 size: 28,
               ),
               onPressed: () => _showDeleteDialog(context),
@@ -256,7 +257,7 @@ class OptionsFormView extends GetView<OptionsFormController> {
         return AlertDialog(
           title: Text(
             "Delete Option".tr,
-            style: TextStyle(color: Colors.redAccent),
+            style: TextStyle(color: AppColor.error),
           ),
           content: SingleChildScrollView(
             child: Column(
@@ -275,7 +276,7 @@ class OptionsFormView extends GetView<OptionsFormController> {
             TextButton(
               child: Text(
                 "Confirm".tr,
-                style: TextStyle(color: Colors.redAccent),
+                style: TextStyle(color: AppColor.error),
               ),
               onPressed: () {
                 Get.back();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/app_color.dart';
 import '../../../../common/ui.dart';
 import '../../../providers/laravel_provider.dart';
 import '../../../routes/app_routes.dart';
@@ -21,9 +22,9 @@ class DeleteAccountWidget extends GetView<ProfileController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Delete your account!", style: Get.textTheme.bodyText2?.merge(TextStyle(color: Colors.redAccent))),
+                Text("Delete your account!", style: Get.textTheme.bodyText2?.merge(TextStyle(color: AppColor.error))),
                 Text("Once you delete this account, there is no going back. Please be certain.",
-                    style: Get.textTheme.caption?.merge(TextStyle(color: Colors.redAccent))),
+                    style: Get.textTheme.caption?.merge(TextStyle(color: AppColor.error))),
               ],
             ),
           ),
@@ -47,7 +48,7 @@ class DeleteAccountWidget extends GetView<ProfileController> {
               },
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              color: Colors.redAccent,
+              color: AppColor.error,
               child: Text("Delete".tr, style: Get.textTheme.bodyText2?.merge(TextStyle(color: Get.theme.primaryColor))),
               elevation: 0,
               highlightElevation: 0,
@@ -68,7 +69,7 @@ class DeleteAccountWidget extends GetView<ProfileController> {
         return AlertDialog(
           title: Text(
             "Delete your account!".tr,
-            style: TextStyle(color: Colors.redAccent),
+            style: TextStyle(color: AppColor.error),
           ),
           content: SingleChildScrollView(
             child: Column(
@@ -87,7 +88,7 @@ class DeleteAccountWidget extends GetView<ProfileController> {
             TextButton(
               child: Text(
                 "Confirm".tr,
-                style: TextStyle(color: Colors.redAccent),
+                style: TextStyle(color: AppColor.error),
               ),
               onPressed: () async {
                 Get.back();

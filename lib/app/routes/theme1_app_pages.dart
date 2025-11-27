@@ -64,57 +64,207 @@ import '../services/auth_service.dart';
 import 'app_routes.dart';
 
 class Theme1AppPages {
-  static final INITIAL = Get.find<AuthService>().user.value.isProvider ? Routes.ROOT : Routes.LOGIN;
+  static final INITIAL = Get.find<AuthService>().user.value.isProvider
+      ? Routes.ROOT
+      : Routes.LOGIN;
 
   static final routes = [
-    GetPage(name: Routes.ROOT, page: () => RootView(), binding: RootBinding(), middlewares: [AuthMiddleware(), ProviderMiddleware()]),
-    GetPage(name: Routes.CHAT, page: () => ChatsView(), binding: RootBinding(), middlewares: [AuthMiddleware(), ProviderMiddleware()]),
-    GetPage(name: Routes.SETTINGS, page: () => SettingsView(), binding: SettingsBinding()),
-    GetPage(name: Routes.SETTINGS_THEME_MODE, page: () => ThemeModeView(), binding: SettingsBinding()),
-    GetPage(name: Routes.SETTINGS_LANGUAGE, page: () => LanguageView(), binding: SettingsBinding()),
-    GetPage(name: Routes.PROFILE, page: () => ProfileView(), binding: ProfileBinding()),
-    GetPage(name: Routes.LOGIN, page: () => LoginView(), binding: AuthBinding()),
-    GetPage(name: Routes.REGISTER, page: () => RegisterView(), binding: AuthBinding()),
-    GetPage(name: Routes.FORGOT_PASSWORD, page: () => ForgotPasswordView(), binding: AuthBinding()),
-    GetPage(name: Routes.PHONE_VERIFICATION, page: () => PhoneVerificationView(), binding: AuthBinding()),
-    GetPage(name: Routes.E_SERVICE, page: () => EServiceView(), binding: EServicesBinding(), transition: Transition.downToUp, middlewares: [AuthMiddleware()]),
-    GetPage(name: Routes.E_SERVICE_FORM, page: () => EServiceFormView(), binding: EServicesBinding(), middlewares: [AuthMiddleware()]),
-    GetPage(name: Routes.OPTIONS_FORM, page: () => OptionsFormView(), binding: EServicesBinding(), middlewares: [AuthMiddleware()]),
-    GetPage(name: Routes.E_SERVICES, page: () => EServicesView(), binding: EServicesBinding(), middlewares: [AuthMiddleware()]),
-    GetPage(name: Routes.SEARCH, page: () => SearchView(), binding: RootBinding(), transition: Transition.downToUp),
-    GetPage(name: Routes.NOTIFICATIONS, page: () => NotificationsView(), binding: NotificationsBinding()),
-    GetPage(name: Routes.PRIVACY, page: () => PrivacyView(), binding: HelpPrivacyBinding()),
-    GetPage(name: Routes.HELP, page: () => HelpView(), binding: HelpPrivacyBinding()),
-    GetPage(name: Routes.CUSTOM_PAGES, page: () => CustomPagesView(), binding: CustomPagesBinding()),
-    GetPage(name: Routes.REVIEW, page: () => ReviewView(), binding: RootBinding(), middlewares: [AuthMiddleware(), ProviderMiddleware()]),
-    GetPage(name: Routes.BOOKING, page: () => BookingView(), binding: RootBinding(), middlewares: [AuthMiddleware(), ProviderMiddleware()]),
-    GetPage(name: Routes.GALLERY, page: () => GalleryView(), binding: GalleryBinding(), transition: Transition.fadeIn),
+    GetPage(
+        name: Routes.ROOT,
+        page: () => RootView(),
+        binding: RootBinding(),
+        middlewares: [AuthMiddleware(), ProviderMiddleware()]),
+    GetPage(
+        name: Routes.CHAT,
+        page: () => ChatsView(),
+        binding: RootBinding(),
+        middlewares: [AuthMiddleware(), ProviderMiddleware()]),
+    GetPage(
+        name: Routes.SETTINGS,
+        page: () => SettingsView(),
+        binding: SettingsBinding()),
+    GetPage(
+        name: Routes.SETTINGS_THEME_MODE,
+        page: () => ThemeModeView(),
+        binding: SettingsBinding()),
+    GetPage(
+        name: Routes.SETTINGS_LANGUAGE,
+        page: () => LanguageView(),
+        binding: SettingsBinding()),
+    GetPage(
+        name: Routes.PROFILE,
+        page: () => ProfileView(),
+        binding: ProfileBinding()),
+    GetPage(
+        name: Routes.LOGIN, page: () => LoginView(), binding: AuthBinding()),
+    GetPage(
+        name: Routes.REGISTER,
+        page: () => RegisterView(),
+        binding: AuthBinding()),
+    GetPage(
+        name: Routes.FORGOT_PASSWORD,
+        page: () => ForgotPasswordView(),
+        binding: AuthBinding()),
+    GetPage(
+        name: Routes.PHONE_VERIFICATION,
+        page: () => PhoneVerificationView(),
+        binding: AuthBinding()),
+    GetPage(
+        name: Routes.E_SERVICE,
+        page: () => EServiceView(),
+        binding: EServicesBinding(),
+        transition: Transition.downToUp,
+        middlewares: [AuthMiddleware()]),
+    GetPage(
+        name: Routes.E_SERVICE_FORM,
+        page: () => EServiceFormView(),
+        binding: EServicesBinding(),
+        middlewares: [AuthMiddleware()]),
+    GetPage(
+        name: Routes.OPTIONS_FORM,
+        page: () => OptionsFormView(),
+        binding: EServicesBinding(),
+        middlewares: [AuthMiddleware()]),
+    GetPage(
+        name: Routes.E_SERVICES,
+        page: () => EServicesView(),
+        binding: EServicesBinding(),
+        middlewares: [AuthMiddleware()]),
+    GetPage(
+        name: Routes.SEARCH,
+        page: () => SearchView(),
+        binding: RootBinding(),
+        transition: Transition.downToUp),
+    GetPage(
+        name: Routes.NOTIFICATIONS,
+        page: () => NotificationsView(),
+        binding: NotificationsBinding()),
+    GetPage(
+        name: Routes.PRIVACY,
+        page: () => PrivacyView(),
+        binding: HelpPrivacyBinding()),
+    GetPage(
+        name: Routes.HELP,
+        page: () => HelpView(),
+        binding: HelpPrivacyBinding()),
+    GetPage(
+        name: Routes.CUSTOM_PAGES,
+        page: () => CustomPagesView(),
+        binding: CustomPagesBinding()),
+    GetPage(
+        name: Routes.REVIEW,
+        page: () => ReviewView(),
+        binding: RootBinding(),
+        middlewares: [AuthMiddleware(), ProviderMiddleware()]),
+    GetPage(
+        name: Routes.BOOKING,
+        page: () => BookingView(),
+        binding: RootBinding(),
+        middlewares: [AuthMiddleware(), ProviderMiddleware()]),
+    GetPage(
+        name: Routes.GALLERY,
+        page: () => GalleryView(),
+        binding: GalleryBinding(),
+        transition: Transition.fadeIn),
     // Providers
-    GetPage(name: Routes.E_PROVIDER, page: () => EProviderView(), binding: EProviderBinding(), middlewares: [AuthMiddleware()]),
-    GetPage(name: Routes.E_PROVIDER_E_SERVICES, page: () => EProviderEServicesView(), binding: EProviderBinding(), middlewares: [AuthMiddleware()]),
-    GetPage(name: Routes.E_PROVIDERS, page: () => EProvidersView(), binding: EProvidersBinding(), middlewares: [AuthMiddleware()]),
-    GetPage(name: Routes.E_PROVIDER_FORM, page: () => EProviderFormView(), binding: EProviderBinding(), middlewares: [AuthMiddleware()]),
-    GetPage(name: Routes.E_PROVIDER_ADDRESSES_FORM, page: () => EProviderAddressesFormView(), binding: EProviderBinding(), middlewares: [AuthMiddleware()]),
-    GetPage(name: Routes.E_PROVIDER_ADDRESS_PICKER, page: () => AddressPickerView(), binding: EProviderBinding(), middlewares: [AuthMiddleware()]),
-    GetPage(name: Routes.E_PROVIDER_AVAILABILITY_FORM, page: () => EProviderAvailabilityFormView(), binding: EProviderBinding(), middlewares: [AuthMiddleware()]),
+    GetPage(
+        name: Routes.E_PROVIDER,
+        page: () => EProviderView(),
+        binding: EProviderBinding(),
+        middlewares: [AuthMiddleware()]),
+    GetPage(
+        name: Routes.E_PROVIDER_E_SERVICES,
+        page: () => EProviderEServicesView(),
+        binding: EProviderBinding(),
+        middlewares: [AuthMiddleware()]),
+    GetPage(
+        name: Routes.E_PROVIDERS,
+        page: () => EProvidersView(),
+        binding: EProvidersBinding(),
+        middlewares: [AuthMiddleware()]),
+    GetPage(
+        name: Routes.E_PROVIDER_FORM,
+        page: () => EProviderFormView(),
+        binding: EProviderBinding(),
+        middlewares: [AuthMiddleware()]),
+    GetPage(
+        name: Routes.E_PROVIDER_ADDRESSES_FORM,
+        page: () => EProviderAddressesFormView(),
+        binding: EProviderBinding(),
+        middlewares: [AuthMiddleware()]),
+    GetPage(
+        name: Routes.E_PROVIDER_ADDRESS_PICKER,
+        page: () => AddressPickerView(),
+        binding: EProviderBinding(),
+        middlewares: [AuthMiddleware()]),
+    GetPage(
+        name: Routes.E_PROVIDER_AVAILABILITY_FORM,
+        page: () => EProviderAvailabilityFormView(),
+        binding: EProviderBinding(),
+        middlewares: [AuthMiddleware()]),
 /*    GetPage(name: Routes.AWARD_FORM, page: () => AwardFormView(), binding: EProviderBinding(),middlewares: [AuthMiddleware()]),
     GetPage(name: Routes.EXPERIENCE_FORM, page: () => ExperienceFormView(), binding: EProviderBinding(),middlewares: [AuthMiddleware()]),
     */
     // Subscription Module
-    GetPage(name: Routes.PACKAGES, page: () => PackagesView(), binding: SubscriptionBinding()),
-    GetPage(name: Routes.SUBSCRIPTIONS, page: () => SubscriptionsView(), binding: SubscriptionBinding()),
-    GetPage(name: Routes.CHECKOUT, page: () => CheckoutView(), binding: CheckoutBinding()),
-    GetPage(name: Routes.CONFIRMATION, page: () => ConfirmationView(), binding: CheckoutBinding()),
-    GetPage(name: Routes.PAYPAL, page: () => PayPalViewWidget(), binding: CheckoutBinding()),
-    GetPage(name: Routes.RAZORPAY, page: () => RazorPayViewWidget(), binding: CheckoutBinding()),
-    GetPage(name: Routes.STRIPE, page: () => StripeViewWidget(), binding: CheckoutBinding()),
-    GetPage(name: Routes.STRIPE_FPX, page: () => StripeFPXViewWidget(), binding: CheckoutBinding()),
-    GetPage(name: Routes.PAYSTACK, page: () => PayStackViewWidget(), binding: CheckoutBinding()),
-    GetPage(name: Routes.PAYMONGO, page: () => PayMongoViewWidget(), binding: CheckoutBinding()),
-    GetPage(name: Routes.FLUTTERWAVE, page: () => FlutterWaveViewWidget(), binding: CheckoutBinding()),
-    GetPage(name: Routes.CASH, page: () => CashViewWidget(), binding: CheckoutBinding()),
-    GetPage(name: Routes.WALLET, page: () => WalletViewWidget(), binding: CheckoutBinding()),
-    GetPage(name: Routes.WALLETS, page: () => WalletsView(), binding: WalletsBinding()),
-    GetPage(name: Routes.WALLET_FORM, page: () => WalletFormView(), binding: WalletsBinding()),
+    GetPage(
+        name: Routes.PACKAGES,
+        page: () => PackagesView(),
+        binding: SubscriptionBinding()),
+    GetPage(
+        name: Routes.SUBSCRIPTIONS,
+        page: () => SubscriptionsView(),
+        binding: SubscriptionBinding()),
+    GetPage(
+        name: Routes.CHECKOUT,
+        page: () => CheckoutView(),
+        binding: CheckoutBinding()),
+    GetPage(
+        name: Routes.CONFIRMATION,
+        page: () => ConfirmationView(),
+        binding: CheckoutBinding()),
+    GetPage(
+        name: Routes.PAYPAL,
+        page: () => PayPalViewWidget(),
+        binding: CheckoutBinding()),
+    GetPage(
+        name: Routes.RAZORPAY,
+        page: () => RazorPayViewWidget(),
+        binding: CheckoutBinding()),
+    GetPage(
+        name: Routes.STRIPE,
+        page: () => StripeViewWidget(),
+        binding: CheckoutBinding()),
+    GetPage(
+        name: Routes.STRIPE_FPX,
+        page: () => StripeFPXViewWidget(),
+        binding: CheckoutBinding()),
+    GetPage(
+        name: Routes.PAYSTACK,
+        page: () => PayStackViewWidget(),
+        binding: CheckoutBinding()),
+    GetPage(
+        name: Routes.PAYMONGO,
+        page: () => PayMongoViewWidget(),
+        binding: CheckoutBinding()),
+    GetPage(
+        name: Routes.FLUTTERWAVE,
+        page: () => FlutterWaveViewWidget(),
+        binding: CheckoutBinding()),
+    GetPage(
+        name: Routes.CASH,
+        page: () => CashViewWidget(),
+        binding: CheckoutBinding()),
+    GetPage(
+        name: Routes.WALLET,
+        page: () => WalletViewWidget(),
+        binding: CheckoutBinding()),
+    GetPage(
+        name: Routes.WALLETS,
+        page: () => WalletsView(),
+        binding: WalletsBinding()),
+    GetPage(
+        name: Routes.WALLET_FORM,
+        page: () => WalletFormView(),
+        binding: WalletsBinding()),
   ];
 }

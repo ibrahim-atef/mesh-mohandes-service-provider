@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/app_color.dart';
 import '../../../models/category_model.dart';
 import '../../../models/e_provider_model.dart';
 import '../../../models/e_service_model.dart';
@@ -47,7 +48,7 @@ class EServiceFormView extends GetView<EServiceFormController> {
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 icon: new Icon(
                   Icons.delete_outline,
-                  color: Colors.redAccent,
+                  color: AppColor.error,
                   size: 28,
                 ),
                 onPressed: () => _showDeleteDialog(context),
@@ -542,7 +543,7 @@ class EServiceFormView extends GetView<EServiceFormController> {
         return AlertDialog(
           title: Text(
             "Delete Service".tr,
-            style: TextStyle(color: Colors.redAccent),
+            style: TextStyle(color: AppColor.error),
           ),
           content: SingleChildScrollView(
             child: Column(
@@ -561,7 +562,7 @@ class EServiceFormView extends GetView<EServiceFormController> {
             TextButton(
               child: Text(
                 "Confirm".tr,
-                style: TextStyle(color: Colors.redAccent),
+                style: TextStyle(color: AppColor.error),
               ),
               onPressed: () {
                 Get.back();

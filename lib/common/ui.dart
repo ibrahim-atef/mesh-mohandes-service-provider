@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
 import '../app/services/settings_service.dart';
+import 'app_color.dart';
 
 class Ui {
   static GetSnackBar SuccessSnackBar(
@@ -20,7 +21,7 @@ class Ui {
               ?.merge(TextStyle(color: Get.theme.primaryColor))),
       snackPosition: SnackPosition.BOTTOM,
       margin: EdgeInsets.all(20),
-      backgroundColor: Colors.green,
+      backgroundColor: AppColor.success,
       icon: Icon(Icons.check_circle_outline,
           size: 32, color: Get.theme.primaryColor),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
@@ -42,7 +43,7 @@ class Ui {
               ?.merge(TextStyle(color: Get.theme.primaryColor))),
       snackPosition: SnackPosition.BOTTOM,
       margin: EdgeInsets.all(20),
-      backgroundColor: Colors.redAccent,
+      backgroundColor: AppColor.error,
       icon: Icon(Icons.remove_circle_outline,
           size: 32, color: Get.theme.primaryColor),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
@@ -105,21 +106,21 @@ class Ui {
       return Color(int.tryParse(hexCode.replaceAll("#", "0xFF")) ?? 0xFFCCCCCC)
           .withOpacity(opacity ?? 1);
     } catch (e) {
-      return Color(0xFFCCCCCC).withOpacity(opacity ?? 1);
+      return AppColor.defaultColor.withOpacity(opacity ?? 1);
     }
   }
 
   static List<Icon> getStarsList(double rate, {double size = 18}) {
     var list = <Icon>[];
     list = List.generate(rate.floor(), (index) {
-      return Icon(Icons.star, size: size, color: Color(0xFFFFB24D));
+      return Icon(Icons.star, size: size, color: AppColor.star);
     });
     if (rate - rate.floor() > 0) {
-      list.add(Icon(Icons.star_half, size: size, color: Color(0xFFFFB24D)));
+      list.add(Icon(Icons.star_half, size: size, color: AppColor.star));
     }
     list.addAll(
         List.generate(5 - rate.floor() - (rate - rate.floor()).ceil(), (index) {
-      return Icon(Icons.star_border, size: size, color: Color(0xFFFFB24D));
+      return Icon(Icons.star_border, size: size, color: AppColor.starEmpty);
     }));
     return list;
   }

@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/app_color.dart';
 import '../../../../common/ui.dart';
 import '../../../models/e_service_model.dart';
 import '../../../models/media_model.dart';
@@ -367,13 +368,13 @@ class EServiceView extends GetView<EServiceController> {
                   child: Text("  .  .  .  ".tr,
                       maxLines: 1,
                       style: Get.textTheme.bodyText2?.merge(
-                        TextStyle(color: Colors.grey, height: 1.4, fontSize: 10),
+                        TextStyle(color: AppColor.grey, height: 1.4, fontSize: 10),
                       ),
                       softWrap: false,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.fade),
                   decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.2),
+                    color: AppColor.greyWithOpacity(0.2),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -384,13 +385,13 @@ class EServiceView extends GetView<EServiceController> {
                   child: Text("Available".tr,
                       maxLines: 1,
                       style: Get.textTheme.bodyText2?.merge(
-                        TextStyle(color: Colors.green, height: 1.4, fontSize: 10),
+                        TextStyle(color: AppColor.success, height: 1.4, fontSize: 10),
                       ),
                       softWrap: false,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.fade),
                   decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.2),
+                    color: AppColor.successWithOpacity(0.2),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -401,13 +402,13 @@ class EServiceView extends GetView<EServiceController> {
                   child: Text("Offline".tr,
                       maxLines: 1,
                       style: Get.textTheme.bodyText2?.merge(
-                        TextStyle(color: Colors.grey, height: 1.4, fontSize: 10),
+                        TextStyle(color: AppColor.grey, height: 1.4, fontSize: 10),
                       ),
                       softWrap: false,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.fade),
                   decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.2),
+                    color: AppColor.greyWithOpacity(0.2),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
+import '../../../../common/app_color.dart';
 import '../../../../common/ui.dart';
 import '../../../models/wallet_transaction_model.dart';
 
@@ -49,8 +50,8 @@ class WalletTransactionItem extends StatelessWidget {
                   ],
                 ),
               ),
-              if (_transaction.action == TransactionActions.CREDIT) Ui.getPrice(_transaction.amount, style: Get.textTheme.headline5?.merge(TextStyle(color: Colors.green)) ?? TextStyle(color: Colors.green)),
-              if (_transaction.action == TransactionActions.DEBIT) Ui.getPrice(-_transaction.amount, style: Get.textTheme.headline5?.merge(TextStyle(color: Colors.red)) ?? TextStyle(color: Colors.red)),
+              if (_transaction.action == TransactionActions.CREDIT) Ui.getPrice(_transaction.amount, style: Get.textTheme.headline5?.merge(TextStyle(color: AppColor.success)) ?? TextStyle(color: AppColor.success)),
+              if (_transaction.action == TransactionActions.DEBIT) Ui.getPrice(-_transaction.amount, style: Get.textTheme.headline5?.merge(TextStyle(color: AppColor.error)) ?? TextStyle(color: AppColor.error)),
             ],
           ),
         ),

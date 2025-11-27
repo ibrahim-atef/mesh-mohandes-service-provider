@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
+import '../../../../common/app_color.dart';
 import '../../../../common/ui.dart';
 import '../../../models/e_provider_subscription_model.dart';
 
@@ -59,13 +60,13 @@ class SubscriptionItemWidget extends StatelessWidget {
                   child: Text("Enabled".tr,
                       maxLines: 1,
                       style: Get.textTheme.bodyText2?.merge(
-                        TextStyle(color: Colors.green),
-                      ) ?? TextStyle(color: Colors.green),
+                        TextStyle(color: AppColor.success),
+                      ) ?? TextStyle(color: AppColor.success),
                       softWrap: false,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.fade),
                   decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.2),
+                    color: AppColor.successWithOpacity(0.2),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -75,13 +76,13 @@ class SubscriptionItemWidget extends StatelessWidget {
                   child: Text("Disabled".tr,
                       maxLines: 1,
                       style: Get.textTheme.bodyText2?.merge(
-                        TextStyle(color: Colors.grey),
-                      ) ?? TextStyle(color: Colors.grey),
+                        TextStyle(color: AppColor.grey),
+                      ) ?? TextStyle(color: AppColor.grey),
                       softWrap: false,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.fade),
                   decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.2),
+                    color: AppColor.greyWithOpacity(0.2),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -100,7 +101,7 @@ class SubscriptionItemWidget extends StatelessWidget {
               ),
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.2),
+                  color: AppColor.greyWithOpacity(0.2),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../common/app_color.dart';
+
 class BookingsListLoaderWidget extends StatelessWidget {
   BookingsListLoaderWidget({Key? key}) : super(key: key);
 
@@ -13,15 +15,15 @@ class BookingsListLoaderWidget extends StatelessWidget {
         itemCount: 3,
         itemBuilder: (_, index) {
           return Shimmer.fromColors(
-            baseColor: Colors.grey.withOpacity(0.1),
-            highlightColor: (Colors.grey[200] ?? Colors.grey).withOpacity(0.1),
+            baseColor: AppColor.greyWithOpacity(0.1),
+            highlightColor: AppColor.greyLightWithOpacity(0.1),
             child: Container(
               width: double.maxFinite,
               height: 180,
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
+                color: AppColor.white,
               ),
             ),
           );

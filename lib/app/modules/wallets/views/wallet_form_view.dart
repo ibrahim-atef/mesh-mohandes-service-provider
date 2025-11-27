@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/app_color.dart';
 import '../../../../common/ui.dart';
 import '../../../routes/app_routes.dart';
 import '../../global_widgets/text_field_widget.dart';
@@ -31,7 +32,7 @@ class WalletFormView extends GetView<WalletFormController> {
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 icon: new Icon(
                   Icons.delete_outline,
-                  color: Colors.redAccent,
+                  color: AppColor.error,
                   size: 28,
                 ),
                 onPressed: () {
@@ -112,7 +113,7 @@ class WalletFormView extends GetView<WalletFormController> {
         return AlertDialog(
           title: Text(
             "Delete Wallet".tr,
-            style: TextStyle(color: Colors.redAccent),
+            style: TextStyle(color: AppColor.error),
           ),
           content: SingleChildScrollView(
             child: Column(
@@ -131,7 +132,7 @@ class WalletFormView extends GetView<WalletFormController> {
             TextButton(
               child: Text(
                 "Confirm".tr,
-                style: TextStyle(color: Colors.redAccent),
+                style: TextStyle(color: AppColor.error),
               ),
               onPressed: () {
                 Get.back();

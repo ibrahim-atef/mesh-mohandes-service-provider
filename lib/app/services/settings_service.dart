@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../common/app_color.dart';
 import '../../common/ui.dart';
 import '../models/address_model.dart';
 import '../models/setting_model.dart';
@@ -33,33 +34,98 @@ class SettingsService extends GetxService {
   ThemeData getLightTheme() {
     // TODO change font dynamically
     return ThemeData(
-        primaryColor: Colors.white,
-        floatingActionButtonTheme: FloatingActionButtonThemeData(elevation: 0, foregroundColor: Colors.white),
+        primaryColor: AppColor.scaffoldBackgroundLight,
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+            elevation: 0, foregroundColor: AppColor.white),
+        scaffoldBackgroundColor: AppColor.scaffoldBackgroundLight,
         brightness: Brightness.light,
-        dividerColor: Ui.parseColor(setting.value.accentColor ?? '#000000', opacity: 0.1),
+        dividerColor:
+            Ui.parseColor(setting.value.accentColor ?? '#000000', opacity: 0.1),
         focusColor: Ui.parseColor(setting.value.accentColor ?? '#000000'),
         hintColor: Ui.parseColor(setting.value.secondColor ?? '#000000'),
         textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(foregroundColor: Ui.parseColor(setting.value.mainColor ?? '#000000')),
+          style: TextButton.styleFrom(foregroundColor: AppColor.primary),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColor.primary,
+            foregroundColor: Colors.white,
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            foregroundColor: AppColor.primary,
+            side: BorderSide(color: AppColor.primary),
+          ),
+        ),
+        filledButtonTheme: FilledButtonThemeData(
+          style: FilledButton.styleFrom(
+            backgroundColor: AppColor.primary,
+            foregroundColor: Colors.white,
+          ),
         ),
         colorScheme: ColorScheme.light(
-          primary: Ui.parseColor(setting.value.mainColor ?? '#000000'),
-          secondary: Ui.parseColor(setting.value.mainColor ?? '#000000'),
+          primary: AppColor.primary,
+          secondary: AppColor.primary,
         ),
         textTheme: GoogleFonts.getTextTheme(
           _getLocale().startsWith('ar') ? 'Cairo' : 'Poppins',
           TextTheme(
-            headline6: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.mainColor ?? '#000000'), height: 1.2),
-            headline5: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.secondColor ?? '#000000'), height: 1.2),
-            headline4: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400, color: Ui.parseColor(setting.value.secondColor ?? '#000000'), height: 1.3),
-            headline3: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.secondColor ?? '#000000'), height: 1.3),
-            headline2: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.mainColor ?? '#000000'), height: 1.4),
-            headline1: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w300, color: Ui.parseColor(setting.value.secondColor ?? '#000000'), height: 1.4),
-            subtitle2: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600, color: Ui.parseColor(setting.value.secondColor ?? '#000000'), height: 1.2),
-            subtitle1: TextStyle(fontSize: 13.0, fontWeight: FontWeight.w400, color: Ui.parseColor(setting.value.mainColor ?? '#000000'), height: 1.2),
-            bodyText2: TextStyle(fontSize: 13.0, fontWeight: FontWeight.w600, color: Ui.parseColor(setting.value.secondColor ?? '#000000'), height: 1.2),
-            bodyText1: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w400, color: Ui.parseColor(setting.value.secondColor ?? '#000000'), height: 1.2),
-            caption: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w300, color: Ui.parseColor(setting.value.accentColor ?? '#000000'), height: 1.2),
+            titleLarge: TextStyle(
+                fontSize: 15.0,
+                fontWeight: FontWeight.w700,
+                color: Ui.parseColor(setting.value.mainColor ?? '#000000'),
+                height: 1.2),
+            headlineSmall: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w700,
+                color: Ui.parseColor(setting.value.secondColor ?? '#000000'),
+                height: 1.2),
+            headlineMedium: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.w400,
+                color: Ui.parseColor(setting.value.secondColor ?? '#000000'),
+                height: 1.3),
+            displaySmall: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w700,
+                color: Ui.parseColor(setting.value.secondColor ?? '#000000'),
+                height: 1.3),
+            displayMedium: TextStyle(
+                fontSize: 22.0,
+                fontWeight: FontWeight.w700,
+                color: Ui.parseColor(setting.value.mainColor ?? '#000000'),
+                height: 1.4),
+            displayLarge: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.w300,
+                color: Ui.parseColor(setting.value.secondColor ?? '#000000'),
+                height: 1.4),
+            titleSmall: TextStyle(
+                fontSize: 15.0,
+                fontWeight: FontWeight.w600,
+                color: Ui.parseColor(setting.value.secondColor ?? '#000000'),
+                height: 1.2),
+            titleMedium: TextStyle(
+                fontSize: 13.0,
+                fontWeight: FontWeight.w400,
+                color: Ui.parseColor(setting.value.mainColor ?? '#000000'),
+                height: 1.2),
+            bodyMedium: TextStyle(
+                fontSize: 13.0,
+                fontWeight: FontWeight.w600,
+                color: Ui.parseColor(setting.value.secondColor ?? '#000000'),
+                height: 1.2),
+            bodyLarge: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.w400,
+                color: Ui.parseColor(setting.value.secondColor ?? '#000000'),
+                height: 1.2),
+            bodySmall: TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.w300,
+                color: Ui.parseColor(setting.value.accentColor ?? '#000000'),
+                height: 1.2),
           ),
         ));
   }
@@ -67,36 +133,155 @@ class SettingsService extends GetxService {
   ThemeData getDarkTheme() {
     // TODO change font dynamically
     return ThemeData(
-        primaryColor: Color(0xFF252525),
+        primaryColor: AppColor.primaryBackgroundDark,
         floatingActionButtonTheme: FloatingActionButtonThemeData(elevation: 0),
-        scaffoldBackgroundColor: Color(0xFF2C2C2C),
+        scaffoldBackgroundColor: AppColor.scaffoldBackgroundDark,
         brightness: Brightness.dark,
-        dividerColor: Ui.parseColor(setting.value.accentDarkColor ?? '#000000', opacity: 0.1),
+        dividerColor: Ui.parseColor(setting.value.accentDarkColor ?? '#000000',
+            opacity: 0.1),
         focusColor: Ui.parseColor(setting.value.accentDarkColor ?? '#000000'),
         hintColor: Ui.parseColor(setting.value.secondDarkColor ?? '#000000'),
-        toggleableActiveColor: Ui.parseColor(setting.value.mainDarkColor ?? '#000000'),
         textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(foregroundColor: Ui.parseColor(setting.value.mainColor ?? '#000000')),
+          style: TextButton.styleFrom(foregroundColor: AppColor.primary),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColor.primary,
+            foregroundColor: Colors.white,
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            foregroundColor: AppColor.primary,
+            side: BorderSide(color: AppColor.primary),
+          ),
+        ),
+        filledButtonTheme: FilledButtonThemeData(
+          style: FilledButton.styleFrom(
+            backgroundColor: AppColor.primary,
+            foregroundColor: Colors.white,
+          ),
         ),
         colorScheme: ColorScheme.dark(
-          primary: Ui.parseColor(setting.value.mainDarkColor ?? '#000000'),
-          secondary: Ui.parseColor(setting.value.mainDarkColor ?? '#000000'),
+          primary: AppColor.primary,
+          secondary: AppColor.primary,
         ),
         textTheme: GoogleFonts.getTextTheme(
             _getLocale().startsWith('ar') ? 'Cairo' : 'Poppins',
             TextTheme(
-              headline6: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.mainDarkColor ?? '#000000'), height: 1.2),
-              headline5: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.secondDarkColor ?? '#000000'), height: 1.2),
-              headline4: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w400, color: Ui.parseColor(setting.value.secondDarkColor ?? '#000000'), height: 1.3),
-              headline3: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.secondDarkColor ?? '#000000'), height: 1.3),
-              headline2: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w700, color: Ui.parseColor(setting.value.mainDarkColor ?? '#000000'), height: 1.4),
-              headline1: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w300, color: Ui.parseColor(setting.value.secondDarkColor ?? '#000000'), height: 1.4),
-              subtitle2: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600, color: Ui.parseColor(setting.value.secondDarkColor ?? '#000000'), height: 1.2),
-              subtitle1: TextStyle(fontSize: 13.0, fontWeight: FontWeight.w400, color: Ui.parseColor(setting.value.mainDarkColor ?? '#000000'), height: 1.2),
-              bodyText2: TextStyle(fontSize: 13.0, fontWeight: FontWeight.w600, color: Ui.parseColor(setting.value.secondDarkColor ?? '#000000'), height: 1.2),
-              bodyText1: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w400, color: Ui.parseColor(setting.value.secondDarkColor ?? '#000000'), height: 1.2),
-              caption: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w300, color: Ui.parseColor(setting.value.accentDarkColor ?? '#000000'), height: 1.2),
-            )));
+              titleLarge: TextStyle(
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w700,
+                  color:
+                      Ui.parseColor(setting.value.mainDarkColor ?? '#000000'),
+                  height: 1.2),
+              headlineSmall: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w700,
+                  color:
+                      Ui.parseColor(setting.value.secondDarkColor ?? '#000000'),
+                  height: 1.2),
+              headlineMedium: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w400,
+                  color:
+                      Ui.parseColor(setting.value.secondDarkColor ?? '#000000'),
+                  height: 1.3),
+              displaySmall: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w700,
+                  color:
+                      Ui.parseColor(setting.value.secondDarkColor ?? '#000000'),
+                  height: 1.3),
+              displayMedium: TextStyle(
+                  fontSize: 22.0,
+                  fontWeight: FontWeight.w700,
+                  color:
+                      Ui.parseColor(setting.value.mainDarkColor ?? '#000000'),
+                  height: 1.4),
+              displayLarge: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w300,
+                  color:
+                      Ui.parseColor(setting.value.secondDarkColor ?? '#000000'),
+                  height: 1.4),
+              titleSmall: TextStyle(
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w600,
+                  color:
+                      Ui.parseColor(setting.value.secondDarkColor ?? '#000000'),
+                  height: 1.2),
+              titleMedium: TextStyle(
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.w400,
+                  color:
+                      Ui.parseColor(setting.value.mainDarkColor ?? '#000000'),
+                  height: 1.2),
+              bodyMedium: TextStyle(
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.w600,
+                  color:
+                      Ui.parseColor(setting.value.secondDarkColor ?? '#000000'),
+                  height: 1.2),
+              bodyLarge: TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.w400,
+                  color:
+                      Ui.parseColor(setting.value.secondDarkColor ?? '#000000'),
+                  height: 1.2),
+              bodySmall: TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.w300,
+                  color:
+                      Ui.parseColor(setting.value.accentDarkColor ?? '#000000'),
+                  height: 1.2),
+            )),
+        checkboxTheme: CheckboxThemeData(
+          fillColor: MaterialStateProperty.resolveWith<Color?>(
+              (Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled)) {
+              return null;
+            }
+            if (states.contains(MaterialState.selected)) {
+              return Ui.parseColor(setting.value.mainDarkColor ?? '#000000');
+            }
+            return null;
+          }),
+        ),
+        radioTheme: RadioThemeData(
+          fillColor: MaterialStateProperty.resolveWith<Color?>(
+              (Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled)) {
+              return null;
+            }
+            if (states.contains(MaterialState.selected)) {
+              return Ui.parseColor(setting.value.mainDarkColor ?? '#000000');
+            }
+            return null;
+          }),
+        ),
+        switchTheme: SwitchThemeData(
+          thumbColor: MaterialStateProperty.resolveWith<Color?>(
+              (Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled)) {
+              return null;
+            }
+            if (states.contains(MaterialState.selected)) {
+              return Ui.parseColor(setting.value.mainDarkColor ?? '#000000');
+            }
+            return null;
+          }),
+          trackColor: MaterialStateProperty.resolveWith<Color?>(
+              (Set<MaterialState> states) {
+            if (states.contains(MaterialState.disabled)) {
+              return null;
+            }
+            if (states.contains(MaterialState.selected)) {
+              return Ui.parseColor(setting.value.mainDarkColor ?? '#000000');
+            }
+            return null;
+          }),
+        ));
   }
 
   String _getLocale() {
@@ -112,12 +297,14 @@ class SettingsService extends GetxService {
     switch (_themeMode) {
       case 'ThemeMode.light':
         SystemChrome.setSystemUIOverlayStyle(
-          SystemUiOverlayStyle.light.copyWith(systemNavigationBarColor: Colors.white),
+          SystemUiOverlayStyle.light
+              .copyWith(systemNavigationBarColor: AppColor.white),
         );
         return ThemeMode.light;
       case 'ThemeMode.dark':
         SystemChrome.setSystemUIOverlayStyle(
-          SystemUiOverlayStyle.dark.copyWith(systemNavigationBarColor: Colors.black87),
+          SystemUiOverlayStyle.dark
+              .copyWith(systemNavigationBarColor: AppColor.textBlack),
         );
         return ThemeMode.dark;
       case 'ThemeMode.system':
@@ -125,12 +312,14 @@ class SettingsService extends GetxService {
       default:
         if (setting.value.defaultTheme == "dark") {
           SystemChrome.setSystemUIOverlayStyle(
-            SystemUiOverlayStyle.dark.copyWith(systemNavigationBarColor: Colors.black87),
+            SystemUiOverlayStyle.dark
+                .copyWith(systemNavigationBarColor: AppColor.textBlack),
           );
           return ThemeMode.dark;
         } else {
           SystemChrome.setSystemUIOverlayStyle(
-            SystemUiOverlayStyle.light.copyWith(systemNavigationBarColor: Colors.white),
+            SystemUiOverlayStyle.light
+                .copyWith(systemNavigationBarColor: AppColor.white),
           );
           return ThemeMode.light;
         }

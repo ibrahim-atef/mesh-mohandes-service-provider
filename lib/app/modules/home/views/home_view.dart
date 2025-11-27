@@ -36,8 +36,12 @@ class HomeView extends GetView<HomeController> {
                     floating: false,
                     iconTheme: IconThemeData(color: Get.theme.primaryColor),
                     title: Text(
-                      Get.find<SettingsService>().setting.value.providerAppName ?? '',
-                      style: Get.textTheme.headline6,
+                      Get.find<SettingsService>()
+                              .setting
+                              .value
+                              .providerAppName ??
+                          '',
+                      style: Get.textTheme.titleLarge,
                     ),
                     centerTitle: true,
                     automaticallyImplyLeading: false,
@@ -50,9 +54,12 @@ class HomeView extends GetView<HomeController> {
                         ? TabBarLoadingWidget()
                         : TabBarWidget(
                             tag: 'home',
-                            initialSelectedId: controller.bookingStatuses.elementAt(0).id,
-                            tabs: List.generate(controller.bookingStatuses.length, (index) {
-                              var _status = controller.bookingStatuses.elementAt(index);
+                            initialSelectedId:
+                                controller.bookingStatuses.elementAt(0).id,
+                            tabs: List.generate(
+                                controller.bookingStatuses.length, (index) {
+                              var _status =
+                                  controller.bookingStatuses.elementAt(index);
                               return ChipWidget(
                                 tag: 'home',
                                 text: _status.status ?? '',

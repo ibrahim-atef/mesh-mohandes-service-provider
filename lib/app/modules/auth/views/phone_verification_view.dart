@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/app_color.dart';
 import '../../../../common/helper.dart';
 import '../../../../common/ui.dart';
 import '../../../models/setting_model.dart';
@@ -114,7 +115,7 @@ class PhoneVerificationView extends GetView<AuthController> {
                         onPressed: () async {
                           await controller.verifyPhone();
                         },
-                        color: Get.theme.colorScheme.secondary,
+                        color: AppColor.primary,
                         text: Text(
                           "Verify".tr,
                           style: Get.textTheme.headline6?.merge(TextStyle(color: Get.theme.primaryColor)) ?? TextStyle(color: Get.theme.primaryColor),

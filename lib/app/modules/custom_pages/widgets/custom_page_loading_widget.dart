@@ -10,6 +10,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../common/app_color.dart';
+
 class CustomPageLoadingWidget extends StatelessWidget {
   const CustomPageLoadingWidget({
     Key? key,
@@ -24,8 +26,8 @@ class CustomPageLoadingWidget extends StatelessWidget {
         itemCount: 5,
         itemBuilder: (_, index) {
           return Shimmer.fromColors(
-            baseColor: Colors.grey.withOpacity(0.1),
-            highlightColor: (Colors.grey[200] ?? Colors.grey).withOpacity(0.1),
+            baseColor: AppColor.greyWithOpacity(0.1),
+            highlightColor: AppColor.greyLightWithOpacity(0.1),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -33,7 +35,7 @@ class CustomPageLoadingWidget extends StatelessWidget {
                   width: Random().nextDouble() * 50 + 130,
                   height: 20,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColor.white,
                     borderRadius: BorderRadius.all(Radius.circular(5)),
                   ),
                 ),
@@ -42,7 +44,7 @@ class CustomPageLoadingWidget extends StatelessWidget {
                   width: double.infinity,
                   height: 60,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColor.white,
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                 ),

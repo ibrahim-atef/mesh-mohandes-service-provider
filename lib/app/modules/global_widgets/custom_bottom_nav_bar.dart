@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../../common/app_color.dart';
 
-const Color PRIMARY_COLOR = Colors.blueAccent;
-const Color BACKGROUND_COLOR = Color(0xffE2E7F2);
+const Color PRIMARY_COLOR = AppColor.bottomNavPrimary;
+const Color BACKGROUND_COLOR = AppColor.bottomNavBackground;
 
 class CustomBottomNavigationBar extends StatefulWidget {
   final Color backgroundColor;
@@ -48,7 +49,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               padding: EdgeInsets.only(left: 10, right: 10),
               margin: EdgeInsets.only(top: 10, bottom: 10),
               alignment: Alignment.center,
-              decoration: BoxDecoration(color: widget.currentIndex == index ? color.withOpacity(0.2) : Colors.transparent, borderRadius: BorderRadius.circular(10)),
+              decoration: BoxDecoration(color: widget.currentIndex == index ? color.withOpacity(0.2) : AppColor.transparent, borderRadius: BorderRadius.circular(10)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
@@ -61,7 +62,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                       ? Expanded(
                           flex: 2,
                           child: Text(
-                            label ?? '',
+                            label,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
                             style: TextStyle(color: widget.currentIndex == index ? color : color.withOpacity(0.5)),

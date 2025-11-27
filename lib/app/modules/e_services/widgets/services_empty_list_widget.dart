@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/app_color.dart';
+
 class ServicesEmptyListWidget extends StatelessWidget {
   const ServicesEmptyListWidget({
     Key? key,
@@ -21,8 +23,8 @@ class ServicesEmptyListWidget extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   gradient: LinearGradient(begin: Alignment.bottomLeft, end: Alignment.topRight, colors: [
-                    Colors.grey.withOpacity(0.6),
-                    Colors.grey.withOpacity(0.2),
+                    AppColor.greyMedium,
+                    AppColor.greyWithOpacity(0.2),
                   ])),
               child: Icon(
                 Icons.folder_special_outlined,

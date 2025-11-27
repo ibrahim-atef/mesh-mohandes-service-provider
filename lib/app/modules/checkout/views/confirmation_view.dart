@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/app_color.dart';
 import '../../global_widgets/block_button_widget.dart';
 import '../../global_widgets/main_drawer_widget.dart';
 import "../../root/controllers/root_controller.dart";
@@ -41,8 +42,8 @@ class ConfirmationView extends GetView<CheckoutController> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       gradient: LinearGradient(begin: Alignment.bottomLeft, end: Alignment.topRight, colors: [
-                        Colors.green.withOpacity(1),
-                        Colors.green.withOpacity(0.2),
+                        AppColor.success,
+                        AppColor.successWithOpacity(0.2),
                       ])),
                   child: Icon(
                     Icons.check,
@@ -125,7 +126,7 @@ class ConfirmationView extends GetView<CheckoutController> {
               Icon(Icons.arrow_forward_ios, color: Get.theme.primaryColor, size: 20)
             ],
           ),
-          color: Get.theme.colorScheme.secondary,
+          color: AppColor.primary,
           onPressed: () {
             Get.find<RootController>().changePage(0);
           }).paddingOnly(bottom: 20, right: 20, left: 20),

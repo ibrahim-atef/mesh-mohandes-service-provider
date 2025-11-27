@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/app_color.dart';
+
 import '../../../models/e_service_model.dart';
 import '../../../routes/app_routes.dart';
 import '../controllers/e_services_controller.dart';
@@ -81,11 +83,11 @@ class EServiceOptionsPopupMenuWidget extends GetView<EServicesController> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(Icons.delete_outline, color: Colors.redAccent),
+                Icon(Icons.delete_outline, color: AppColor.error),
                 SizedBox(width: 10),
                 Text(
                   "Delete Service".tr,
-                  style: TextStyle(color: Colors.redAccent),
+                  style: TextStyle(color: AppColor.error),
                 ),
               ],
             ),
@@ -108,7 +110,7 @@ class EServiceOptionsPopupMenuWidget extends GetView<EServicesController> {
         return AlertDialog(
           title: Text(
             "Delete Service".tr,
-            style: TextStyle(color: Colors.redAccent),
+            style: TextStyle(color: AppColor.error),
           ),
           content: SingleChildScrollView(
             child: Column(
@@ -127,7 +129,7 @@ class EServiceOptionsPopupMenuWidget extends GetView<EServicesController> {
             TextButton(
               child: Text(
                 "Confirm".tr,
-                style: TextStyle(color: Colors.redAccent),
+                style: TextStyle(color: AppColor.error),
               ),
               onPressed: () {
                 Get.back();

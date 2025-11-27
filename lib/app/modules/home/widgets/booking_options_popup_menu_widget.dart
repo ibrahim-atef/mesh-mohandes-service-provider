@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/app_color.dart';
 import '../../../models/booking_model.dart';
 import '../../../routes/app_routes.dart';
 import '../../../services/global_service.dart';
@@ -100,10 +101,10 @@ class BookingOptionsPopupMenuWidget extends GetView<HomeController> {
                 crossAxisAlignment: WrapCrossAlignment.center,
                 spacing: 10,
                 children: [
-                  Icon(Icons.remove_circle_outline, color: Colors.redAccent),
+                  Icon(Icons.remove_circle_outline, color: AppColor.error),
                   Text(
                     "Decline".tr,
-                    style: TextStyle(color: Colors.redAccent),
+                    style: TextStyle(color: AppColor.error),
                   ),
                 ],
               ),

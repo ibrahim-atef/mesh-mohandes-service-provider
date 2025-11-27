@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/app_color.dart';
 import '../../../models/e_provider_subscription_model.dart';
 import '../../global_widgets/block_button_widget.dart';
 import '../../global_widgets/circular_loading_widget.dart';
@@ -115,7 +116,7 @@ class CheckoutView extends GetView<CheckoutController> {
                   Icon(Icons.arrow_forward_ios, color: Get.theme.primaryColor, size: 20)
                 ],
               ),
-              color: Get.theme.colorScheme.secondary,
+              color: AppColor.primary,
               onPressed: () {
                 controller.paySubscription(_eProviderSubscription);
               }).paddingSymmetric(vertical: 10, horizontal: 20),

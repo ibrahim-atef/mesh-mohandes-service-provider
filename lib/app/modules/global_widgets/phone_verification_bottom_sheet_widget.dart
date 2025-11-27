@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../common/app_color.dart';
 import '../profile/controllers/profile_controller.dart';
 import 'block_button_widget.dart';
 import 'text_field_widget.dart';
@@ -58,7 +59,7 @@ class PhoneVerificationBottomSheetWidget extends GetView<ProfileController> {
             onPressed: () async {
               await controller.verifyPhone();
             },
-            color: Get.theme.colorScheme.secondary,
+            color: AppColor.primary,
             text: Text(
               "Verify".tr,
               style: Get.textTheme.headline6?.merge(TextStyle(color: Get.theme.primaryColor)),

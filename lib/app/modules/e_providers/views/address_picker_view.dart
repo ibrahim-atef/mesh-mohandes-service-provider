@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_place_picker_mb/google_maps_place_picker.dart';
 
+import '../../../../common/app_color.dart';
 import '../../../models/address_model.dart';
 import '../../../services/settings_service.dart';
 import '../../global_widgets/block_button_widget.dart';
@@ -12,8 +13,10 @@ import '../controllers/e_provider_addresses_form_controller.dart';
 class AddressPickerView extends GetView<EProviderAddressesFormController> {
   AddressPickerView({
     Key? key,
-  }) : _address = Get.arguments != null ? Get.arguments['address'] as Address : Address(),
-       super(key: key);
+  })  : _address = Get.arguments != null
+            ? Get.arguments['address'] as Address
+            : Address(),
+        super(key: key);
 
   late Address _address;
 
@@ -26,7 +29,8 @@ class AddressPickerView extends GetView<EProviderAddressesFormController> {
       selectInitialPosition: true,
       usePlaceDetailSearch: true,
       forceSearchOnZoomChanged: true,
-      selectedPlaceWidgetBuilder: (_, selectedPlace, state, isSearchBarFocused) {
+      selectedPlaceWidgetBuilder:
+          (_, selectedPlace, state, isSearchBarFocused) {
         if (isSearchBarFocused) {
           return SizedBox();
         }
@@ -76,10 +80,11 @@ class AddressPickerView extends GetView<EProviderAddressesFormController> {
                         }
                         Get.back();
                       },
-                      color: Get.theme.colorScheme.secondary,
+                      color: AppColor.primary,
                       text: Text(
                         "Pick Here".tr,
-                        style: Get.textTheme.headline6?.merge(TextStyle(color: Get.theme.primaryColor)),
+                        style: Get.textTheme.titleLarge
+                            ?.merge(TextStyle(color: Get.theme.primaryColor)),
                       ),
                     ).paddingSymmetric(horizontal: 20),
                     SizedBox(height: 10),

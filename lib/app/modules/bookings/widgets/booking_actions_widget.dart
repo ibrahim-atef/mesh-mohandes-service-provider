@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/app_color.dart';
 import '../../../services/global_service.dart';
 import '../../global_widgets/block_button_widget.dart';
 import '../controllers/booking_controller.dart';
@@ -46,7 +47,7 @@ class BookingActionsWidget extends GetView<BookingController> {
                       Icon(Icons.check, color: Get.theme.primaryColor, size: 22)
                     ],
                   ),
-                  color: Get.theme.colorScheme.secondary,
+                  color: AppColor.primary,
                   onPressed: () {
                     controller.acceptBookingService();
                   }),
@@ -70,7 +71,7 @@ class BookingActionsWidget extends GetView<BookingController> {
                         Icon(Icons.airport_shuttle_outlined, color: Get.theme.primaryColor, size: 24)
                       ],
                     ),
-                    color: Get.theme.colorScheme.secondary,
+                    color: AppColor.primary,
                     onPressed: () {
                       controller.onTheWayBookingService();
                     })),
@@ -152,7 +153,7 @@ class BookingActionsWidget extends GetView<BookingController> {
                       Icon(Icons.money, color: Get.theme.primaryColor, size: 22)
                     ],
                   ),
-                  color: Get.theme.colorScheme.secondary,
+                  color: AppColor.primary,
                   onPressed: () {
                     controller.confirmPaymentBookingService();
                   }),
