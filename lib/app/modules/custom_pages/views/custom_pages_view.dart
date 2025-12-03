@@ -21,7 +21,7 @@ class CustomPagesView extends GetView<CustomPagesController> {
           title: Obx(() {
             return Text(
               controller.customPage.value.title?.tr ?? '',
-              style: Get.textTheme.headline6,
+              style: Get.textTheme.titleLarge,
             );
           }),
           centerTitle: true,
@@ -47,7 +47,8 @@ class CustomPagesView extends GetView<CustomPagesController> {
               } else {
                 return Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Ui.applyHtml(controller.customPage.value.content ?? ''),
+                  child:
+                      Ui.applyHtml(controller.customPage.value.content ?? ''),
                 );
               }
             }),

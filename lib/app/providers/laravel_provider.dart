@@ -1000,7 +1000,7 @@ class LaravelApiClient extends GetxService with ApiClient {
 
   Future<List<Booking>> getBookings(String statusId, int page) async {
     var _queryParameters = {
-      'with': 'bookingStatus;payment;payment.paymentStatus',
+      'with': 'bookingStatus;payment;payment.paymentStatus;e_service;e_service.images',
       'api_token': authService.apiToken,
       'search': 'booking_status_id:${statusId}',
       'orderBy': 'created_at',
@@ -1036,7 +1036,7 @@ class LaravelApiClient extends GetxService with ApiClient {
 
   Future<Booking> getBooking(String bookingId) async {
     var _queryParameters = {
-      'with': 'bookingStatus;user;payment;payment.paymentMethod;payment.paymentStatus',
+      'with': 'bookingStatus;user;payment;payment.paymentMethod;payment.paymentStatus;e_service;e_service.images',
       'api_token': authService.apiToken,
     };
     Uri _uri = getApiBaseUri("bookings/${bookingId}").replace(queryParameters: _queryParameters);
